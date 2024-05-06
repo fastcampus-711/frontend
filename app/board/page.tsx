@@ -15,7 +15,6 @@ export default function Board() {
       ]
     }
   }
-  console.log(content)
   return (
     <>
       <h1>Board</h1>
