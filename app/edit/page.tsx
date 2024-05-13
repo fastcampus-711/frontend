@@ -42,7 +42,7 @@ export default function Edit() {
   const handleUpdate = async e => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const issaled = true
+    const issaled = "onsale"
     const isnew = true
     const category = formData.get("category")
     const subcategory = formData.get("subcategory")
