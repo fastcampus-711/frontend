@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useState } from "react"
 
 type ResponseData = {
@@ -78,7 +79,8 @@ export default function ShareMarketContent({
         <option value="onsale">판매중</option>
       </select>
       {filteredData.map(item => (
-        <div
+        <Link
+          href={`/community/sharemarket/${item.id}`}
           key={item.id}
           className="mb-4">
           <p>{item.category}</p>
@@ -88,7 +90,7 @@ export default function ShareMarketContent({
           <p>{item.price}</p>
           <p>{item.uickname}</p>
           <p>{item.date}</p>
-        </div>
+        </Link>
       ))}
     </div>
   )
