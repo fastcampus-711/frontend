@@ -5,7 +5,7 @@ import ansChoiceIcon from "@/public/icon/ans_choice.svg"
 type AnswerStateTagProps = {
   className?: string
   answer: string
-} & React.ButtonHTMLAttributes<HTMLButtonElement>
+}
 
 export default function AnswerStateTag({
   className,

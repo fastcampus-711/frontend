@@ -1,16 +1,16 @@
 type TxStateTagProps = {
   className?: string
   issaled: string
-} & React.ButtonHTMLAttributes<HTMLButtonElement>
+}
 
 export default function TxStateTag({ className, ...props }: TxStateTagProps) {
   const issaled = props.issaled
   let style, text
 
-  if (issaled === "onsale") {
+  if (issaled === "판매중") {
     style = "bg-[#000D4F] text-white py-[3px]"
     text = "판매중"
-  } else if (issaled === "reserved") {
+  } else if (issaled === "예약중") {
     style = "text-[#000D4F] border border-[#000D4F] py-0.5"
     text = "예약중"
   } else {
@@ -18,5 +18,9 @@ export default function TxStateTag({ className, ...props }: TxStateTagProps) {
     text = "판매완료"
   }
 
-  return <div className={`inline-block px-2 rounded ${style}`}>{text}</div>
+  return (
+    <div className={`inline-block px-2 rounded ${className} ${style}`}>
+      {text}
+    </div>
+  )
 }
