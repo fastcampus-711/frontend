@@ -30,7 +30,9 @@ const config: Config = {
         point_1: "#FF5151",
         primary: "#00A8FF",
         primary_dark: "#00669B",
-        prugio: "#084F51"
+        prugio: "#084F51",
+        font_main: "#00A8FF",
+        dark_blue: "#00669B"
       },
       screens: {
         small: "375px",
