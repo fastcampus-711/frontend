@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import ShareMarketItem from "./ShareMarketItem"
+import DropDown from "./dropdown/DropDown"
 
 type ResponseData = {
   id: string
@@ -24,16 +25,23 @@ export default function ShareMarketContent({
   const [selectedCategory, setSelectedCategory] = useState("allcategory")
   const [selectedStatus, setSelectedStatus] = useState("allstatus")
 
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedCategory(event.target.value)
-    console.log(responseData)
+  // const handleCategoryChange = (
+  //   event: React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   setSelectedCategory(event.target.value)
+  //   console.log(responseData)
+  // }
+  const handleCategoryChange = (changedData : string) => {
+    setSelectedCategory(changedData);
   }
 
-  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedStatus(event.target.value)
-    console.log(responseData)
+  // const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedStatus(event.target.value)
+  //   console.log(responseData)
+  // }
+
+  const handleStatusChange = (changedData : string) => {
+    setSelectedStatus(changedData);
   }
 
   const filteredData = responseData.filter(item => {
@@ -61,8 +69,14 @@ export default function ShareMarketContent({
 
   return (
     <div>
-      <p>나눔장터</p>
-      <select
+      <div className="m-8"></div>
+      <div className="w-[500px] h-12 justify-start items-start flex gap-4 flex-wrap">
+          <DropDown label="거래방식" value={selectedCategory} event={handleCategoryChange} />
+          <DropDown label="거래상태" value={selectedStatus} event={handleStatusChange} />
+      </div>
+      <div className="m-10"></div>
+
+      {/* <select
         name="category"
         defaultValue={"allcategory"}
         onChange={handleCategoryChange}>
@@ -78,7 +92,9 @@ export default function ShareMarketContent({
         <option value="판매완료">판매완료</option>
         <option value="예약중">예약중</option>
         <option value="판매중">판매중</option>
-      </select>
+      </select> */}
+
+
       <div className="flex gap-6 flex-wrap">
         {filteredData.map(item => (
           <div className=" flex-1">
