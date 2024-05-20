@@ -13,8 +13,6 @@ export default async function Page({
 }) {
   const { category } = params
   const { title } = searchParams
-  console.log(category)
-  console.log(title)
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?title=${title}`
@@ -34,13 +32,15 @@ export default async function Page({
   }
 
   return (
-    <>
-      <p className="text-grey_900 text-[32px] font-semibold">소통공간</p>
+    <div className="max-w-[1200px] m-auto">
+      <div className="py-8">
+        <p className="text-grey_900 text-[32px] font-semibold">소통공간</p>
+      </div>
       <Link href={"/community/freeboard"}>자유게시판</Link>
       <Link href={"/community/sharemarket"}>나눔장터</Link>
       <Link href={"/community/qna"}>QnA</Link>
       <CommunitySearch category={category} />
       {contentComponent}
-    </>
+    </div>
   )
 }

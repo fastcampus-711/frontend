@@ -1,25 +1,42 @@
+import thumbDefaultIcon from "@/public/icon/thumb_default.svg"
+import thumbActiveIcon from "@/public/icon/thumb_active.svg"
+
 type LikeButtonProps = {
   className?: string
-  label: string
+  likecount: string
   like: boolean
   onClick?: () => void
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export default function LikeButton({
   className,
-  label = "",
   onClick,
   ...props
 }: LikeButtonProps) {
-  const likeClassName = props.like
-    ? "border-black text-black"
-    : "border-grey_100 text-grey_100"
+  const like = props.like
+  const likecount = props.likecount
+  let style, iconSrc
+
+  if (like === true) {
+    style = "border-black text-black"
+    iconSrc = thumbActiveIcon.src
+  } else if (like === false) {
+    style = "border-grey_100 text-grey_100"
+    iconSrc = thumbDefaultIcon.src
+  } else if (like === null) {
+    style = "border-grey_100 text-grey_100"
+    iconSrc = thumbDefaultIcon.src
+  }
   return (
     <button
-      className={`font-semibold rounded px-6 py-2 border ${className} ${likeClassName}`}
+      className={`flex gap-2 font-semibold rounded px-6 py-2 border ${className} ${style}`}
       onClick={onClick}
       {...props}>
-      {label}
+      <img
+        src={iconSrc}
+        alt="좋아요아이콘"
+      />
+      {likecount}
     </button>
   )
 }

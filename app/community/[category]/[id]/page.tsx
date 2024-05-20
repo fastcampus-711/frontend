@@ -8,8 +8,6 @@ export default async function Page({
   params: { category: string; id: string }
 }) {
   const { category, id } = params
-  console.log(category)
-  console.log(id)
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}/${id}`
@@ -28,10 +26,5 @@ export default async function Page({
     contentComponent = null
   }
 
-  return (
-    <>
-      <p className="text-grey_900 text-[32px] font-semibold">상세</p>
-      {contentComponent}
-    </>
-  )
+  return <div className="max-w-[1200px] m-auto">{contentComponent}</div>
 }
