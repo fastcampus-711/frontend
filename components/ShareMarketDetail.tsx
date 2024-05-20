@@ -1,58 +1,121 @@
-import AnsChoiceButton from "./button/AnsChoiceButton"
-import BlackButton from "./button/BlackButton"
-import BlackLinedButton from "./button/BlackLinedButton"
 import GreyButton from "./button/GreyButton"
-import LikeButton from "./button/LikeButton"
-import NextButton from "./button/NextButton"
-import NotUseFullButton from "./button/NotUseFullButton"
-import PrevButton from "./button/PrevButton"
-import PrimaryButton from "./button/PrimaryButton"
-import SeeMoreButton from "./button/SeeMoreButton"
-import UploadButton from "./button/UploadButton"
-import UseFullButton from "./button/UseFullButton"
-import AnswerStateTag from "./tag/AnswerStateTag"
-import NewTag from "./tag/NewTag"
+import MeatballButton from "./button/MeatballButton"
+import Comment from "./comment/Comment"
+import CommentEdit from "./comment/CommentEdit"
 import TxStateTag from "./tag/TxStateTag"
 import TxTypeTag from "./tag/TxTypeTag"
 
+type ChildComment = {
+  nickname: string
+  date: string
+  id: string
+  content: string
+  like: boolean
+  likecount: string
+}
+
+type CommentData = {
+  nickname: string
+  date: string
+  id: string
+  content: string
+  like: boolean
+  likecount: string
+  child_comment: ChildComment[]
+}
+
 type ResponseData = {
   title: string
-}[]
+  subcategory: string
+  issaled: string
+  nickname: string
+  viewcount: string
+  date: string
+  content: string
+  price: string
+  commentcount: string
+  comment: CommentData[]
+}
+
+type ShareMarketDetailProps = {
+  responseData: ResponseData
+}
 
 export default function ShareMarketDetail({
   responseData
-}: {
-  responseData: ResponseData
-}) {
-  console.log(responseData)
+}: ShareMarketDetailProps) {
+  const {
+    title,
+    subcategory,
+    issaled,
+    nickname,
+    viewcount,
+    date,
+    content,
+    price,
+    comment,
+    commentcount
+  } = responseData
   return (
     <div>
-      <h1>나눔장터 상세</h1>
-      <PrimaryButton label="PrimaryButton" />
-      <BlackButton label="BlackButton" />
-      <GreyButton label="GreyButton" />
-      <BlackLinedButton label="BlackLinedButton" />
-      <LikeButton
-        label="LikeButton"
-        like={true}
-      />
-      <UploadButton />
-      <SeeMoreButton />
-      <TxTypeTag subcategory="used" />
-      <TxStateTag issaled="onsale" />
-      <NewTag />
-      <AnswerStateTag answer="answerd" />
-      <PrevButton />
-      <NextButton />
-      <UseFullButton
-        usefull={true}
-        usefullcount="24"
-      />
-      <NotUseFullButton
-        usefull={true}
-        notusefullcount="24"
-      />
-      <AnsChoiceButton ischoice={false} />
+      <div className="flex gap-1 pb-6 text-grey_600 text-lg">
+        <span>소통공간</span>
+        <span>&gt;</span>
+        <span className="text-grey_900">나눔장터</span>
+      </div>
+      <div className="flex flex-col gap-12 mb-40">
+        <div className="flex flex-col gap-10 border-b-[1px] border-grey_50 ">
+          <div className="flex flex-col gap-10 py-6 border-t-[1px] border-b-[1px] border-grey_50">
+            <div className="flex justify-end">
+              <GreyButton label="목록" />
+            </div>
+            <div className="flex gap-10 mb-20">
+              <img
+                className="w-[580px]"
+                src="https://deokbucket.s3.ap-southeast-2.amazonaws.com/pngtree-three-puppies-with-their-mouths-open-are-posing-for-a-photo-image_2902292.jpg"
+                alt=""
+              />
+              <div className="flex flex-1 flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2">
+                    <TxTypeTag subcategory={subcategory} />
+                    <TxStateTag issaled={issaled} />
+                  </div>
+                  <div className="flex justify-between">
+                    <p className="text-grey_900 text-xl font-semibold">
+                      {title}
+                    </p>
+                    <MeatballButton />
+                  </div>
+                  <span className="text-grey_900 text-2xl font-semibold">
+                    가격:{price}원
+                  </span>
+                </div>
+                <div className="flex gap-4 items-center">
+                  <div className="w-10 h-10 rounded-3xl bg-slate-200">img</div>
+                  <div className="flex-1">
+                    <span className="text-grey_900 font-medium">
+                      {nickname}
+                    </span>
+                    <div className="flex justify-between">
+                      <span className="text-grey_300">조회 {viewcount}</span>
+                      <span className="text-grey_300">{date}</span>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-grey_900 text-xl font-medium">{content}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <CommentEdit commentcount={commentcount} />
+        <div>
+          {comment && comment.map(item => <Comment commentData={item} />)}
+        </div>
+        <div className="flex justify-end">
+          <GreyButton label="목록" />
+        </div>
+      </div>
     </div>
   )
 }
