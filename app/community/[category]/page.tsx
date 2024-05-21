@@ -4,6 +4,7 @@ import QnaContent from "@/components/QnaContent"
 import CommunitySearch from "@/components/CommunitySearch"
 import Link from "next/link"
 import BoardSubMenuBar from "@/components/submenu/SubMenuBar"
+import SetCategory from "@/components/SetCategory"
 
 export default async function Page({
   params,
@@ -34,6 +35,7 @@ export default async function Page({
 
   return (
     <div className="max-w-[1200px] m-auto">
+      <SetCategory category={category} />
       <div className="py-8">
         <p className="text-grey_900 text-[32px] font-semibold">소통공간</p>
       </div>
@@ -41,7 +43,10 @@ export default async function Page({
       <Link href={"/community/sharemarket"}>나눔장터</Link>
       <Link href={"/community/qna"}>QnA</Link>
       <CommunitySearch category={category} /> */}
-      <BoardSubMenuBar option="community" category={category} />
+      <BoardSubMenuBar
+        option="community"
+        category={category}
+      />
       {contentComponent}
     </div>
   )

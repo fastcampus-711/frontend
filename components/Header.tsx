@@ -75,7 +75,7 @@ export default async function Header() {
         <div className="pt-4 pb-4">
           <Link
             href="/"
-            className="text-zinc-900 text-2xl font-bold">
+            className="text-grey_900 text-lg font-semibold">
             로고
           </Link>
         </div>
@@ -83,42 +83,42 @@ export default async function Header() {
           <li>
             <Link
               href={"/intro"}
-              className="text-zinc-900 text-2xl font-bold">
+              className="text-grey_900 text-lg font-semibold">
               아파트소개
             </Link>
           </li>
           <li>
             <Link
               href={"/notice"}
-              className="text-zinc-900 text-2xl font-bold">
+              className="text-grey_900 text-lg font-bold">
               공지사항
             </Link>
           </li>
           <li>
             <Link
               href={"/disclosure"}
-              className="text-zinc-900 text-2xl font-bold">
+              className="text-grey_900 text-lg font-semibold">
               의무공개
             </Link>
           </li>
           <li>
             <Link
-              href={"/community"}
-              className="text-zinc-900 text-2xl font-bold">
+              href={"/community/freeboard"}
+              className="text-grey_900 text-lg font-semibold">
               소통공간
             </Link>
           </li>
           <li>
             <Link
               href={"/board"}
-              className="text-zinc-900 text-2xl font-bold">
+              className="text-grey_900 text-lg font-semibold">
               민원게시판
             </Link>
           </li>
           <li>
             <Link
               href={"/fee"}
-              className="text-zinc-900 text-2xl font-bold">
+              className="text-grey_900 text-lg font-semibold">
               관리비조회
             </Link>
           </li>

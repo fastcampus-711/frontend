@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import PrimaryButton from "./button/PrimaryButton"
 import FreeBoardItem from "./FreeBoardItem"
+import DropDown from "./dropdown/DropDown"
 
 type Comment = {
   nickname: string
@@ -42,75 +43,46 @@ export default function FreeBoardContent({
   responseData: ResponseData
 }) {
   const router = useRouter()
-  const [selectedCategory, setSelectedCategory] = useState("전체")
+  const [selectedCategory, setSelectedCategory] = useState("전체카테고리")
 
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedCategory(event.target.value)
+  const categoryOptions = [
+    { value: "전체카테고리", name: "전체" },
+    { value: "취미・운동", name: "취미・운동" },
+    { value: "생활・편의", name: "생활・편의" },
+    { value: "음식・카페", name: "음식・카페" },
+    { value: "병원・약국", name: "병원・약국" },
+    { value: "수리・시공", name: "수리・시공" },
+    { value: "투자・부동산", name: "투자・부동산" },
+    { value: "교육・육아", name: "교육・육아" },
+    { value: "아파트・동네소식", name: "아파트・동네소식" },
+    { value: "여행", name: "여행" },
+    { value: "살림정보", name: "살림정보" },
+    { value: "모임・동호회", name: "모임・동호회" },
+    { value: "기타", name: "기타" }
+  ]
+
+  const handleCategoryChange = (changedData: string) => {
+    setSelectedCategory(changedData)
   }
 
   const handleGoEdit = () => {
     router.push("/edit")
   }
 
-  console.log(responseData)
-
-  // const filteredData = responseData.filter(item => {
-  //   let categoryMatch = false
-  //   if (
-  //     selectedCategory === "전체" ||
-  //     (selectedCategory === "교육・육아" &&
-  //       item.subcategory === "교육・육아") ||
-  //     (selectedCategory === "취미・운동" &&
-  //       item.subcategory === "취미・운동") ||
-  //     (selectedCategory === "생활・편의" &&
-  //       item.subcategory === "생활・편의") ||
-  //     (selectedCategory === "음식・카페" &&
-  //       item.subcategory === "음식・카페") ||
-  //     (selectedCategory === "병원・약국" &&
-  //       item.subcategory === "병원・약국") ||
-  //     (selectedCategory === "수리・시공" &&
-  //       item.subcategory === "수리・시공") ||
-  //     (selectedCategory === "투자・부동산" &&
-  //       item.subcategory === "투자・부동산") ||
-  //     (selectedCategory === "아파트・동네소식" &&
-  //       item.subcategory === "아파트・동네소식") ||
-  //     (selectedCategory === "여행" && item.subcategory === "여행") ||
-  //     (selectedCategory === "살림정보" && item.subcategory === "살림정보") ||
-  //     (selectedCategory === "모임・동호회" &&
-  //       item.subcategory === "모임・동호회") ||
-  //     (selectedCategory === "기타" && item.subcategory === "기타")
-  //   ) {
-  //     categoryMatch = true
-  //   }
-  //   return categoryMatch
-  // })
-
   return (
     <div className="border-b border-grey_900">
-      <select
-        name="category"
-        defaultValue={"전체"}
-        onChange={handleCategoryChange}>
-        <option value="전체">전체</option>
-        <option value="교육・육아">교육・육아</option>
-        <option value="취미・운동">취미・운동</option>
-        <option value="생활・편의">생활・편의</option>
-        <option value="음식・카페">음식・카페</option>
-        <option value="병원・약국">병원・약국</option>
-        <option value="수리・시공">수리・시공</option>
-        <option value="투자・부동산">투자・부동산</option>
-        <option value="아파트・동네소식">아파트・동네소식</option>
-        <option value="여행">여행</option>
-        <option value="살림정보">살림정보</option>
-        <option value="모임・동호회">모임・동호회</option>
-        <option value="기타">기타</option>
-      </select>
-      <PrimaryButton
-        label="글쓰기"
-        onClick={handleGoEdit}
-      />
+      <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
+        <DropDown
+          label="분류"
+          options={categoryOptions}
+          event={handleCategoryChange}
+        />
+        <PrimaryButton
+          label="글쓰기"
+          onClick={handleGoEdit}
+        />
+      </div>
+
       <table className="w-full">
         <tbody>
           <tr className="text-center text-lg font-medium text-grey_700 border-b border-grey_900">
@@ -123,6 +95,7 @@ export default function FreeBoardContent({
           </tr>
           {responseData.map(item => (
             <FreeBoardItem
+              key={item.id}
               id={item.id}
               title={item.title}
               subcategory={item.subcategory}
