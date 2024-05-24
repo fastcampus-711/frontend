@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import dropdownIcon from "@/public/icon/dropdown_arrow.svg"
+import Image from "next/image"
 
 type DropDownProps = {
   className?: string
@@ -12,11 +13,11 @@ type DropDownProps = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 type Option = {
-  value: string
+  value: any
   name: string
 }
 
-export default function TestDropDown({
+export default function DropDown({
   label,
   options,
   event,
@@ -47,9 +48,11 @@ export default function TestDropDown({
         <p className="text-gray-900 text-lg font-medium font-['Pretendard'] ">
           {dropDownName}
         </p>
-        <img
+        <Image
           src={dropdownIcon.src}
-          className="w-6 h-6 flex-col justify-center items-center gap-2.5 inline-flex"
+          alt="드랍다운 아이콘"
+          width={24}
+          height={24}
         />
       </div>
       <ul

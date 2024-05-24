@@ -1,5 +1,6 @@
 import thumbDefaultIcon from "@/public/icon/thumb_default.svg"
 import thumbActiveIcon from "@/public/icon/thumb_active.svg"
+import Image from "next/image"
 
 type LikeButtonProps = {
   className?: string
@@ -32,10 +33,13 @@ export default function LikeButton({
       className={`flex gap-2 font-semibold rounded px-6 py-2 border ${className} ${style}`}
       onClick={onClick}
       {...props}>
-      <img
-        src={iconSrc}
+      <Image
+        src={iconSrc.src}
         alt="좋아요아이콘"
+        width={24}
+        height={24}
       />
+
       {likecount}
     </button>
   )

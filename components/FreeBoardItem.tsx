@@ -2,17 +2,18 @@ import Link from "next/link"
 import NewTag from "./tag/NewTag"
 import imgIcon from "@/public/icon/img.svg"
 import PopularTag from "./tag/PopularTag"
+import Image from "next/image"
 
 type FreeBoardItemProps = {
-  id: string
+  id: number
   title: string
-  subcategory: string
-  commentcount: string
+  category_id: number
+  count_of_comments: string
   nickname: string
-  likecount: string
-  viewcount: string
+  count_of_good: number
+  hits: number
   date: string
-  isimg: boolean
+  image_urls: any
   popular: boolean
   isnew: boolean
 }
@@ -20,19 +21,31 @@ type FreeBoardItemProps = {
 export default function FreeBoardItem({
   id,
   title,
-  subcategory,
-  commentcount,
+  category_id,
+  count_of_comments,
   nickname,
-  likecount,
-  viewcount,
+  count_of_good,
+  hits,
   date,
-  isimg,
+  image_urls,
   popular,
   isnew
 }: FreeBoardItemProps) {
   return (
     <tr className="text-center border-b border-grey_200">
-      <td className="px-4 py-7 text-grey_300">{subcategory}</td>
+      <td className="px-4 py-7 text-grey_300">
+        {category_id === 12 && "생활/편의"}
+        {category_id === 13 && "음식/카페"}
+        {category_id === 14 && "병원/약국"}
+        {category_id === 15 && "수리/시공"}
+        {category_id === 16 && "투자/부동산"}
+        {category_id === 17 && "교육/육아"}
+        {category_id === 18 && "아파트/동네소식"}
+        {category_id === 19 && "여행"}
+        {category_id === 20 && "살림정보"}
+        {category_id === 21 && "모임/동호회"}
+        {category_id === 22 && "기타"}
+      </td>
       <td className="text-left text-grey_900 font-medium">
         <div className="flex items-center">
           {popular ? (
@@ -44,28 +57,32 @@ export default function FreeBoardItem({
           )}
           <Link
             className="mr-2"
-            href={`/community/freeboard/${id}`}>
+            href={`/community/frees/${id}`}>
             <p className="font-medium">{title}</p>
           </Link>
           <div className="inline-flex">
             <span>
-              {isimg ? (
-                <img
+              {image_urls !== null ? (
+                <Image
                   src={imgIcon.src}
                   alt="이미지아이콘"
+                  width={24}
+                  height={24}
                 />
               ) : (
                 ""
               )}
             </span>
-            <span className=" mx-[2px]">[{commentcount}]</span>
+            <span className="mx-[2px] text-[#FF5151]">
+              [{count_of_comments}]
+            </span>
             <span>{isnew ? <NewTag /> : ""}</span>
           </div>
         </div>
       </td>
       <td className="px-4 py-7 text-grey_900">{nickname}</td>
-      <td className="px-4 py-7 text-grey_900">{likecount}</td>
-      <td className="px-4 py-7 text-grey_900">{viewcount}</td>
+      <td className="px-4 py-7 text-grey_900">{count_of_good}</td>
+      <td className="px-4 py-7 text-grey_900">{hits}</td>
       <td className="px-4 py-7 text-grey_900">{date}</td>
     </tr>
   )

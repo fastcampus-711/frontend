@@ -21,8 +21,8 @@ type Post = {
   id: string
   issaled: string
   isnew: boolean
-  viewcount: string
-  commentcount: string
+  hits: string
+  count_of_comments: string
   category: string
   subcategory: string
   title: string
@@ -97,7 +97,7 @@ export default function ShareMarketContent({
           <div
             key={item.id}
             className=" flex-1">
-            <Link href={`/community/sharemarket/${item.id}`}>
+            <Link href={`/community/markets/${item.id}`}>
               <ShareMarketItem
                 issaled={item.issaled}
                 isnew={item.isnew}
@@ -105,7 +105,7 @@ export default function ShareMarketContent({
                 title={item.title}
                 price={item.price}
                 nickname={item.nickname}
-                viewcount={item.viewcount}
+                hits={item.hits}
                 date={item.date}
               />
             </Link>

@@ -9,7 +9,7 @@ type ShareMarketItemProps = {
   title: string
   price: string
   nickname: string
-  viewcount: string
+  hits: string
   date: string
 }
 
@@ -20,7 +20,7 @@ export default function ShareMarketItem({
   title,
   price,
   nickname,
-  viewcount,
+  hits,
   date
 }: ShareMarketItemProps) {
   return (
@@ -47,7 +47,7 @@ export default function ShareMarketItem({
         </div>
         <div>
           <span className="text-grey_700 mr-6">{nickname}</span>
-          <span className="text-grey_700">조회 {viewcount}</span>
+          <span className="text-grey_700">조회 {hits}</span>
           <p className="text-grey_250">{date}</p>
         </div>
       </div>

@@ -5,6 +5,12 @@ import { useRouter } from "next/navigation"
 import PrimaryButton from "./button/PrimaryButton"
 import FreeBoardItem from "./FreeBoardItem"
 import DropDown from "./dropdown/DropDown"
+import CommunitySearch from "./CommunitySearch"
+
+type Reactions = {
+  count_of_good: number
+  count_of_bad: number
+}
 
 type Comment = {
   nickname: string
@@ -17,20 +23,18 @@ type Comment = {
 }
 
 type Post = {
-  id: string
+  id: number
   isnew: boolean
   popular: boolean
-  viewcount: string
-  commentcount: string
-  isimg: boolean
-  category: string
-  subcategory: string
+  hits: number
+  count_of_comments: string
+  image_urls: any
+  category_id: number
   title: string
   content: string
   nickname: string
   usefull: boolean
-  usefullcount: string
-  notusefullcount: string
+  reactions: Reactions
   date: string
   comment?: Comment[]
 }
@@ -38,31 +42,94 @@ type Post = {
 type ResponseData = Post[]
 
 export default function FreeBoardContent({
-  responseData
+  responseData,
+  category
 }: {
   responseData: ResponseData
+  category: string
 }) {
   const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState("전체카테고리")
 
-  const categoryOptions = [
-    { value: "전체카테고리", name: "전체" },
-    { value: "취미・운동", name: "취미・운동" },
-    { value: "생활・편의", name: "생활・편의" },
-    { value: "음식・카페", name: "음식・카페" },
-    { value: "병원・약국", name: "병원・약국" },
-    { value: "수리・시공", name: "수리・시공" },
-    { value: "투자・부동산", name: "투자・부동산" },
-    { value: "교육・육아", name: "교육・육아" },
-    { value: "아파트・동네소식", name: "아파트・동네소식" },
-    { value: "여행", name: "여행" },
-    { value: "살림정보", name: "살림정보" },
-    { value: "모임・동호회", name: "모임・동호회" },
-    { value: "기타", name: "기타" }
+  const categoryData = [
+    {
+      id: 12,
+      board_group: "FREES",
+      code: "13",
+      name: "생활/편의"
+    },
+    {
+      id: 13,
+      board_group: "FREES",
+      code: "14",
+      name: "음식/카페"
+    },
+    {
+      id: 14,
+      board_group: "FREES",
+      code: "15",
+      name: "병원/약국"
+    },
+    {
+      id: 15,
+      board_group: "FREES",
+      code: "16",
+      name: "수리/시공"
+    },
+    {
+      id: 16,
+      board_group: "FREES",
+      code: "17",
+      name: "투자/부동산"
+    },
+    {
+      id: 17,
+      board_group: "FREES",
+      code: "18",
+      name: "교육/육아"
+    },
+    {
+      id: 18,
+      board_group: "FREES",
+      code: "19",
+      name: "아파트/동네소식"
+    },
+    {
+      id: 19,
+      board_group: "FREES",
+      code: "20",
+      name: "여행"
+    },
+    {
+      id: 20,
+      board_group: "FREES",
+      code: "21",
+      name: "살림정보"
+    },
+    {
+      id: 21,
+      board_group: "FREES",
+      code: "22",
+      name: "모임/동호회"
+    },
+    {
+      id: 22,
+      board_group: "FREES",
+      code: "23",
+      name: "기타"
+    }
   ]
+
+  const categoryOptions = categoryData.map(category => ({
+    value: category.id,
+    name: category.name
+  }))
+
+  categoryOptions.unshift({ value: 0, name: "전체" })
 
   const handleCategoryChange = (changedData: string) => {
     setSelectedCategory(changedData)
+    console.log(changedData)
   }
 
   const handleGoEdit = () => {
@@ -82,7 +149,6 @@ export default function FreeBoardContent({
           onClick={handleGoEdit}
         />
       </div>
-
       <table className="w-full">
         <tbody>
           <tr className="text-center text-lg font-medium text-grey_700 border-b border-grey_900">
@@ -98,13 +164,13 @@ export default function FreeBoardContent({
               key={item.id}
               id={item.id}
               title={item.title}
-              subcategory={item.subcategory}
-              commentcount={item.commentcount}
+              category_id={item.category_id}
+              count_of_comments={item.count_of_comments}
               nickname={item.nickname}
-              likecount={item.usefullcount}
-              viewcount={item.viewcount}
+              count_of_good={item.reactions.count_of_good}
+              hits={item.hits}
               date={item.date}
-              isimg={item.isimg}
+              image_urls={item.image_urls}
               popular={item.popular}
               isnew={item.isnew}
             />

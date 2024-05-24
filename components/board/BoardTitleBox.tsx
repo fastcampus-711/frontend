@@ -1,16 +1,17 @@
+import Image from "next/image"
 import MeatballButton from "../button/MeatballButton"
-import viewCountIcon from "@/public/icon/viewcount.svg"
+import hitsIcon from "@/public/icon/hits.svg"
 
 type BoardTitleBox = {
   subcategory: string
   title: string
   nickname: string
-  viewcount: string
+  hits: number
   date: string
 }
 
 export default function BoardTitleBox(props: BoardTitleBox) {
-  const { subcategory, title, nickname, viewcount, date } = props
+  const { subcategory, title, nickname, hits, date } = props
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -27,12 +28,14 @@ export default function BoardTitleBox(props: BoardTitleBox) {
             <span className="text-grey_900 font-medium">{nickname}</span>
           </div>
           <div className="flex gap-[4px]">
-            <img
-              src={viewCountIcon.src}
+            <Image
+              src={hitsIcon.src}
               alt="조회수아이콘"
+              width={24}
+              height={24}
             />
             <span className="text-grey_300 font-medium">조회수</span>
-            <span className="text-grey_300 font-semibold">{viewcount}</span>
+            <span className="text-grey_300 font-semibold">{hits}</span>
           </div>
         </div>
         <span className="text-grey_250">{date}</span>

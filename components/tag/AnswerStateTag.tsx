@@ -1,6 +1,7 @@
 import ansAnsweredIcon from "@/public/icon/ans_answered.svg"
 import ansPendingIcon from "@/public/icon/asn_pending.svg"
 import ansChoiceIcon from "@/public/icon/ans_choice.svg"
+import Image from "next/image"
 
 type AnswerStateTagProps = {
   className?: string
@@ -33,10 +34,11 @@ export default function AnswerStateTag({
 
   return (
     <div className={`inline-flex gap-1 px-1 py-1 rounded ${style}`}>
-      <img
+      <Image
         src={source.src}
-        alt={alter}
-        className="w-6 h-6"
+        alt="답변상태아이콘"
+        width={24}
+        height={24}
       />
       {text}
     </div>

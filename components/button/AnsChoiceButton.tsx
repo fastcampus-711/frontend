@@ -1,5 +1,6 @@
 import ansDefaultIcon from "@/public/icon/ans_default.svg"
 import ansChoiceIcon from "@/public/icon/ans_choice.svg"
+import Image from "next/image"
 
 type AnsChoiceButtonProps = {
   className?: string
@@ -19,15 +20,18 @@ export default function AnsChoiceButton({
       className={`p-[2px] ${className}`}
       onClick={onClick}>
       {ischoice ? (
-        <img
+        <Image
           src={ansChoiceIcon.src}
-          className="w-7 h-7"
+          alt="답변채택아이콘"
+          width={28}
+          height={28}
         />
       ) : (
-        <img
+        <Image
           src={ansDefaultIcon.src}
-          alt="답변채택 아이콘"
-          className="w-7 h-7"
+          alt="답변채택기본아이콘"
+          width={28}
+          height={28}
         />
       )}
     </button>

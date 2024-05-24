@@ -59,7 +59,10 @@ export default function Comment(props: CommentProps) {
         </div>
       </div>
       {child_comment.map(item => (
-        <Reply replyData={item} />
+        <Reply
+          key={item.id}
+          replyData={item}
+        />
       ))}
     </div>
   )

@@ -1,5 +1,6 @@
 import replyIcon from "@/public/icon/reply.svg"
 import LikeButton from "../button/LikeButton"
+import Image from "next/image"
 
 type ReplyData = {
   nickname: string
@@ -20,10 +21,11 @@ export default function Reply(props: ReplyProps) {
 
   return (
     <div className="flex gap-4 p-6  border-b border-grey_200">
-      <img
+      <Image
         src={replyIcon.src}
         alt="답글아이콘"
-        className="h-6"
+        width={24}
+        height={24}
       />
       <div className="w-10 h-10 rounded-3xl bg-slate-200">img</div>
       <div className="flex flex-col gap-10 flex-1">
