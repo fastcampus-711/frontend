@@ -1,3 +1,4 @@
+import Image from "next/image"
 import GreyButton from "./button/GreyButton"
 import MeatballButton from "./button/MeatballButton"
 import Comment from "./comment/Comment"
@@ -29,11 +30,11 @@ type ResponseData = {
   subcategory: string
   issaled: string
   nickname: string
-  viewcount: string
+  hits: string
   date: string
   content: string
   price: string
-  commentcount: string
+  count_of_comments: string
   comment: CommentData[]
 }
 
@@ -49,12 +50,12 @@ export default function ShareMarketDetail({
     subcategory,
     issaled,
     nickname,
-    viewcount,
+    hits,
     date,
     content,
     price,
     comment,
-    commentcount
+    count_of_comments
   } = responseData
   return (
     <div>
@@ -70,10 +71,15 @@ export default function ShareMarketDetail({
               <GreyButton label="목록" />
             </div>
             <div className="flex gap-10 mb-20">
-              <img
-                className="w-[580px]"
-                src="https://deokbucket.s3.ap-southeast-2.amazonaws.com/pngtree-three-puppies-with-their-mouths-open-are-posing-for-a-photo-image_2902292.jpg"
-                alt=""
+              <Image
+                src={
+                  "https://aptners.s3.ap-southeast-1.amazonaws.com/file/63c432c7-ac92-46bc-b95f-fbbf47c08d23.png"
+                }
+                alt="게시판이미지"
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "580px", height: "auto" }} // optional
               />
               <div className="flex flex-1 flex-col gap-6">
                 <div className="flex flex-col gap-2">
@@ -98,7 +104,7 @@ export default function ShareMarketDetail({
                       {nickname}
                     </span>
                     <div className="flex justify-between">
-                      <span className="text-grey_300">조회 {viewcount}</span>
+                      <span className="text-grey_300">조회 {hits}</span>
                       <span className="text-grey_300">{date}</span>
                     </div>
                   </div>
@@ -108,9 +114,15 @@ export default function ShareMarketDetail({
             </div>
           </div>
         </div>
-        <CommentEdit commentcount={commentcount} />
+        <CommentEdit count_of_comments={count_of_comments} />
         <div>
-          {comment && comment.map(item => <Comment commentData={item} />)}
+          {comment &&
+            comment.map(item => (
+              <Comment
+                key={item.id}
+                commentData={item}
+              />
+            ))}
         </div>
         <div className="flex justify-end">
           <GreyButton label="목록" />

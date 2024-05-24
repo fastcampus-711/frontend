@@ -1,10 +1,11 @@
 import notUsefullDefaultIcon from "@/public/icon/not_usefull_default.svg"
 import notUsefullActiveIcon from "@/public/icon/not_usefull_active.svg"
+import Image from "next/image"
 
 type NotUseFullButtonProps = {
   className?: string
   usefull: boolean
-  notusefullcount: string
+  count_of_bad: number
   onClick?: () => void
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
@@ -14,7 +15,7 @@ export default function NotUseFullButton({
   ...props
 }: NotUseFullButtonProps) {
   const usefull = props.usefull
-  const notusefullcount = props.notusefullcount
+  const count_of_bad = props.count_of_bad
   let style, iconSrc
 
   if (usefull === true) {
@@ -33,12 +34,14 @@ export default function NotUseFullButton({
       className={`flex gap-2 rounded-[50px] px-6 py-[11px] border ${className} ${style}`}
       onClick={onClick}
       {...props}>
-      <img
+      <Image
         src={iconSrc}
         alt="그냥그래요아이콘"
+        width={24}
+        height={24}
       />
       그냥 그래요
-      <span className="font-semibold">{notusefullcount}</span>
+      <span className="font-semibold">{count_of_bad}</span>
     </button>
   )
 }

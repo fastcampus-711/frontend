@@ -1,16 +1,16 @@
 import BlackButton from "../button/BlackButton"
 
 type CommentEditProps = {
-  commentcount: string
+  count_of_comments: string
 }
 
 export default function CommentEdit(props: CommentEditProps) {
-  const { commentcount } = props
+  const { count_of_comments } = props
   return (
     <div className="flex flex-col gap-4">
       <div className="text-grey_900 text-xl font-semibold">
         <span>댓글</span>
-        <span>[{commentcount}]</span>
+        <span>[{count_of_comments}]</span>
       </div>
       <textarea
         maxLength={150}

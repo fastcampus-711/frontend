@@ -7,9 +7,13 @@ export const GET = async (
   const { category, id } = context.params
 
   try {
-    const response = await fetch(`http://localhost:3001/${category}/${id}`, {
-      cache: "no-store"
-    })
+    const response = await fetch(
+      // `http://localhost:3001/${category}/${id}`,
+      `https://711.ha-ving.store/boards/${category}/${id}`,
+      {
+        cache: "no-store"
+      }
+    )
     if (response.ok) {
       const responseData = await response.json()
       return Response.json(responseData)

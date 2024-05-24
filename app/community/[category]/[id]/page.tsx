@@ -16,11 +16,11 @@ export default async function Page({
   let componentProps = { responseData }
   let contentComponent
 
-  if (category === "qna") {
+  if (category === "qnas") {
     contentComponent = <QnaDetail {...componentProps} />
-  } else if (category === "sharemarket") {
+  } else if (category === "markets") {
     contentComponent = <ShareMarketDetail {...componentProps} />
-  } else if (category === "freeboard") {
+  } else if (category === "frees") {
     contentComponent = <FreeBoardDetail {...componentProps} />
   } else {
     contentComponent = null

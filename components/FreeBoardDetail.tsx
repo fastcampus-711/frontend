@@ -1,10 +1,14 @@
-import GreyButton from "./button/GreyButton"
 import UseFullButton from "./button/UseFullButton"
 import NotUseFullButton from "./button/NotUseFullButton"
 import Comment from "./comment/Comment"
 import CommentEdit from "./comment/CommentEdit"
 import BoardTitleBox from "./board/BoardTitleBox"
 import BoardContentBox from "./board/BoardContentBox"
+import GoBackButton from "./button/GoBackButton"
+type Reactions = {
+  count_of_good: number
+  count_of_bad: number
+}
 
 type ChildComment = {
   nickname: string
@@ -29,8 +33,8 @@ type ResponseData = {
   id: string
   isnew: boolean
   popular: boolean
-  viewcount: string
-  commentcount: string
+  hits: number
+  count_of_comments: string
   isimg: boolean
   category: string
   subcategory: string
@@ -38,8 +42,7 @@ type ResponseData = {
   content: string
   nickname: string
   usefull: boolean
-  usefullcount: string
-  notusefullcount: string
+  reactions: Reactions
   date: string
   comment: CommentData[]
 }
@@ -55,15 +58,15 @@ export default function FreeBoardDetail({
     title,
     subcategory,
     nickname,
-    viewcount,
+    hits,
     date,
     content,
     usefull,
-    usefullcount,
-    notusefullcount,
+    reactions = { count_of_good: 0, count_of_bad: 0 },
     comment,
-    commentcount
+    count_of_comments
   } = responseData
+
   return (
     <div>
       <div className="flex gap-1 pb-6 text-grey_600 text-lg">
@@ -75,13 +78,13 @@ export default function FreeBoardDetail({
         <div className="flex flex-col gap-10 border-b-[1px] border-grey_50 ">
           <div className="flex flex-col gap-10 py-6 border-t-[1px] border-b-[1px] border-grey_50">
             <div className="flex justify-end">
-              <GreyButton label="목록" />
+              <GoBackButton label="목록" />
             </div>
             <BoardTitleBox
               subcategory={subcategory}
               title={title}
               nickname={nickname}
-              viewcount={viewcount}
+              hits={hits}
               date={date}
             />
           </div>
@@ -89,20 +92,29 @@ export default function FreeBoardDetail({
           <div className="flex gap-4 m-auto mb-10">
             <UseFullButton
               usefull={usefull}
-              usefullcount={usefullcount}
+              count_of_good={reactions.count_of_good}
             />
             <NotUseFullButton
               usefull={usefull}
-              notusefullcount={notusefullcount}
+              count_of_bad={reactions.count_of_bad}
             />
           </div>
         </div>
-        <CommentEdit commentcount={commentcount} />
+        <CommentEdit count_of_comments={count_of_comments} />
         <div>
-          {comment && comment.map(item => <Comment commentData={item} />)}
+          {comment &&
+            comment.map(item => (
+              <Comment
+                key={item.id}
+                commentData={item}
+              />
+            ))}
+        </div>
+        <div className="flex justify-center items-center text-grey_250 text-lg font-medium">
+          등록된 댓글이 없습니다.
         </div>
         <div className="flex justify-end">
-          <GreyButton label="목록" />
+          <GoBackButton label="목록" />
         </div>
       </div>
     </div>

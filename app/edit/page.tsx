@@ -3,53 +3,64 @@
 import PrimaryButton from "@/components/button/PrimaryButton"
 import DropDown from "@/components/dropdown/DropDown"
 import { getToday } from "@/utils/todayUtil"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { setCategory } from "@/redux/slices/categorySlice"
 import { AppDispatch } from "@/redux/store"
 
-export default function Edit() {
-  const category = useSelector(state => state.category)
-  const dispatch = useDispatch<AppDispatch>()
-  const [selectedBoard, setSelectedBoard] = useState("")
-  const [selectedType, setSelectedType] = useState("")
-  const [typeOptions, setTypeOptions] = useState([])
+type Options = {
+  value: string
+  name: string
+}
 
-  const boardOptions = [
+export default function Edit() {
+  const category = useSelector((state: any) => state.category)
+  const dispatch = useDispatch<AppDispatch>()
+  const [selectedBoard, setSelectedBoard] = useState<string>("")
+  const [selectedType, setSelectedType] = useState<string>("")
+  const [typeOptions, setTypeOptions] = useState<Options[]>([])
+
+  const boardOptions: Options[] = [
     { value: "자유게시판", name: "자유게시판" },
     { value: "나눔장터", name: "나눔장터" },
-    { value: "qna", name: "qna" }
+    { value: "qna", name: "QnA" }
   ]
 
-  const optionsA = [
-    { value: "취미・운동", name: "취미・운동" },
-    { value: "생활・편의", name: "생활・편의" },
-    { value: "음식・카페", name: "음식・카페" },
-    { value: "병원・약국", name: "병원・약국" },
-    { value: "수리・시공", name: "수리・시공" },
-    { value: "투자・부동산", name: "투자・부동산" },
-    { value: "교육・육아", name: "교육・육아" },
-    { value: "아파트・동네소식", name: "아파트・동네소식" },
-    { value: "여행", name: "여행" },
-    { value: "살림정보", name: "살림정보" },
-    { value: "모임・동호회", name: "모임・동호회" },
-    { value: "기타", name: "기타" }
-  ]
+  const optionsA = useMemo(
+    () => [
+      { value: "취미・운동", name: "취미・운동" },
+      { value: "생활・편의", name: "생활・편의" },
+      { value: "음식・카페", name: "음식・카페" },
+      { value: "병원・약국", name: "병원・약국" },
+      { value: "수리・시공", name: "수리・시공" },
+      { value: "투자・부동산", name: "투자・부동산" },
+      { value: "교육・육아", name: "교육・육아" },
+      { value: "아파트・동네소식", name: "아파트・동네소식" },
+      { value: "여행", name: "여행" },
+      { value: "살림정보", name: "살림정보" },
+      { value: "모임・동호회", name: "모임・동호회" },
+      { value: "기타", name: "기타" }
+    ],
+    []
+  )
 
-  const optionsB = [
-    { value: "중고거래", name: "중고거래" },
-    { value: "무료나눔", name: "무료나눔" }
-  ]
+  const optionsB = useMemo(
+    () => [
+      { value: "중고거래", name: "중고거래" },
+      { value: "무료나눔", name: "무료나눔" }
+    ],
+    []
+  )
 
   useEffect(() => {
-    if (category.value === "freeboard") {
+    if (category.value === "frees") {
       setSelectedBoard("자유게시판")
-    } else if (category.value === "sharemarket") {
+    } else if (category.value === "markets") {
       setSelectedBoard("나눔장터")
-    } else if (category.value === "qna") {
+    } else if (category.value === "qnas") {
       setSelectedBoard("qna")
     }
-  }, [category])
+  }, [category.value])
 
   useEffect(() => {
     if (selectedBoard === "자유게시판") {
@@ -59,25 +70,25 @@ export default function Edit() {
     } else {
       setTypeOptions([])
     }
-  }, [selectedBoard])
+  }, [selectedBoard, optionsA, optionsB])
 
-  const handleBoardChange = value => {
+  const handleBoardChange = (value: string) => {
     setSelectedBoard(value)
-    setSelectedType("") // Reset type when board changes
+    setSelectedType("")
     if (value === "자유게시판") {
-      dispatch(setCategory("freeboard"))
+      dispatch(setCategory("frees"))
     } else if (value === "나눔장터") {
-      dispatch(setCategory("sharemarket"))
+      dispatch(setCategory("markets"))
     } else if (value === "qna") {
-      dispatch(setCategory("qna"))
+      dispatch(setCategory("qnas"))
     }
   }
 
-  const handleTypeChange = value => {
+  const handleTypeChange = (value: string) => {
     setSelectedType(value)
   }
 
-  const handleUpdate = async e => {
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const issaled = "onsale"
@@ -101,6 +112,7 @@ export default function Edit() {
       date: date
     }
     const url = `http://localhost:3001/${category}`
+    // const url = `https://711.ha-ving.store/boards/${category}`
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -120,7 +132,6 @@ export default function Edit() {
       console.error("에러 발생:", error)
     }
   }
-
   return (
     <div className="max-w-[1200px] m-auto mb-40">
       <div className="flex flex-col gap-10">

@@ -1,10 +1,11 @@
 import usefullDefaultIcon from "@/public/icon/usefull_default.svg"
 import usefullActiveIcon from "@/public/icon/usefull_active.svg"
+import Image from "next/image"
 
 type UseFullButtonProps = {
   className?: string
   usefull: boolean
-  usefullcount: string
+  count_of_good: number
   onClick?: () => void
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
@@ -14,7 +15,7 @@ export default function UseFullButton({
   ...props
 }: UseFullButtonProps) {
   const usefull = props.usefull
-  const usefullcount = props.usefullcount
+  const count_of_good = props.count_of_good
   let style, iconSrc
 
   if (usefull === true) {
@@ -33,12 +34,14 @@ export default function UseFullButton({
       className={`flex gap-2 rounded-[50px] px-6 py-[11px] border ${className} ${style}`}
       onClick={onClick}
       {...props}>
-      <img
+      <Image
         src={iconSrc}
         alt="도움이됐어요아이콘"
+        width={24}
+        height={24}
       />
       도움이 됐어요
-      <span className="font-semibold">{usefullcount}</span>
+      <span className="font-semibold">{count_of_good}</span>
     </button>
   )
 }
