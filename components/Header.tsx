@@ -55,6 +55,9 @@
 //   )
 // }
 import Link from "next/link"
+import Image from "next/image"
+import logoMainImg from "@/public/img/logo_main.png"
+import searchIcon from "@/public/icon/search.svg"
 
 export default async function Header() {
   return (
@@ -71,15 +74,20 @@ export default async function Header() {
           </div>
         </div>
       </div>
-      <nav className="flex justify-between max-w-[1200px] m-auto">
-        <div className="pt-4 pb-4">
+      <nav className="flex gap-4 max-w-[1200px] m-auto">
+        <div className="flex items-center pt-4 pb-4 ">
           <Link
             href="/"
             className="text-grey_900 text-lg font-semibold">
-            로고
+            <Image
+              src={logoMainImg.src}
+              alt="메인로고"
+              width={124}
+              height={22}
+            />
           </Link>
         </div>
-        <ul className="flex gap-4 pt-4 pb-4">
+        <ul className="flex gap-4 flex-1 justify-around items-center p-7">
           <li>
             <Link
               href={"/intro"}
@@ -110,7 +118,7 @@ export default async function Header() {
           </li>
           <li>
             <Link
-              href={"/board"}
+              href={"/complaints"}
               className="text-grey_900 text-lg font-semibold">
               민원게시판
             </Link>
@@ -123,6 +131,17 @@ export default async function Header() {
             </Link>
           </li>
         </ul>
+        <div className="flex justify-end items-center w-[124px]">
+          <button className="flex gap-2 px-3 py-2 bg-[#A4E5E8] rounded-lg text-[#053A3C] font-medium">
+            <Image
+              src={searchIcon.src}
+              alt="검색아이콘"
+              width={24}
+              height={24}
+            />
+            통합검색
+          </button>
+        </div>
       </nav>
     </header>
   )
