@@ -1,4 +1,7 @@
-import Link from "next/link"
+import Footer from "@/components/Footer"
+import "./globals.css"
+import Header from "@/components/Header"
+import ReduxProvider from "@/redux/provider"
 
 export default function RootLayout({
   children
@@ -6,11 +9,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="mo">
+    <html lang="ko">
       <body>
-        <Link href="/">Home</Link>
-        <Link href="/test">Test</Link>
-        {children}
+        <ReduxProvider>
+          <Header />
+          {children}
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   )
