@@ -1,0 +1,27 @@
+name: Next.js Docker Build 🍃
+
+# triggers ci cd when you push code to any branch
+on:
+  push:
+    branches: [ "develop" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    environment: dev
+    env:
+      image_name: ${{ secrets.DOCKER_REPO }}/docker/711-front
+      image_tag: ${{ github.sha }}    
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Building Docker Image
+        run: |
+          docker login ${{ secrets.DOCKER_REPO }} -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ env.image_name }}:${{ env.image_tag }} -t ${{ env.image_name }}:latest .
+          docker push ${{ env.image_name }}:${{ env.image_tag }}
+          docker push ${{ env.image_name }}:latest        
