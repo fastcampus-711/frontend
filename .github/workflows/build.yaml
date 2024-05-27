@@ -3,7 +3,7 @@ name: Next.js Docker Build 🍃
 # triggers ci cd when you push code to any branch
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
