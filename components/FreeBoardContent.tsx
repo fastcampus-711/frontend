@@ -136,6 +136,7 @@ export default function FreeBoardContent({
     router.push("/edit")
   }
 
+  console.log("responseData: ", responseData);
   return (
     <div className="border-b border-grey_900">
       <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
