@@ -29,7 +29,6 @@ jobs:
   deployment:
     name: Argo Deployment
     runs-on: ubuntu-22.04
-    needs: gradle
     environment: dev
     env:
       branch_name: helm
