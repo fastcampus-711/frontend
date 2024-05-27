@@ -24,4 +24,32 @@ jobs:
           docker login ${{ secrets.DOCKER_REPO }} -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t ${{ env.image_name }}:${{ env.image_tag }} -t ${{ env.image_name }}:latest .
           docker push ${{ env.image_name }}:${{ env.image_tag }}
-          docker push ${{ env.image_name }}:latest        
+          docker push ${{ env.image_name }}:latest
+
+  deployment:
+    name: Argo Deployment
+    runs-on: ubuntu-22.04
+    needs: gradle
+    environment: dev
+    env:
+      branch_name: helm
+      image_tag: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.branch_name }}
+          submodules: 'recursive'             # Actions -> General -> Workflow permissions (add write)
+          token: ${{ secrets.GITHUB_TOKEN }}  # Ensure the token is being used
+
+      - name: Change values.yaml
+        run: |
+          sed -i "s/tag: \".*\"/tag: \"${{ env.image_tag }}\"/g" values.yaml
+
+      - name: Git Push
+        run: |
+          git config --global user.email "GitHub Actions Bot@github.com"
+          git config --global user.name "GitHub Actions Bot"
+          git add values.yaml
+          git commit -m "change image tag: ${{ env.image_tag }}"
+          git -c http.extraHeader="AUTHORIZATION: bearer ${{ secrets.GITHUB_TOKEN }}" pull --rebase origin ${{ env.branch_name }}
+          git -c http.extraHeader="AUTHORIZATION: bearer ${{ secrets.GITHUB_TOKEN }}" push origin ${{ env.branch_name }}          
