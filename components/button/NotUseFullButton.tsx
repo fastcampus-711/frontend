@@ -24,7 +24,7 @@ export default function NotUseFullButton({
   } else if (usefull === false) {
     style = "text-grey_900 border-grey_900"
     iconSrc = notUsefullActiveIcon.src
-  } else if (usefull === null) {
+  } else if (usefull === undefined) {
     style = "text-grey_250 border-grey_200"
     iconSrc = notUsefullDefaultIcon.src
   }
