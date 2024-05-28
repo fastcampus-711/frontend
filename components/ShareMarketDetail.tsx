@@ -22,7 +22,7 @@ type CommentData = {
   content: string
   like: boolean
   likecount: string
-  child_comment: ChildComment[]
+  child_comments: ChildComment[]
 }
 
 type ResponseData = {

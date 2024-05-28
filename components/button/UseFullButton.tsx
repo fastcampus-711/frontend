@@ -24,7 +24,7 @@ export default function UseFullButton({
   } else if (usefull === false) {
     style = "text-grey_250 border-grey_200"
     iconSrc = usefullDefaultIcon.src
-  } else if (usefull === null) {
+  } else if (usefull === undefined) {
     style = "text-grey_250 border-grey_200"
     iconSrc = usefullDefaultIcon.src
   }
