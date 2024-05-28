@@ -34,17 +34,17 @@ export default function FreeBoardItem({
   return (
     <tr className="text-center border-b border-grey_200">
       <td className="px-4 py-7 text-grey_300">
-        {category_id === 12 && "생활/편의"}
-        {category_id === 13 && "음식/카페"}
-        {category_id === 14 && "병원/약국"}
-        {category_id === 15 && "수리/시공"}
-        {category_id === 16 && "투자/부동산"}
-        {category_id === 17 && "교육/육아"}
-        {category_id === 18 && "아파트/동네소식"}
-        {category_id === 19 && "여행"}
-        {category_id === 20 && "살림정보"}
-        {category_id === 21 && "모임/동호회"}
-        {category_id === 22 && "기타"}
+        {category_id === 1 && "생활/편의"}
+        {category_id === 2 && "음식/카페"}
+        {category_id === 3 && "병원/약국"}
+        {category_id === 4 && "수리/시공"}
+        {category_id === 5 && "투자/부동산"}
+        {category_id === 6 && "교육/육아"}
+        {category_id === 7 && "아파트/동네소식"}
+        {category_id === 8 && "여행"}
+        {category_id === 9 && "살림정보"}
+        {category_id === 10 && "모임/동호회"}
+        {category_id === 11 && "기타"}
       </td>
       <td className="text-left text-grey_900 font-medium">
         <div className="flex items-center">

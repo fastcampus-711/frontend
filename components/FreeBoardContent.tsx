@@ -8,8 +8,8 @@ import DropDown from "./dropdown/DropDown"
 import CommunitySearch from "./CommunitySearch"
 
 type Reactions = {
-  count_of_good: number
-  count_of_bad: number
+  count_reaction_type_good: number
+  count_reaction_type_bad: number
 }
 
 type Comment = {
@@ -34,7 +34,7 @@ type Post = {
   content: string
   nickname: string
   usefull: boolean
-  reactions: Reactions
+  reaction_columns: Reactions
   date: string
   comment?: Comment[]
 }
@@ -53,67 +53,67 @@ export default function FreeBoardContent({
 
   const categoryData = [
     {
-      id: 12,
+      id: 1,
       board_group: "FREES",
       code: "13",
       name: "생활/편의"
     },
     {
-      id: 13,
+      id: 2,
       board_group: "FREES",
       code: "14",
       name: "음식/카페"
     },
     {
-      id: 14,
+      id: 3,
       board_group: "FREES",
       code: "15",
       name: "병원/약국"
     },
     {
-      id: 15,
+      id: 4,
       board_group: "FREES",
       code: "16",
       name: "수리/시공"
     },
     {
-      id: 16,
+      id: 5,
       board_group: "FREES",
       code: "17",
       name: "투자/부동산"
     },
     {
-      id: 17,
+      id: 6,
       board_group: "FREES",
       code: "18",
       name: "교육/육아"
     },
     {
-      id: 18,
+      id: 7,
       board_group: "FREES",
       code: "19",
       name: "아파트/동네소식"
     },
     {
-      id: 19,
+      id: 8,
       board_group: "FREES",
       code: "20",
       name: "여행"
     },
     {
-      id: 20,
+      id: 9,
       board_group: "FREES",
       code: "21",
       name: "살림정보"
     },
     {
-      id: 21,
+      id: 10,
       board_group: "FREES",
       code: "22",
       name: "모임/동호회"
     },
     {
-      id: 22,
+      id: 11,
       board_group: "FREES",
       code: "23",
       name: "기타"
@@ -168,7 +168,7 @@ export default function FreeBoardContent({
               category_id={item.category_id}
               count_of_comments={item.count_of_comments}
               nickname={item.nickname}
-              count_of_good={item.reactions.count_of_good}
+              count_of_good={item.reaction_columns.count_reaction_type_good}
               hits={item.hits}
               date={item.date}
               image_urls={item.image_urls}
