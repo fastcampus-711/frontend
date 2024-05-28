@@ -8,7 +8,7 @@ export default function BoardContentBox(props: BoardContentBoxProps) {
   const { content } = props
   return (
     <div className="flex flex-col gap-6 mb-20">
-      <Image
+      {/* <Image
         src={
           "https://aptners.s3.ap-southeast-1.amazonaws.com/file/63c432c7-ac92-46bc-b95f-fbbf47c08d23.png"
         }
@@ -17,7 +17,8 @@ export default function BoardContentBox(props: BoardContentBoxProps) {
         height={0}
         sizes="100vw"
         style={{ width: "100%", height: "auto" }} // optional
-      />
+      /> */}
+      <div className="w-full h-80 rounded-3xl bg-slate-200">img</div>
       <p className="text-grey_900 text-xl font-medium">{content}</p>
     </div>
   )
