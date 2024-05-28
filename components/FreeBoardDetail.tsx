@@ -1,3 +1,5 @@
+"use client"
+
 import UseFullButton from "./button/UseFullButton"
 import NotUseFullButton from "./button/NotUseFullButton"
 import Comment from "./comment/Comment"
