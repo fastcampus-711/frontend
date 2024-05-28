@@ -32,7 +32,8 @@ const config: Config = {
         primary_dark: "#00669B",
         prugio: "#084F51",
         font_main: "#00A8FF",
-        dark_blue: "#00669B"
+        dark_blue: "#00669B",
+        dark_color: "#053A3C"
       },
       screens: {
         small: "375px",
