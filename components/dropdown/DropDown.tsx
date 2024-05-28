@@ -8,8 +8,8 @@ type DropDownProps = {
   className?: string
   label: string
   options: Option[]
-  event: (s: string) => void
-  initialValue?: string
+  event: (s: any) => void
+  initialValue?: any
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 type Option = {
