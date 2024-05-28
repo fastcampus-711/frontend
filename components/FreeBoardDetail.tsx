@@ -30,7 +30,7 @@ type CommentData = {
   content: string
   like: boolean
   likecount: string
-  child_comment: ChildComment[]
+  child_comments: ChildComment[]
 }
 
 type ResponseData = {
@@ -48,7 +48,7 @@ type ResponseData = {
   usefull: boolean
   reaction_columns: Reactions
   date: string
-  comment: CommentData[]
+  comments: CommentData[]
 }
 
 type FreeBoardDetailProps = {
@@ -70,7 +70,7 @@ export default function FreeBoardDetail({
       count_reaction_type_good: 0,
       count_reaction_type_bad: 0
     },
-    comment,
+    comments,
     count_of_comments
   } = responseData
 
@@ -115,8 +115,8 @@ export default function FreeBoardDetail({
         </div>
         <CommentEdit count_of_comments={count_of_comments} />
         <div>
-          {comment &&
-            comment.map(item => (
+          {comments &&
+            comments.map(item => (
               <Comment
                 key={item.id}
                 commentData={item}
