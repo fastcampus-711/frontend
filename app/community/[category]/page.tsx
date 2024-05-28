@@ -11,13 +11,14 @@ export default async function Page({
   searchParams
 }: {
   params: { category: string }
-  searchParams: { title: string }
+  searchParams: { keyword: string; catid: number }
 }) {
   const { category } = params
-  const { title } = searchParams
+  const { keyword, catid } = searchParams
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
+    // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?catid=${catid}&keyword=${keyword}`
   )
   const responseData = await res.json()
   let componentProps = { responseData, category }
