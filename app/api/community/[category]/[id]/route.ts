@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server"
 
 export const GET = async (
   request: NextRequest,
-  context: { params: { category: string; id: string } }
+  context: { params: { category: string; id: number } }
 ) => {
   const { category, id } = context.params
 

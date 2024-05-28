@@ -7,15 +7,21 @@ export const GET = async (
   const { category } = context.params
   const { searchParams } = request.nextUrl
   // let url = `http://localhost:3001/${category}`
-  let url = `https://711.ha-ving.store/boards/${category}`
 
+  const keyword = searchParams.get("keyword")
+  const catid =
+    searchParams.get("catid") === "undefined" ||
+    searchParams.get("catid") === null
+      ? "0"
+      : searchParams.get("catid")
+  console.log(keyword)
+  console.log(catid)
+
+  let url = `https://711.ha-ving.store/boards/${category}?category-id=${catid}`
   // searchParams가 비어있지 않고, title이 존재하면서 값이 "undefined"가 아닌 경우에만 title을 URL에 추가합니다.
-  if (
-    searchParams &&
-    searchParams.get("keyowrd") !== undefined &&
-    searchParams.get("keyword") !== "undefined"
-  ) {
-    url += `?keyword=${searchParams.get("keyword")}`
+  if (searchParams && keyword !== undefined && keyword !== "undefined") {
+    // url += `?keyword=${searchParams.get("keyword")}`
+    url = `https://711.ha-ving.store/boards/${category}?category-id=${catid}&keyword=${keyword}`
   }
 
   try {

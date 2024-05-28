@@ -25,7 +25,7 @@ export default function CommunitySearch({
     const title = formData.get("title")
     console.log(title)
     console.log(category)
-    router.push(`/community/${category}?title=${title}`)
+    router.push(`/community/${category}?keyword=${title}`)
     if (inputRef.current) {
       inputRef.current.value = ""
     }
