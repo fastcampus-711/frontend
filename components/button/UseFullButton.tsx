@@ -5,7 +5,7 @@ import Image from "next/image"
 type UseFullButtonProps = {
   className?: string
   usefull: boolean
-  count_of_good: number
+  count_reaction_type_good: number
   onClick?: () => void
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
@@ -15,7 +15,7 @@ export default function UseFullButton({
   ...props
 }: UseFullButtonProps) {
   const usefull = props.usefull
-  const count_of_good = props.count_of_good
+  const count_of_good = props.count_reaction_type_good
   let style, iconSrc
 
   if (usefull === true) {
