@@ -159,22 +159,23 @@ export default function FreeBoardContent({
             <td className="p-2 w-20">조회수</td>
             <td className="p-4 w-32">등록일</td>
           </tr>
-          {responseData.map(item => (
-            <FreeBoardItem
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              category_id={item.category_id}
-              count_of_comments={item.count_of_comments}
-              nickname={item.nickname}
-              count_of_good={item.reaction_columns.count_reaction_type_good}
-              hits={item.hits}
-              date={item.date}
-              image_urls={item.image_urls}
-              popular={item.popular}
-              isnew={item.isnew}
-            />
-          ))}
+          {responseData &&
+            responseData.map(item => (
+              <FreeBoardItem
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                category_id={item.category_id}
+                count_of_comments={item.count_of_comments}
+                nickname={item.nickname}
+                count_of_good={item.reaction_columns.count_reaction_type_good}
+                hits={item.hits}
+                date={item.date}
+                image_urls={item.image_urls}
+                popular={item.popular}
+                isnew={item.isnew}
+              />
+            ))}
         </tbody>
       </table>
     </div>
