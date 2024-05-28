@@ -5,9 +5,11 @@ import CommentEdit from "./comment/CommentEdit"
 import BoardTitleBox from "./board/BoardTitleBox"
 import BoardContentBox from "./board/BoardContentBox"
 import GoBackButton from "./button/GoBackButton"
+import GreyButton from "./button/GreyButton"
+
 type Reactions = {
-  count_of_good: number
-  count_of_bad: number
+  count_reaction_type_good: number
+  count_reaction_type_bad: number
 }
 
 type ChildComment = {
@@ -36,13 +38,13 @@ type ResponseData = {
   hits: number
   count_of_comments: string
   isimg: boolean
-  category: string
+  category_id: number
   subcategory: string
   title: string
   content: string
   nickname: string
   usefull: boolean
-  reactions: Reactions
+  reaction_columns: Reactions
   date: string
   comment: CommentData[]
 }
@@ -56,13 +58,16 @@ export default function FreeBoardDetail({
 }: FreeBoardDetailProps) {
   const {
     title,
-    subcategory,
+    category_id,
     nickname,
     hits,
     date,
     content,
     usefull,
-    reactions = { count_of_good: 0, count_of_bad: 0 },
+    reaction_columns = {
+      count_reaction_type_good: 0,
+      count_reaction_type_bad: 0
+    },
     comment,
     count_of_comments
   } = responseData
@@ -77,11 +82,15 @@ export default function FreeBoardDetail({
       <div className="flex flex-col gap-12 mb-40">
         <div className="flex flex-col gap-10 border-b-[1px] border-grey_50 ">
           <div className="flex flex-col gap-10 py-6 border-t-[1px] border-b-[1px] border-grey_50">
-            <div className="flex justify-end">
+            <div className="flex justify-between">
               <GoBackButton label="목록" />
+              <div className="flex gap-4">
+                <GreyButton label="수정" />
+                <GreyButton label="삭제" />
+              </div>
             </div>
             <BoardTitleBox
-              subcategory={subcategory}
+              category_id={category_id}
               title={title}
               nickname={nickname}
               hits={hits}
@@ -92,11 +101,13 @@ export default function FreeBoardDetail({
           <div className="flex gap-4 m-auto mb-10">
             <UseFullButton
               usefull={usefull}
-              count_of_good={reactions.count_of_good}
+              count_reaction_type_good={
+                reaction_columns.count_reaction_type_good
+              }
             />
             <NotUseFullButton
               usefull={usefull}
-              count_of_bad={reactions.count_of_bad}
+              count_reaction_type_bad={reaction_columns.count_reaction_type_bad}
             />
           </div>
         </div>
