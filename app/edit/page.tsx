@@ -9,110 +9,112 @@ import { setCategory } from "@/redux/slices/categorySlice"
 import { AppDispatch } from "@/redux/store"
 
 type Options = {
-  value: string
+  value: number
   name: string
 }
 
 export default function Edit() {
   const category = useSelector((state: any) => state.category)
   const dispatch = useDispatch<AppDispatch>()
-  const [selectedBoard, setSelectedBoard] = useState<string>("")
-  const [selectedType, setSelectedType] = useState<string>("")
+  const [selectedBoard, setSelectedBoard] = useState<number>(0)
+  const [selectedType, setSelectedType] = useState<number>(0)
   const [typeOptions, setTypeOptions] = useState<Options[]>([])
 
   const boardOptions: Options[] = [
-    { value: "자유게시판", name: "자유게시판" },
-    { value: "나눔장터", name: "나눔장터" },
-    { value: "qna", name: "QnA" }
+    { value: 11, name: "자유게시판" },
+    { value: 12, name: "나눔장터" },
+    { value: 13, name: "QnA" }
   ]
 
   const optionsA = useMemo(
     () => [
-      { value: "취미・운동", name: "취미・운동" },
-      { value: "생활・편의", name: "생활・편의" },
-      { value: "음식・카페", name: "음식・카페" },
-      { value: "병원・약국", name: "병원・약국" },
-      { value: "수리・시공", name: "수리・시공" },
-      { value: "투자・부동산", name: "투자・부동산" },
-      { value: "교육・육아", name: "교육・육아" },
-      { value: "아파트・동네소식", name: "아파트・동네소식" },
-      { value: "여행", name: "여행" },
-      { value: "살림정보", name: "살림정보" },
-      { value: "모임・동호회", name: "모임・동호회" },
-      { value: "기타", name: "기타" }
+      { value: 1, name: "생활・편의" },
+      { value: 2, name: "음식・카페" },
+      { value: 3, name: "병원・약국" },
+      { value: 4, name: "수리・시공" },
+      { value: 5, name: "투자・부동산" },
+      { value: 6, name: "교육・육아" },
+      { value: 7, name: "아파트・동네소식" },
+      { value: 8, name: "여행" },
+      { value: 9, name: "살림정보" },
+      { value: 10, name: "모임・동호회" },
+      { value: 11, name: "기타" }
     ],
     []
   )
 
   const optionsB = useMemo(
     () => [
-      { value: "중고거래", name: "중고거래" },
-      { value: "무료나눔", name: "무료나눔" }
+      { value: 999, name: "중고거래" },
+      { value: 999, name: "무료나눔" }
     ],
     []
   )
 
   useEffect(() => {
     if (category.value === "frees") {
-      setSelectedBoard("자유게시판")
+      setSelectedBoard(11)
     } else if (category.value === "markets") {
-      setSelectedBoard("나눔장터")
+      setSelectedBoard(12)
     } else if (category.value === "qnas") {
-      setSelectedBoard("qna")
+      setSelectedBoard(13)
     }
   }, [category.value])
 
   useEffect(() => {
-    if (selectedBoard === "자유게시판") {
+    if (selectedBoard === 11) {
       setTypeOptions(optionsA)
-    } else if (selectedBoard === "나눔장터") {
+    } else if (selectedBoard === 12) {
       setTypeOptions(optionsB)
     } else {
       setTypeOptions([])
     }
   }, [selectedBoard, optionsA, optionsB])
 
-  const handleBoardChange = (value: string) => {
+  const handleBoardChange = (value: number) => {
     setSelectedBoard(value)
-    setSelectedType("")
-    if (value === "자유게시판") {
+    setSelectedType(0)
+    if (value === 11) {
       dispatch(setCategory("frees"))
-    } else if (value === "나눔장터") {
+    } else if (value === 12) {
       dispatch(setCategory("markets"))
-    } else if (value === "qna") {
+    } else if (value === 13) {
       dispatch(setCategory("qnas"))
     }
   }
 
-  const handleTypeChange = (value: string) => {
+  const handleTypeChange = (value: number) => {
     setSelectedType(value)
   }
 
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const issaled = "onsale"
-    const isnew = true
-    const category = formData.get("category")
-    const subcategory = formData.get("subcategory")
+    // const issaled = "onsale"
+    // const isnew = true
+    // const category = formData.get("category")
+    const category_id = selectedType
     const title = formData.get("title")
     const content = formData.get("content")
-    const price = formData.get("price")
-    const nickname = "userNickname"
-    const date = getToday()
+    const visible = true
+    // const price = formData.get("price")
+    // const nickname = "userNickname"
+    // const date = getToday()
     const updatedItem = {
-      issaled: issaled,
-      isnew: isnew,
-      category: category,
-      subcategory: subcategory,
+      // issaled: issaled,
+      // isnew: isnew,
+      // category: category,
+      category_id: category_id,
       title: title,
       content: content,
-      price: price,
-      nickname: nickname,
-      date: date
+      visible: visible
+      // price: price,
+      // nickname: nickname,
+      // date: date
     }
-    const url = `http://localhost:3001/${category}`
-    // const url = `https://711.ha-ving.store/boards/${category}`
+    // const url = `http://localhost:3001/${category}`
+    const url = `https://711.ha-ving.store/boards/${category.value}`
+    console.log(updatedItem)
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -132,6 +134,7 @@ export default function Edit() {
       console.error("에러 발생:", error)
     }
   }
+
   return (
     <div className="max-w-[1200px] m-auto mb-40">
       <div className="flex flex-col gap-10">
@@ -155,7 +158,7 @@ export default function Edit() {
                       event={handleBoardChange}
                       initialValue={selectedBoard}
                     />
-                    {selectedBoard !== "qna" && (
+                    {selectedBoard !== 13 && (
                       <DropDown
                         label="타입"
                         options={typeOptions}
@@ -163,7 +166,7 @@ export default function Edit() {
                       />
                     )}
                   </div>
-                  {selectedBoard === "나눔장터" && (
+                  {selectedBoard === 12 && (
                     <tr>
                       <td className="w-24 text-justify break-all text-grey_900 text-lg font-medium px-4 before:content-[''] before:inline-block before:w-full after:content-[''] after:inline-block after:w-full">
                         가 격
