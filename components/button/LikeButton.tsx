@@ -24,7 +24,7 @@ export default function LikeButton({
   } else if (like === false) {
     style = "border-grey_100 text-grey_100"
     iconSrc = thumbDefaultIcon.src
-  } else if (like === null) {
+  } else if (like === undefined) {
     style = "border-grey_100 text-grey_100"
     iconSrc = thumbDefaultIcon.src
   }
@@ -34,12 +34,11 @@ export default function LikeButton({
       onClick={onClick}
       {...props}>
       <Image
-        src={iconSrc.src}
+        src={iconSrc}
         alt="좋아요아이콘"
         width={24}
         height={24}
       />
-
       {likecount}
     </button>
   )

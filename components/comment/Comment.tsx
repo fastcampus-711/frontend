@@ -18,7 +18,7 @@ type CommentData = {
   content: string
   like: boolean
   likecount: string
-  child_comment: ChildComment[]
+  child_comments: ChildComment[]
 }
 
 type CommentProps = {
@@ -27,7 +27,7 @@ type CommentProps = {
 
 export default function Comment(props: CommentProps) {
   const { commentData } = props
-  const { nickname, date, content, like, likecount, child_comment } =
+  const { nickname, date, content, like, likecount, child_comments } =
     commentData
 
   return (
@@ -58,7 +58,7 @@ export default function Comment(props: CommentProps) {
           </div>
         </div>
       </div>
-      {child_comment.map(item => (
+      {child_comments.map(item => (
         <Reply
           key={item.id}
           replyData={item}
