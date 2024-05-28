@@ -25,7 +25,8 @@ export default function Home() {
         />
       </div>
       <div className="flex gap-24 justify-center font-bold">
-        <div className="flex flex-col items-center gap-2">
+        <Link href="/fee"
+              className="flex flex-col items-center gap-2">
           <Image
             src={feeIcon.src}
             alt="관리비조회아이콘"
@@ -35,7 +36,7 @@ export default function Home() {
           <span className="text-grey_900 text-xl font-semibold">
             관리비조회
           </span>
-        </div>
+        </Link>
         <div className="flex flex-col items-center gap-2">
           <Image
             src={boardIcon.src}
