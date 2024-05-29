@@ -5,7 +5,7 @@ interface CategoryState {
 }
 
 const initialState: CategoryState = {
-  value: ""
+  value: "frees"
 }
 
 const categorySlice = createSlice({

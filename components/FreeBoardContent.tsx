@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import PrimaryButton from "./button/PrimaryButton"
 import FreeBoardItem from "./FreeBoardItem"
 import DropDown from "./dropdown/DropDown"
-import CommunitySearch from "./CommunitySearch"
 
 type Reactions = {
   count_reaction_type_good: number
@@ -53,67 +52,72 @@ export default function FreeBoardContent({
 
   const categoryData = [
     {
-      id: 1,
+      id: "0",
+      board_group: "FREES",
+      name: "전체"
+    },
+    {
+      id: "1",
       board_group: "FREES",
       code: "13",
       name: "생활/편의"
     },
     {
-      id: 2,
+      id: "2",
       board_group: "FREES",
       code: "14",
       name: "음식/카페"
     },
     {
-      id: 3,
+      id: "3",
       board_group: "FREES",
       code: "15",
       name: "병원/약국"
     },
     {
-      id: 4,
+      id: "4",
       board_group: "FREES",
       code: "16",
       name: "수리/시공"
     },
     {
-      id: 5,
+      id: "5",
       board_group: "FREES",
       code: "17",
       name: "투자/부동산"
     },
     {
-      id: 6,
+      id: "6",
       board_group: "FREES",
       code: "18",
       name: "교육/육아"
     },
     {
-      id: 7,
+      id: "7",
       board_group: "FREES",
       code: "19",
       name: "아파트/동네소식"
     },
     {
-      id: 8,
+      id: "8",
       board_group: "FREES",
       code: "20",
       name: "여행"
     },
     {
-      id: 9,
+      id: "9",
       board_group: "FREES",
       code: "21",
       name: "살림정보"
     },
     {
-      id: 10,
+      id: "10",
       board_group: "FREES",
       code: "22",
       name: "모임/동호회"
     },
     {
-      id: 11,
+      id: "11",
       board_group: "FREES",
       code: "23",
       name: "기타"
@@ -125,11 +129,10 @@ export default function FreeBoardContent({
     name: category.name
   }))
 
-  categoryOptions.unshift({ value: 0, name: "전체" })
-
   const handleCategoryChange = (changedData: string) => {
     setSelectedCategory(changedData)
     console.log(changedData)
+    router.push(`/community/${category}?catid=${changedData}`)
   }
 
   const handleGoEdit = () => {
@@ -144,6 +147,7 @@ export default function FreeBoardContent({
           label="분류"
           options={categoryOptions}
           event={handleCategoryChange}
+          initialValue={categoryData[0].id}
         />
         <PrimaryButton
           label="글쓰기"
