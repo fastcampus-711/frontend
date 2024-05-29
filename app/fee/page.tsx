@@ -96,11 +96,11 @@ export default function Fee() {
               <div className="flex flex-col justify-start px-10 pb-6 gap-6">
                 <div className="flex w-[592px] bg-white justify-between items-start">
                   <ul className="flex flex-wrap bg-grey_50 rounded-lg p-1 gap-2">
-                    {categories.map((item) => (
+                    {categories.map((item, index) => (
                         <li className={`inline-block px-[50px] py-2 rounded-lg items-center gap-2.5 hover:cursor-pointer ${category == item ? "text-white bg-grey_600" : "text-grey_250 hover:bg-grey_200"}`}
                             onClick={() => {
-                              setCategory(item)
-                        }}>
+                              setCategory(item)}}
+                            key={index}>
                         {item}
                       </li>
                     ))}
@@ -183,8 +183,8 @@ export default function Fee() {
                 </span>
               </div>
               <div className="flex flex-col justify-start">
-                {detailItems.map((item) => (
-                  <div className="px-10 py-6 flex justify-between">
+                {detailItems.map((item, index) => (
+                  <div key={index} className="px-10 py-6 flex justify-between">
                     <p className="w-[750px] text-left text-lg font-medium">{item.label}</p>
                     <span className="w-full flex gap-[130px]">
                       <p className="w-full text-right text-lg font-semibold">{item.value1.toLocaleString('ko-KR')}원</p>
