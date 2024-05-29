@@ -64,7 +64,7 @@ export default function EditFrees() {
     const title = formData.get("title")
     const content = formData.get("content")
     const visible = true
-    // const price = formData.get("price")
+    const price = formData.get("price")
     // const nickname = "userNickname"
     // const date = getToday()
     const updatedItem = {
@@ -74,32 +74,32 @@ export default function EditFrees() {
       category_id: category_id,
       title: title,
       content: content,
-      visible: visible
-      // price: price,
+      visible: visible,
+      price: price
       // nickname: nickname,
       // date: date
     }
     // const url = `http://localhost:3001/${category}`
     const url = `https://711.ha-ving.store/boards/${category.value}`
     console.log(updatedItem)
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(updatedItem)
-      })
+    // try {
+    //   const response = await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify(updatedItem)
+    //   })
 
-      if (response.ok) {
-        const responseData = await response.json()
-        console.log("게시물 등록 성공:", responseData)
-      } else {
-        console.error("게시물 등록을 실패했습니다.")
-      }
-    } catch (error) {
-      console.error("에러 발생:", error)
-    }
+    //   if (response.ok) {
+    //     const responseData = await response.json()
+    //     console.log("게시물 등록 성공:", responseData)
+    //   } else {
+    //     console.error("게시물 등록을 실패했습니다.")
+    //   }
+    // } catch (error) {
+    //   console.error("에러 발생:", error)
+    // }
   }
   return (
     <div>
@@ -172,6 +172,7 @@ export default function EditFrees() {
             </tr>
           </tbody>
         </table>
+        <button>테스트</button>
       </form>
       <div className="flex gap-2 justify-end">
         <GoBackButton label="목록" />
