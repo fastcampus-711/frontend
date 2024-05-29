@@ -43,11 +43,11 @@ export default async function Page({
           option="community"
           category={category}
         />
-        <CommunitySearch
+        {/* <CommunitySearch
           category={category}
           placeholder="게시판 내 재검색"
           className="flex-1 max-w-[480px]"
-        />
+        /> */}
       </div>
       {contentComponent}
     </div>
