@@ -19,8 +19,8 @@ export default function BoardSubMenuBar({
     { value: "", name: "나의민원" }
   ]
   const feeOptions = [
-    { value: "", name: "전체조회" },
-    { value: "", name: "나의관리비" }
+    { value: "myfee", name: "우리집관리비" },
+    { value: "fee", name: "관리비 상세보기" }
   ]
 
   const options =
@@ -46,8 +46,8 @@ export default function BoardSubMenuBar({
               className={`w-24 h-6 px-6 py-4 text-center font-['Pretendard']
                                 ${
                                   opt.value == category
-                                    ? "text-dark_blue border-b-2 border-dark_blue text-[22px] font-semibold"
-                                    : "text-neutral-500 text-xl font-normal hover:text-[22px] hover:border-b-2 hover:border-gray-200 "
+                                    ? "text-main_color border-b-2 border-main_color text-[22px] font-semibold"
+                                    : "text-grey_300 text-xl font-normal hover:text-[22px] hover:border-b-2 hover:border-gray-200 "
                                 } `}>
               {opt.name}
             </a>
