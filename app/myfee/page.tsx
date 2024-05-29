@@ -7,11 +7,11 @@ import BoardSubMenuBar from "@/components/submenu/SubMenuBar";
 import { useEffect, useState } from "react";
 import Image from "next/image"
 
-// import detailBtn from "@/public/icon/fee_detailBtn_arrow.svg"
-// import feeIncrease from "@/public/icon/fee_increase.svg"
-// import feeDecrease from "@/public/icon/fee_decrease.svg"
-// import inequality_left from "@/public/icon/inequality_left.svg"
-// import inequality_right from "@/public/icon/inequality_right.svg"
+import detailBtn from "@/public/icon/fee_detailBtn_arrow.svg"
+import feeIncrease from "@/public/icon/fee_increase.svg"
+import feeDecrease from "@/public/icon/fee_decrease.svg"
+import inequality_left from "@/public/icon/inequality_left.svg"
+import inequality_right from "@/public/icon/inequality_right.svg"
 
 type fee = {
     ontime: number,
@@ -90,7 +90,7 @@ export default function MyFeeContent() {
                     관리비조회
                 </p>
             </div>
-            <BoardSubMenuBar option="fee" category="my" />
+            <BoardSubMenuBar option="fee" category="myfee" />
             
             <div className="max-w-[1200px] m-auto pb-40">
                 <div className="flex justify-start items-start gap-6">
@@ -149,12 +149,12 @@ export default function MyFeeContent() {
                                         <p>감면금액</p>
                                         <button className="flex flex-nowrap items-center rounded bg-main_color text-white text-sm px-2 py-1 gap-2">
                                             <p>상세내역 확인</p>
-                                            {/* <Image
+                                            <Image
                                                 src={detailBtn.src}
                                                 alt="상세내역 아이콘"
                                                 width={10}
                                                 height={6}
-                                            /> */}
+                                            />
                                         </button>
                                         <div className="border-r-2 border-grey_200"></div>
                                     </span>
@@ -165,7 +165,7 @@ export default function MyFeeContent() {
                                     <span className="flex justify-between">
                                         <p>납기후금액</p>
                                         <div className="border-r-2 border-grey_200"></div>
-                                        {/* <div className="w-5 h-[0px] rotate-90 origin-top-left border border-grey_200"></div> */}
+                                        <div className="w-5 h-[0px] rotate-90 origin-top-left border border-grey_200"></div>
                                     </span>
                                 </div>
                                 <div className="flex flex-col gap-6 text-right font-semibold">
@@ -205,12 +205,12 @@ export default function MyFeeContent() {
                                     </span>
                                     <span className={`flex flex-nowrap gap-1 ${(compareMonthFee > 0) ? "text-red-500" : "text-sky-500"}`}>
                                         {(compareMonthFee > 0) ? `+${compareMonthFee.toLocaleString('ko-KR')}원` : `-${compareMonthFee.toLocaleString('ko-KR')}원`}
-                                        {/* <Image
+                                        <Image
                                             src={(compareMonthFee > 0) ? feeIncrease.src : feeDecrease.src}
                                             alt="전월대비 아이콘"
                                             width={16}
                                             height={16}
-                                        /> */}
+                                        />
                                     </span>
                                 </div>
                                 <div>
@@ -236,12 +236,12 @@ export default function MyFeeContent() {
                                     </span>
                                     <span className={`flex flex-nowrap gap-1 ${(compareMonthFee > 0) ? "text-red-500" : "text-sky-500"}`}>
                                         {(compareMonthFee > 0) ? `+${compareMonthFee.toLocaleString('ko-KR')}원` : `-${compareMonthFee.toLocaleString('ko-KR')}원`}
-                                        {/* <Image
+                                        <Image
                                             src={(compareMonthFee > 0) ? feeIncrease.src : feeDecrease.src}
                                             alt="전년 동월 대비 아이콘"
                                             width={16}
                                             height={16}
-                                        /> */}
+                                        />
                                     </span>
                                 </div>
                                 <div className="px-12 py-6 bg-grey_25 rounded-lg justify-between items-center inline-flex">
@@ -249,12 +249,12 @@ export default function MyFeeContent() {
                                         <p className={`${lastYearFee > currentYearFee ? "text-xl" : "text-grey_400 text-base"} font-medium`}>{year-1}년 {month}월</p>
                                         <p className={`${lastYearFee > currentYearFee ? "text-2xl" : "text-grey_400 text-xl"} font-semibold`}>{lastYearFee.toLocaleString('ko-KR')}원</p>
                                     </span>
-                                    {/* <Image
+                                    <Image
                                         src={(lastYearFee > currentYearFee) ? inequality_left.src : inequality_right.src}
                                         alt="전년 동월 대비 아이콘"
                                         width={10}
                                         height={10}
-                                    /> */}
+                                    />
                                     <span className="flex-col justify-start items-center gap-3 inline-flex">
                                         <p className={`${lastYearFee < currentYearFee ? "text-xl" : "text-grey_400 text-base"} font-medium`}>{year}년 {month}월</p>
                                         <p className={`${lastYearFee < currentYearFee ? "text-2xl" : "text-grey_400 text-xl"} font-semibold`}>{currentYearFee.toLocaleString('ko-KR')}원</p>
