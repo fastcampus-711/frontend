@@ -163,6 +163,7 @@ export default function EditFrees() {
             </tr>
           </tbody>
         </table>
+        <button>테스트</button>
       </form>
       <div className="flex gap-2 justify-end">
         <GoBackButton label="목록" />

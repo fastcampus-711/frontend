@@ -10,7 +10,7 @@ export default async function Page({
   const { category, id } = params
 
   const res = await fetch(
-    `https://aptner.ha-ving.store/api/community//api/community/${category}/${id}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}/${id}`
   )
   const responseData = await res.json()
   let componentProps = { responseData }
