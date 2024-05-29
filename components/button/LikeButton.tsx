@@ -22,15 +22,15 @@ export default function LikeButton({
     style = "border-black text-black"
     iconSrc = thumbActiveIcon.src
   } else if (like === false) {
-    style = "border-grey_100 text-grey_100"
+    style = "border-grey_300 text-grey_250"
     iconSrc = thumbDefaultIcon.src
   } else if (like === undefined) {
-    style = "border-grey_100 text-grey_100"
+    style = "border-grey_300 text-grey_250"
     iconSrc = thumbDefaultIcon.src
   }
   return (
     <button
-      className={`flex gap-2 font-semibold rounded px-6 py-2 border ${className} ${style}`}
+      className={`flex gap-2  font-medium rounded px-6 py-2 border ${className} ${style}`}
       onClick={onClick}
       {...props}>
       <Image

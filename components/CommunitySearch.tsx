@@ -9,12 +9,14 @@ type CommunitySearchProps = {
   className?: string
   placeholder: string
   category: string
+  catid: number
 }
 
 export default function CommunitySearch({
   className,
   placeholder,
-  category
+  category,
+  catid
 }: CommunitySearchProps) {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -25,7 +27,7 @@ export default function CommunitySearch({
     const title = formData.get("title")
     console.log(title)
     console.log(category)
-    router.push(`/community/${category}?keyword=${title}`)
+    router.push(`/community/${category}?catid=${catid}&keyword=${title}`)
     if (inputRef.current) {
       inputRef.current.value = ""
     }
