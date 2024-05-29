@@ -42,7 +42,7 @@ export default function BoardSubMenuBar({
             className="me-2">
             <a
               key={opt.value}
-              href={`/${option}/${opt.value}`}
+              href={option === "fee" ? `/${opt.value}`:`/${option}/${opt.value}`}
               className={`w-24 h-6 px-6 py-4 text-center font-['Pretendard']
                                 ${
                                   opt.value == category
