@@ -62,13 +62,12 @@ import searchIcon from "@/public/icon/search.svg"
 export default async function Header() {
   return (
     <header className="">
-      <div className="bg-sky-700 pt-4 pb-4 text-white">
+      <div className="bg-main_color pt-4 pb-4 text-white">
         <div className="flex justify-between max-w-[1200px] m-auto">
           <p className="text-white text-lg font-semibold">
             관리사무소(09:00~18:00) : Tel 1600-3123
           </p>
           <div className="flex gap-2">
-            <p>앱 다운로드</p>
             <p>마이페이지</p>
             <p>로그아웃</p>
           </div>
