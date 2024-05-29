@@ -42,10 +42,12 @@ type ResponseData = Post[]
 
 export default function FreeBoardContent({
   responseData,
-  category
+  category,
+  catid
 }: {
   responseData: ResponseData
   category: string
+  catid: number
 }) {
   const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState("전체카테고리")
@@ -147,7 +149,7 @@ export default function FreeBoardContent({
           label="분류"
           options={categoryOptions}
           event={handleCategoryChange}
-          initialValue={categoryData[0].id}
+          initialValue={catid}
         />
         <PrimaryButton
           label="글쓰기"

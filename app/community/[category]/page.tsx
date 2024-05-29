@@ -2,7 +2,6 @@ import FreeBoardContent from "@/components/FreeBoardContent"
 import ShareMarketContent from "@/components/ShareMarketContent"
 import QnaContent from "@/components/QnaContent"
 import CommunitySearch from "@/components/CommunitySearch"
-import Link from "next/link"
 import BoardSubMenuBar from "@/components/submenu/SubMenuBar"
 import SetCategory from "@/components/SetCategory"
 
@@ -21,7 +20,7 @@ export default async function Page({
     `https://aptner.ha-ving.store/api/community/${category}?catid=${catid}&keyword=${keyword}`
   )
   const responseData = await res.json()
-  let componentProps = { responseData, category }
+  let componentProps = { responseData, category, catid }
   let contentComponent
 
   if (category === "qnas") {
@@ -33,6 +32,7 @@ export default async function Page({
   } else {
     contentComponent = null
   }
+
   return (
     <div className="max-w-[1200px] m-auto mb-40">
       <SetCategory category={category} />
@@ -52,6 +52,7 @@ export default async function Page({
           category={category}
           placeholder="게시판 내 재검색"
           className="flex-1 max-w-[480px]"
+          catid={catid}
         />
       </div>
       {contentComponent}
