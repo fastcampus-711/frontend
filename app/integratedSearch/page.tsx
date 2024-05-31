@@ -19,7 +19,7 @@ export default function IntegratedSearchPage() {
                     통합검색
                 </p>
                 <span className="inline-flex font-medium text-[22px]">
-                    <p className="text-main_color">'{searchWord}'</p>
+                    <p className="text-main_color">{searchWord}</p>
                     <p className="text-grey_300">에 대한 검색 결과가 </p>
                     <p className="text-main_color px-1">{searchCount}건</p>
                     <p className="text-grey_300"> 나왔습니다.</p>
