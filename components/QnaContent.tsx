@@ -66,7 +66,7 @@ export default function QnaContent({
           onClick={handleGoEdit}
         />
       </div>
-      {responseData.map(item => (
+      {responseData && responseData.map(item => (
         <QnaItem
           key={item.id}
           id={item.id}
