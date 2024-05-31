@@ -93,7 +93,7 @@ export default function ShareMarketContent({
       </div>
       <div className="m-10"></div>
       <div className="flex gap-6 flex-wrap">
-        {responseData.map(item => (
+        {responseData && responseData.map(item => (
           <div
             key={item.id}
             className=" flex-1">
