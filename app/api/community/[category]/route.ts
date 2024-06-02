@@ -9,6 +9,7 @@ export const GET = async (
   // let url = `http://localhost:3001/${category}`
 
   const keyword = searchParams.get("keyword")
+  const page = searchParams.get("page")
   const catid =
     searchParams.get("catid") === "undefined" ||
     searchParams.get("catid") === null
@@ -17,15 +18,19 @@ export const GET = async (
   console.log(keyword)
   console.log(catid)
 
-  let url = `https://711.ha-ving.store/boards/${category}?category-id=${catid}`
+  let url = `https://711.ha-ving.store/boards/${category}?category-id=${catid}&page=${page}`
   // searchParams가 비어있지 않고, title이 존재하면서 값이 "undefined"가 아닌 경우에만 title을 URL에 추가합니다.
   if (searchParams && keyword !== undefined && keyword !== "undefined") {
     // url += `?keyword=${searchParams.get("keyword")}`
-    url = `https://711.ha-ving.store/boards/${category}?category-id=${catid}&keyword=${keyword}`
+    url = `https://711.ha-ving.store/boards/${category}?category-id=${catid}&keyword=${keyword}&page=${page}`
   }
 
   try {
     const response = await fetch(url, {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83OTI3MDIyOD92PTQiLCJwYXNzd29yZCI6IiQyYSQxMCRleHhmWXAveXZzNHpiY3cyRFNDalZlREFDaTVlcWZma01HaDlsVWwwTXFBRWRUM2h5WDVEeSIsInBob25lIjoiMDEwMTExMTIyMjIiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwibmlja25hbWUiOiJuaWNrbmFtZTEiLCJpZCI6MjEsInVzZXJuYW1lIjoidXNlciIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNzE3MDU5MjA5LCJleHAiOjE3MTk2NTEyMDl9.4bpxNGqYITfq2174mngAguJK3gQZ5gl7KzWB8N5eMQ4TV-e8_Ka7xlzCdGH8u6XEoiMywHZwJLM1_7tlAqtt0A"
+      },
       cache: "no-store"
     })
     if (response.ok) {

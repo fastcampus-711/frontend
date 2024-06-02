@@ -80,7 +80,7 @@ export default function EditFrees() {
       // date: date
     }
     // const url = `http://localhost:3001/${category}`
-    const url = `https://711.ha-ving.store/boards/${category.value}`
+    const url = `https://711.ha-ving.store/boards/${category.value}/`
     console.log(updatedItem)
     // try {
     //   const response = await fetch(url, {
