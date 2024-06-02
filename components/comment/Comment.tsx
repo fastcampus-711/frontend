@@ -1,6 +1,11 @@
+"use client"
+
 import Reply from "./Reply"
 import BlackLinedButton from "../button/BlackLinedButton"
 import LikeButton from "../button/LikeButton"
+import GreyButton from "../button/GreyButton"
+import BlackButton from "../button/BlackButton"
+import { useState } from "react"
 
 type ChildComment = {
   nickname: string
@@ -26,6 +31,7 @@ type CommentProps = {
 }
 
 export default function Comment(props: CommentProps) {
+  const [showEdit, setShowEdit] = useState(false)
   const { commentData } = props
   const { nickname, date, content, like, likecount, child_comments } =
     commentData
@@ -50,12 +56,30 @@ export default function Comment(props: CommentProps) {
             <p className="text-grey_900 text-lg font-medium">{content}</p>
           </div>
           <div className="flex justify-between">
-            <BlackLinedButton label="답글" />
+            <BlackLinedButton
+              label="답글"
+              onClick={() => setShowEdit(!showEdit)}
+            />
             <LikeButton
               likecount={likecount}
               like={like}
             />
           </div>
+          {showEdit && (
+            <div className="flex flex-col gap-4">
+              <textarea
+                maxLength={150}
+                placeholder="댓글을 입력해주세요 (최대 150자)"
+                className="w-full h-40 border border-grey_300 p-4"></textarea>
+              <div className="flex justify-end gap-2">
+                <GreyButton
+                  label="취소"
+                  onClick={() => setShowEdit(false)}
+                />
+                <BlackButton label="등록" />
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {child_comments.map(item => (

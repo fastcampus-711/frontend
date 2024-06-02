@@ -1,5 +1,9 @@
 "use client"
 
+import { useRouter } from "next/navigation"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "@/redux/store"
+import { setCurrentPost } from "@/redux/slices/postSlice"
 import UseFullButton from "./button/UseFullButton"
 import NotUseFullButton from "./button/NotUseFullButton"
 import Comment from "./comment/Comment"
@@ -34,21 +38,20 @@ type CommentData = {
 }
 
 type ResponseData = {
-  id: string
-  isnew: boolean
-  popular: boolean
-  hits: number
-  count_of_comments: string
-  isimg: boolean
-  category_id: number
-  subcategory: string
+  id: number
+  user_nickname: string
+  user_image: string
+  category_name: string
   title: string
   content: string
-  nickname: string
-  usefull: boolean
-  reaction_columns: Reactions
-  date: string
+  image_urls?: string[]
+  visible: boolean
+  reaction_columns: Reactions | null
+  count_of_comments: string
+  hits: number
   comments: CommentData[]
+  created_at: string
+  reaction_type: boolean | null
 }
 
 type FreeBoardDetailProps = {
@@ -59,20 +62,43 @@ export default function FreeBoardDetail({
   responseData
 }: FreeBoardDetailProps) {
   const {
+    id,
+    user_nickname,
+    category_name,
+    image_urls,
     title,
-    category_id,
-    nickname,
-    hits,
-    date,
     content,
-    usefull,
+    user_image,
+    hits,
     reaction_columns = {
       count_reaction_type_good: 0,
       count_reaction_type_bad: 0
     },
+    count_of_comments,
     comments,
-    count_of_comments
+    created_at,
+    reaction_type
   } = responseData
+
+  const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>()
+
+  const convertDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const year = date.getFullYear()
+    const month = (date.getMonth() + 1).toString().padStart(2, "0")
+    const day = date.getDate().toString().padStart(2, "0")
+    const hours = date.getHours().toString().padStart(2, "0")
+    const minutes = date.getMinutes().toString().padStart(2, "0")
+    return `${year}.${month}.${day} ${hours}:${minutes}`
+  }
+
+  const convertedDate = convertDate(created_at)
+
+  const handleGoEdit = () => {
+    dispatch(setCurrentPost(responseData))
+    router.push(`/edit`)
+  }
 
   return (
     <div>
@@ -87,33 +113,45 @@ export default function FreeBoardDetail({
             <div className="flex justify-between">
               <GoBackButton label="목록" />
               <div className="flex gap-4">
-                <GreyButton label="수정" />
+                <GreyButton
+                  label="수정"
+                  onClick={handleGoEdit}
+                />
                 <GreyButton label="삭제" />
               </div>
             </div>
             <BoardTitleBox
-              category_id={category_id}
+              category_name={category_name}
               title={title}
-              nickname={nickname}
+              user_nickname={user_nickname}
+              user_image={user_image}
               hits={hits}
-              date={date}
+              created_at={convertedDate}
             />
           </div>
-          <BoardContentBox content={content} />
+          <BoardContentBox
+            content={content}
+            image_urls={image_urls}
+          />
           <div className="flex gap-4 m-auto mb-10">
             <UseFullButton
-              usefull={usefull}
+              usefull={reaction_type}
               count_reaction_type_good={
-                reaction_columns.count_reaction_type_good
+                reaction_columns ? reaction_columns.count_reaction_type_good : 0
               }
             />
             <NotUseFullButton
-              usefull={usefull}
-              count_reaction_type_bad={reaction_columns.count_reaction_type_bad}
+              usefull={reaction_type}
+              count_reaction_type_bad={
+                reaction_columns ? reaction_columns.count_reaction_type_bad : 0
+              }
             />
           </div>
         </div>
-        <CommentEdit count_of_comments={count_of_comments} />
+        <CommentEdit
+          id={id}
+          count_of_comments={count_of_comments}
+        />
         <div>
           {comments &&
             comments.map(item => (
