@@ -18,7 +18,7 @@ type Comment = {
 }
 
 type Post = {
-  id: string
+  id: number
   issaled: string
   isnew: boolean
   hits: string

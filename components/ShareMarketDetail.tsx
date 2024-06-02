@@ -26,6 +26,7 @@ type CommentData = {
 }
 
 type ResponseData = {
+  id: number
   title: string
   subcategory: string
   issaled: string
@@ -46,6 +47,7 @@ export default function ShareMarketDetail({
   responseData
 }: ShareMarketDetailProps) {
   const {
+    id,
     title,
     subcategory,
     issaled,
@@ -114,7 +116,10 @@ export default function ShareMarketDetail({
             </div>
           </div>
         </div>
-        <CommentEdit count_of_comments={count_of_comments} />
+        <CommentEdit
+          id={id}
+          count_of_comments={count_of_comments}
+        />
         <div>
           {comment &&
             comment.map(item => (
