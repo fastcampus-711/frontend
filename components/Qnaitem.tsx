@@ -14,7 +14,7 @@ type CommentData = {
 }
 
 type QnaItemProps = {
-  id: string
+  id: number
   isanswer: string
   isnew: boolean
   title: string
@@ -26,6 +26,7 @@ type QnaItemProps = {
 }
 
 export default function QnaItem({
+  id,
   isanswer,
   isnew,
   title,
@@ -78,7 +79,10 @@ export default function QnaItem({
             추가할 수 없습니다.
           </div>
         ) : (
-          <CommentEdit count_of_comments={count_of_comments} />
+          <CommentEdit
+            id={id}
+            count_of_comments={count_of_comments}
+          />
         )}
       </div>
       {commentsToShow.map(commentItem => (
