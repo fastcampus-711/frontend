@@ -67,7 +67,7 @@ export default async function Header() {
           <p className="text-white text-lg font-semibold">
             관리사무소(09:00~18:00) : Tel 1600-3123
           </p>
-          <div className="flex gap-2">
+          <div className="flex gap-6">
             <p>마이페이지</p>
             <p>로그아웃</p>
           </div>
@@ -97,7 +97,7 @@ export default async function Header() {
           <li>
             <Link
               href={"/notice"}
-              className="text-grey_900 text-lg font-bold">
+              className="text-grey_900 text-lg font-semibold">
               공지사항
             </Link>
           </li>
@@ -110,7 +110,7 @@ export default async function Header() {
           </li>
           <li>
             <Link
-              href={"/community/frees"}
+              href={"/community/frees?catid=0&page=1"}
               className="text-grey_900 text-lg font-semibold">
               소통공간
             </Link>
