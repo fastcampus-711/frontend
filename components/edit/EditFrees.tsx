@@ -349,8 +349,8 @@ export default function EditFrees() {
           />
         </div>
       </form>
-      <div className="inline-flex pl-[1024px] py-8 translate-y-[-108px]">
-        <GoBackButton label="목록" />
+      <div className="inline-flex pl-[1032px] py-8 translate-y-[-108px]">
+        <GoBackButton label="취소" />
       </div>
     </div>
   )

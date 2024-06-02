@@ -12,7 +12,7 @@ export default function PrimaryButton({
 }: PrimaryButtonProps) {
   return (
     <button
-      className={`font-semibold rounded-lg px-6 py-4 bg-primary text-white ${className}`}
+      className={`font-semibold rounded-lg px-6 py-4 bg-[#0f7375] text-white ${className}`}
       onClick={onClick}
       {...props}>
       {label}
