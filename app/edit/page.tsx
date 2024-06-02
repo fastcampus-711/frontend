@@ -7,7 +7,6 @@ import EditQna from "@/components/edit/EditQna"
 
 export default function Edit() {
   const category = useSelector((state: any) => state.category)
-
   let contentComponent
 
   if (category.value === "frees") {

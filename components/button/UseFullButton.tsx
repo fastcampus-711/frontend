@@ -4,7 +4,7 @@ import Image from "next/image"
 
 type UseFullButtonProps = {
   className?: string
-  usefull: boolean
+  usefull: boolean | null
   count_reaction_type_good: number
   onClick?: () => void
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
@@ -24,7 +24,7 @@ export default function UseFullButton({
   } else if (usefull === false) {
     style = "text-grey_250 border-grey_200"
     iconSrc = usefullDefaultIcon.src
-  } else if (usefull === undefined) {
+  } else if (usefull === null) {
     style = "text-grey_250 border-grey_200"
     iconSrc = usefullDefaultIcon.src
   }
