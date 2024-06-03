@@ -62,13 +62,13 @@ export default function AuthContent() {
                 <div className="flex flex-col gap-2 text-sm">
                     <span className="inline-flex gap-2">
                         {regularPhone[0].map((item, index) => (
-                            <button className={`px-4 py-2.5 rounded-lg border border-grey_100 ${btnClicked === index ? "bg-main_color text-grey_50" : "bg-grey_25"}`}
+                            <button key={`btn_${index}`} className={`px-4 py-2.5 rounded-lg border border-grey_100 ${btnClicked === index ? "bg-main_color text-grey_50" : "bg-grey_25"}`}
                                     onClick={() => setBtnClicked(index)}>{item}</button>
                         ))}
                     </span>
                     <span className="inline-flex gap-2">
                         {regularPhone[1].map((item, index) => (
-                            <button className={`px-4 py-2.5 rounded-lg border border-grey_100 ${btnClicked === index + 3? "bg-main_color text-grey_50" : "bg-grey_25"}`}
+                            <button key={`btn_${index+3}`} className={`px-4 py-2.5 rounded-lg border border-grey_100 ${btnClicked === index + 3? "bg-main_color text-grey_50" : "bg-grey_25"}`}
                                     onClick={() => setBtnClicked(index + 3)}>{item}</button>
                         ))}
                     </span>
