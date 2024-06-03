@@ -1,7 +1,10 @@
+import AuthContent from "@/components/AuthContent"
 import FindIdContent from "@/components/FindIdContent"
 import FindPwdContent from "@/components/FindPwdContent"
+import InputUserInfoContent from "@/components/InputUserInfoContent"
+import TermsContent from "@/components/TermsContent"
 
-export default async function Page({
+export default function Page({
   params
 }: {
   params: { category: string, item: string }
@@ -11,15 +14,26 @@ export default async function Page({
   let contentComponent
   let pageName
 
+  if(category === "find") {
+    pageName="아이디/비밀번호 찾기"
+  } else if(category === "join") {
+    pageName="회원가입"
+  } else {
+    pageName = "사용자"
+  }
+
   if (item === "by-name-and-phone") {
     contentComponent = <FindIdContent page={category}/>
-    pageName="아이디/비밀번호 찾기"
   } else if (item === "by-id-and-phone") {
     contentComponent = <FindPwdContent page={category}/>
-    pageName="아이디/비밀번호 찾기"
+  } else if(item === "terms") {
+    contentComponent = <TermsContent/>
+  } else if(item === "auth") {
+    contentComponent = <AuthContent/>
+  } else if(item === "signUp") {
+    contentComponent = <InputUserInfoContent/>
   } else {
     contentComponent = null
-    pageName="사용자"
   }
 
   return (

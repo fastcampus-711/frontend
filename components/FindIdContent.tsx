@@ -36,13 +36,13 @@ export default function FindIdContent({page} : {page: string}) {
             return;
         }
 
-        const response = await fetch(`http://localhost:3001/findId?name=${name}&phone=${phoneNumber}`)
-        const userData: User[] = await response.json()
+        // const response = await fetch(`http://localhost:3001/findId?name=${name}&phone=${phoneNumber}`)
+        // const userData: User[] = await response.json()
 
-        if(userData){
-            setFoundId(userData[0].id)      
-            setMessage(`'${name}' 님의 아이디는 '${foundId}'입니다.`)
-        }
+        // if(userData){
+        //     setFoundId(userData[0].id)      
+        //     setMessage(`'${name}' 님의 아이디는 '${foundId}'입니다.`)
+        // }
     }
 
     const buttonClassName = `px-4 py-6 grow shrink basis-0 
