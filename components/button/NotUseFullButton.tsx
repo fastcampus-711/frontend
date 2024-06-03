@@ -4,7 +4,7 @@ import Image from "next/image"
 
 type NotUseFullButtonProps = {
   className?: string
-  usefull: boolean | null
+  usefull: boolean | string
   count_reaction_type_bad: number
   onClick?: () => void
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
@@ -24,7 +24,7 @@ export default function NotUseFullButton({
   } else if (usefull === false) {
     style = "text-grey_900 border-grey_900"
     iconSrc = notUsefullActiveIcon.src
-  } else if (usefull === null) {
+  } else if (usefull === "DEFAULT") {
     style = "text-grey_250 border-grey_200"
     iconSrc = notUsefullDefaultIcon.src
   }

@@ -34,17 +34,18 @@ export default function EditFrees() {
   ]
 
   const typeOptions: Options[] = [
-    { value: 12, name: "생활・편의" },
-    { value: 13, name: "음식・카페" },
-    { value: 14, name: "병원・약국" },
-    { value: 15, name: "수리・시공" },
-    { value: 16, name: "투자・부동산" },
-    { value: 17, name: "교육・육아" },
-    { value: 18, name: "아파트・동네소식" },
-    { value: 19, name: "여행" },
-    { value: 20, name: "살림정보" },
-    { value: 21, name: "모임・동호회" },
-    { value: 22, name: "기타" }
+    { value: 12, name: "취미・운동" },
+    { value: 13, name: "생활・편의" },
+    { value: 14, name: "음식・카페" },
+    { value: 15, name: "병원・약국" },
+    { value: 16, name: "수리・시공" },
+    { value: 17, name: "투자・부동산" },
+    { value: 18, name: "교육・육아" },
+    { value: 19, name: "아파트・동네소식" },
+    { value: 20, name: "여행" },
+    { value: 21, name: "살림정보" },
+    { value: 22, name: "모임・동호회" },
+    { value: 23, name: "기타" }
   ]
 
   useEffect(() => {
