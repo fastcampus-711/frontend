@@ -67,9 +67,13 @@ export default async function Header() {
           <p className="text-white text-lg font-semibold">
             관리사무소(09:00~18:00) : Tel 1600-3123
           </p>
-          <div className="flex gap-6">
+          {/* <div className="flex gap-6">
             <p>마이페이지</p>
             <p>로그아웃</p>
+          </div> */}
+          <div className="flex gap-6">
+            <Link href="/join/terms">회원가입</Link>
+            <Link href="/login">로그인</Link>
           </div>
         </div>
       </div>
