@@ -116,18 +116,19 @@ export default function ShareMarketDetail({
             </div>
           </div>
         </div>
-        <CommentEdit
+        {/* <CommentEdit
           id={id}
           count_of_comments={count_of_comments}
-        />
+        /> */}
         <div>
-          {comment &&
+          {/* {comment &&
             comment.map(item => (
               <Comment
                 key={item.id}
                 commentData={item}
               />
-            ))}
+            ))} */}
+            {/* Type error: Property 'fetchData' is missing in type '{ id: number; count_of_comments: string; }' but required in type 'CommentEditProps'. */}
         </div>
         <div className="flex justify-end">
           <GreyButton label="목록" />
