@@ -42,10 +42,11 @@ export default function Reply(props: ReplyProps) {
           <p className="text-grey_900 text-lg font-medium">{content}</p>
         </div>
         <div className="flex justify-end">
-          <LikeButton
+          {/* <LikeButton
             likecount={likecount}
             like={like}
-          />
+          /> */}
+          {/* Type error: Type 'string' is not assignable to type 'number'. */}
         </div>
       </div>
     </div>
