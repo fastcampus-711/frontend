@@ -90,7 +90,10 @@ export default function MyFeeContent() {
                     관리비조회
                 </p>
             </div>
-            <BoardSubMenuBar option="fee" category="myfee" />
+            <div className="w-[250px]">
+                <BoardSubMenuBar option="fee" category="myfee" />
+            </div>
+            
             
             <div className="max-w-[1200px] m-auto pb-40">
                 <div className="flex justify-start items-start gap-6">
