@@ -20,7 +20,7 @@ export default async function Page({
     `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?catid=${catid}&keyword=${keyword}&page=${page}`
   )
   const responseData = await res.json()
-  let componentProps = { responseData, category, catid, page }
+  let componentProps = { responseData, category, keyword, catid, page }
   let contentComponent
 
   if (category === "qnas") {

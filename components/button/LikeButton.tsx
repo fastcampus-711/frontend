@@ -4,8 +4,8 @@ import Image from "next/image"
 
 type LikeButtonProps = {
   className?: string
-  likecount: string
-  like: boolean
+  likecount: number
+  like: boolean | String
   onClick?: () => void
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
@@ -18,13 +18,13 @@ export default function LikeButton({
   const likecount = props.likecount
   let style, iconSrc
 
-  if (like === true) {
+  if (like === "GOOD") {
     style = "border-black text-black"
     iconSrc = thumbActiveIcon.src
-  } else if (like === false) {
+  } else if (like === "BAD") {
     style = "border-grey_300 text-grey_250"
     iconSrc = thumbDefaultIcon.src
-  } else if (like === undefined) {
+  } else if (like === "DEFAULT") {
     style = "border-grey_300 text-grey_250"
     iconSrc = thumbDefaultIcon.src
   }

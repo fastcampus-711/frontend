@@ -12,6 +12,8 @@ import BoardTitleBox from "./board/BoardTitleBox"
 import BoardContentBox from "./board/BoardContentBox"
 import GoBackButton from "./button/GoBackButton"
 import GreyButton from "./button/GreyButton"
+import { useEffect, useState } from "react"
+import Pagination from "./pagination/pagination"
 
 type Reactions = {
   count_reaction_type_good: number
@@ -28,13 +30,15 @@ type ChildComment = {
 }
 
 type CommentData = {
-  nickname: string
-  date: string
-  id: string
+  comment_id: number
+  created_at: string
+  user_image: string
+  user_nickname: string
   content: string
-  like: boolean
-  likecount: string
   child_comments: ChildComment[]
+  post_id: number
+  reaction_columns: Reactions | null
+  reaction_type: boolean
 }
 
 type ResponseData = {
@@ -51,15 +55,17 @@ type ResponseData = {
   hits: number
   comments: CommentData[]
   created_at: string
-  reaction_type: boolean | null
+  reaction_type: boolean | string
 }
 
 type FreeBoardDetailProps = {
   responseData: ResponseData
+  category: string
 }
 
 export default function FreeBoardDetail({
-  responseData
+  responseData,
+  category
 }: FreeBoardDetailProps) {
   const {
     id,
@@ -75,13 +81,21 @@ export default function FreeBoardDetail({
       count_reaction_type_bad: 0
     },
     count_of_comments,
-    comments,
     created_at,
     reaction_type
   } = responseData
 
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
+  const [comments, setComments] = useState<CommentData[]>()
+  const [currentPage, setCurrentPage] = useState(1)
+  const [paginationData, setPaginationData] = useState<number[]>([])
+  const [countReactionGood, setCountReactionGood] = useState(
+    reaction_columns ? reaction_columns.count_reaction_type_good : 0
+  )
+  const [countReactionBad, setCountReactionBad] = useState(
+    reaction_columns ? reaction_columns.count_reaction_type_bad : 0
+  )
 
   const convertDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -95,9 +109,118 @@ export default function FreeBoardDetail({
 
   const convertedDate = convertDate(created_at)
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://711.ha-ving.store/boards/${id}/comments?limit=10&page=${currentPage}`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83OTI3MDIyOD92PTQiLCJwYXNzd29yZCI6IiQyYSQxMCRleHhmWXAveXZzNHpiY3cyRFNDalZlREFDaTVlcWZma01HaDlsVWwwTXFBRWRUM2h5WDVEeSIsInBob25lIjoiMDEwMTExMTIyMjIiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwibmlja25hbWUiOiJuaWNrbmFtZTEiLCJpZCI6MjEsInVzZXJuYW1lIjoidXNlciIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNzE3MDU5MjA5LCJleHAiOjE3MTk2NTEyMDl9.4bpxNGqYITfq2174mngAguJK3gQZ5gl7KzWB8N5eMQ4TV-e8_Ka7xlzCdGH8u6XEoiMywHZwJLM1_7tlAqtt0A"
+          },
+          cache: "no-store"
+        }
+      )
+      if (response.ok) {
+        const responseData = await response.json()
+        setPaginationData(responseData.data.pagination_bar_number)
+        setComments(responseData.data.posts.content)
+      }
+    } catch (error) {
+      console.error("에러 발생:", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [currentPage])
+
+  const handleReactionGood = async () => {
+    const data = {
+      target_id: id,
+      reaction_type: "GOOD"
+    }
+    try {
+      const response = await fetch("https://711.ha-ving.store/reactions/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83OTI3MDIyOD92PTQiLCJwYXNzd29yZCI6IiQyYSQxMCRleHhmWXAveXZzNHpiY3cyRFNDalZlREFDaTVlcWZma01HaDlsVWwwTXFBRWRUM2h5WDVEeSIsInBob25lIjoiMDEwMTExMTIyMjIiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwibmlja25hbWUiOiJuaWNrbmFtZTEiLCJpZCI6MjEsInVzZXJuYW1lIjoidXNlciIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNzE3MDU5MjA5LCJleHAiOjE3MTk2NTEyMDl9.4bpxNGqYITfq2174mngAguJK3gQZ5gl7KzWB8N5eMQ4TV-e8_Ka7xlzCdGH8u6XEoiMywHZwJLM1_7tlAqtt0A"
+        },
+        body: JSON.stringify(data)
+      })
+
+      if (response.ok) {
+        const responseData = await response.json()
+        console.log("반응 등록 성공:", responseData)
+      } else {
+        console.error("반응 등록을 실패했습니다.:", response.statusText)
+      }
+    } catch (error) {
+      console.error("에러 발생:", error)
+    }
+  }
+
+  const handleReactionBad = async () => {
+    const data = {
+      target_id: id,
+      reaction_type: "BAD"
+    }
+    try {
+      const response = await fetch("https://711.ha-ving.store/reactions/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83OTI3MDIyOD92PTQiLCJwYXNzd29yZCI6IiQyYSQxMCRleHhmWXAveXZzNHpiY3cyRFNDalZlREFDaTVlcWZma01HaDlsVWwwTXFBRWRUM2h5WDVEeSIsInBob25lIjoiMDEwMTExMTIyMjIiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwibmlja25hbWUiOiJuaWNrbmFtZTEiLCJpZCI6MjEsInVzZXJuYW1lIjoidXNlciIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNzE3MDU5MjA5LCJleHAiOjE3MTk2NTEyMDl9.4bpxNGqYITfq2174mngAguJK3gQZ5gl7KzWB8N5eMQ4TV-e8_Ka7xlzCdGH8u6XEoiMywHZwJLM1_7tlAqtt0A"
+        },
+        body: JSON.stringify(data)
+      })
+
+      if (response.ok) {
+        const responseData = await response.json()
+        console.log("반응 등록 성공:", responseData)
+      } else {
+        console.error("반응 등록을 실패했습니다.:", response.statusText)
+      }
+    } catch (error) {
+      console.error("에러 발생:", error)
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(
+        `https://711.ha-ving.store/boards/${category}/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83OTI3MDIyOD92PTQiLCJwYXNzd29yZCI6IiQyYSQxMCRleHhmWXAveXZzNHpiY3cyRFNDalZlREFDaTVlcWZma01HaDlsVWwwTXFBRWRUM2h5WDVEeSIsInBob25lIjoiMDEwMTExMTIyMjIiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwibmlja25hbWUiOiJuaWNrbmFtZTEiLCJpZCI6MjEsInVzZXJuYW1lIjoidXNlciIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNzE3MDU5MjA5LCJleHAiOjE3MTk2NTEyMDl9.4bpxNGqYITfq2174mngAguJK3gQZ5gl7KzWB8N5eMQ4TV-e8_Ka7xlzCdGH8u6XEoiMywHZwJLM1_7tlAqtt0A"
+          }
+        }
+      )
+      if (response.ok) {
+        const responseData = await response.json()
+        console.log("삭제 성공:", responseData)
+        router.back()
+      } else {
+        console.error("삭제를 실패했습니다.:", response.statusText)
+      }
+    } catch (error) {
+      console.error("에러 발생:", error)
+    }
+  }
+
   const handleGoEdit = () => {
     dispatch(setCurrentPost(responseData))
     router.push(`/edit`)
+  }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
   }
 
   return (
@@ -117,7 +240,10 @@ export default function FreeBoardDetail({
                   label="수정"
                   onClick={handleGoEdit}
                 />
-                <GreyButton label="삭제" />
+                <GreyButton
+                  label="삭제"
+                  onClick={handleDelete}
+                />
               </div>
             </div>
             <BoardTitleBox
@@ -136,33 +262,42 @@ export default function FreeBoardDetail({
           <div className="flex gap-4 m-auto mb-10">
             <UseFullButton
               usefull={reaction_type}
-              count_reaction_type_good={
-                reaction_columns ? reaction_columns.count_reaction_type_good : 0
-              }
+              count_reaction_type_good={countReactionGood}
+              onClick={handleReactionGood}
             />
             <NotUseFullButton
               usefull={reaction_type}
-              count_reaction_type_bad={
-                reaction_columns ? reaction_columns.count_reaction_type_bad : 0
-              }
+              count_reaction_type_bad={countReactionBad}
+              onClick={handleReactionBad}
             />
           </div>
         </div>
         <CommentEdit
           id={id}
           count_of_comments={count_of_comments}
+          fetchData={fetchData}
         />
         <div>
-          {comments &&
-            comments.map(item => (
-              <Comment
-                key={item.id}
-                commentData={item}
+          {comments && comments.length > 0 ? (
+            <>
+              {comments.map(item => (
+                <Comment
+                  key={item.comment_id}
+                  commentData={item}
+                  fetchData={fetchData}
+                />
+              ))}
+              <Pagination
+                paginationData={paginationData}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
               />
-            ))}
-        </div>
-        <div className="flex justify-center items-center text-grey_250 text-lg font-medium">
-          등록된 댓글이 없습니다.
+            </>
+          ) : (
+            <div className="flex justify-center items-center text-grey_250 text-lg font-medium">
+              등록된 댓글이 없습니다.
+            </div>
+          )}
         </div>
         <div className="flex justify-end">
           <GoBackButton label="목록" />
