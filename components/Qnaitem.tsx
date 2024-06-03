@@ -79,10 +79,11 @@ export default function QnaItem({
             추가할 수 없습니다.
           </div>
         ) : (
-          <CommentEdit
-            id={id}
-            count_of_comments={count_of_comments}
-          />
+          // <CommentEdit
+          //   id={id}
+          //   count_of_comments={count_of_comments}
+          // />
+          "" //에러나서 주석처리 해놓았습니다. 240603
         )}
       </div>
       {commentsToShow.map(commentItem => (
