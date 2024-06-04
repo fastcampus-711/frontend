@@ -21,12 +21,15 @@ type Reactions = {
 }
 
 type ChildComment = {
-  nickname: string
-  date: string
-  id: string
+  comment_id: number
+  created_at: string
+  user_image: string
+  user_nickname: string
   content: string
-  like: boolean
-  likecount: string
+  child_comments: ChildComment[]
+  post_id: number
+  reaction_columns: Reactions | null
+  reaction_type: string | null
 }
 
 type CommentData = {
@@ -38,7 +41,7 @@ type CommentData = {
   child_comments: ChildComment[]
   post_id: number
   reaction_columns: Reactions | null
-  reaction_type: boolean
+  reaction_type: string | null
 }
 
 type ResponseData = {
@@ -87,15 +90,16 @@ export default function FreeBoardDetail({
 
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
-  const [comments, setComments] = useState<CommentData[]>()
-  const [currentPage, setCurrentPage] = useState(1)
-  const [paginationData, setPaginationData] = useState<number[]>([])
+  const [reaction, setReaction] = useState<boolean | string>(reaction_type)
   const [countReactionGood, setCountReactionGood] = useState(
     reaction_columns ? reaction_columns.count_reaction_type_good : 0
   )
   const [countReactionBad, setCountReactionBad] = useState(
     reaction_columns ? reaction_columns.count_reaction_type_bad : 0
   )
+  const [comments, setComments] = useState<CommentData[]>()
+  const [currentPage, setCurrentPage] = useState(1)
+  const [paginationData, setPaginationData] = useState<number[]>([])
 
   const convertDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -154,6 +158,10 @@ export default function FreeBoardDetail({
       if (response.ok) {
         const responseData = await response.json()
         console.log("반응 등록 성공:", responseData)
+        setReaction(responseData.data.reaction_type)
+        setCountReactionGood(
+          responseData.data.reaction_colums.count_reaction_type_good
+        )
       } else {
         console.error("반응 등록을 실패했습니다.:", response.statusText)
       }
@@ -181,6 +189,10 @@ export default function FreeBoardDetail({
       if (response.ok) {
         const responseData = await response.json()
         console.log("반응 등록 성공:", responseData)
+        setReaction(responseData.data.reaction_type)
+        setCountReactionGood(
+          responseData.data.reaction_colums.count_reaction_type_bad
+        )
       } else {
         console.error("반응 등록을 실패했습니다.:", response.statusText)
       }
@@ -192,7 +204,7 @@ export default function FreeBoardDetail({
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://711.ha-ving.store/boards/${category}/${id}`,
+        `https://711.ha-ving.store/boards/frees/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -261,12 +273,12 @@ export default function FreeBoardDetail({
           />
           <div className="flex gap-4 m-auto mb-10">
             <UseFullButton
-              usefull={reaction_type}
+              usefull={reaction}
               count_reaction_type_good={countReactionGood}
               onClick={handleReactionGood}
             />
             <NotUseFullButton
-              usefull={reaction_type}
+              usefull={reaction}
               count_reaction_type_bad={countReactionBad}
               onClick={handleReactionBad}
             />

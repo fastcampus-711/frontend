@@ -197,9 +197,9 @@ export default function EditFrees() {
         const responseData = await response.json()
         console.log("게시물 등록 성공:", responseData)
         if (currentPost) {
-          router.push(`/community/${category.value}/${updatedItem.id}`)
+          router.push(`/boards/${category.value}/${updatedItem.id}`)
         } else {
-          router.push(`/community/${category.value}/${responseData.data.id}`)
+          router.push(`/boards/${category.value}/${responseData.data.id}`)
         }
       } else {
         console.error("게시물 등록을 실패했습니다.")

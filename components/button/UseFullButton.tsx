@@ -18,10 +18,10 @@ export default function UseFullButton({
   const count_of_good = props.count_reaction_type_good
   let style, iconSrc
 
-  if (usefull === true) {
+  if (usefull === "GOOD") {
     style = "text-primary border-primary"
     iconSrc = usefullActiveIcon.src
-  } else if (usefull === false) {
+  } else if (usefull === "BAD") {
     style = "text-grey_250 border-grey_200"
     iconSrc = usefullDefaultIcon.src
   } else if (usefull === "DEFAULT") {

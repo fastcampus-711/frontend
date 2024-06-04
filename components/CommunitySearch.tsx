@@ -26,12 +26,11 @@ export default function CommunitySearch({
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const title = formData.get("title")
-    console.log(title)
+    const keyword = formData.get("keyword")
+
+    console.log(keyword)
     console.log(category)
-    router.push(
-      `/community/${category}?catid=${catid}&keyword=${title}&page=${page}`
-    )
+    router.push(`/boards/${category}?catid=${catid}&keyword=${keyword}&page=1`)
     if (inputRef.current) {
       inputRef.current.value = ""
     }
@@ -47,8 +46,9 @@ export default function CommunitySearch({
           ref={inputRef}
           type="text"
           placeholder={placeholder}
-          name="title"
+          name="keyword"
           className="flex-1 bg-transparent"
+          autoComplete="off"
         />
         <button type="submit">
           <Image

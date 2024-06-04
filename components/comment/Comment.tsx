@@ -14,12 +14,15 @@ type Reactions = {
 }
 
 type ChildComment = {
-  nickname: string
-  date: string
-  id: string
+  comment_id: number
+  created_at: string
+  user_image: string
+  user_nickname: string
   content: string
-  like: boolean
-  likecount: string
+  child_comments: ChildComment[]
+  post_id: number
+  reaction_columns: Reactions | null
+  reaction_type: string | null
 }
 
 type CommentData = {
@@ -31,7 +34,7 @@ type CommentData = {
   child_comments: ChildComment[]
   post_id: number
   reaction_columns: Reactions | null
-  reaction_type: boolean
+  reaction_type: string | null
 }
 
 type CommentProps = {
@@ -52,10 +55,15 @@ export default function Comment(props: CommentProps) {
     reaction_columns,
     reaction_type
   } = commentData
+  const [reaction, setReaction] = useState<string | null>(reaction_type)
+  const [countReactionGood, setCountReactionGood] = useState(
+    reaction_columns ? reaction_columns.count_reaction_type_good : 0
+  )
   const [showModify, setShowModify] = useState(false)
   const [modifyContent, setModifyContent] = useState(content)
   const [showEdit, setShowEdit] = useState(false)
   const [contentData, setContentData] = useState(content)
+  const [reply, setReply] = useState("")
 
   const convertDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -68,6 +76,37 @@ export default function Comment(props: CommentProps) {
   }
 
   const convertedDate = convertDate(created_at)
+
+  const handleReply = async () => {
+    const url = `https://711.ha-ving.store/boards/${post_id}/comments`
+    const data = {
+      parent_comment_id: comment_id,
+      content: reply
+    }
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83OTI3MDIyOD92PTQiLCJwYXNzd29yZCI6IiQyYSQxMCRleHhmWXAveXZzNHpiY3cyRFNDalZlREFDaTVlcWZma01HaDlsVWwwTXFBRWRUM2h5WDVEeSIsInBob25lIjoiMDEwMTExMTIyMjIiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwibmlja25hbWUiOiJuaWNrbmFtZTEiLCJpZCI6MjEsInVzZXJuYW1lIjoidXNlciIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNzE3MDU5MjA5LCJleHAiOjE3MTk2NTEyMDl9.4bpxNGqYITfq2174mngAguJK3gQZ5gl7KzWB8N5eMQ4TV-e8_Ka7xlzCdGH8u6XEoiMywHZwJLM1_7tlAqtt0A"
+        },
+        body: JSON.stringify(data)
+      })
+
+      if (response.ok) {
+        const responseData = await response.json()
+        console.log("답글 등록 성공:", responseData)
+        setReply("")
+        fetchData()
+        setShowEdit(false)
+      } else {
+        console.error("답글 등록을 실패했습니다.:", response.statusText)
+      }
+    } catch (error) {
+      console.error("에러 발생:", error)
+    }
+  }
 
   const handleUpdate = async () => {
     const url = `https://711.ha-ving.store/boards/${post_id}/comments/${comment_id}`
@@ -120,6 +159,10 @@ export default function Comment(props: CommentProps) {
       if (response.ok) {
         const responseData = await response.json()
         console.log("좋아요 등록 성공:", responseData)
+        setReaction(responseData.data.reaction_type)
+        setCountReactionGood(
+          responseData.data.reaction_colums.count_reaction_type_good
+        )
       } else {
         console.error("좋아요 등록을 실패했습니다.:", response.statusText)
       }
@@ -214,10 +257,8 @@ export default function Comment(props: CommentProps) {
               onClick={() => setShowEdit(!showEdit)}
             />
             <LikeButton
-              likecount={
-                reaction_columns ? reaction_columns.count_reaction_type_good : 0
-              }
-              like={reaction_type}
+              likecount={countReactionGood}
+              like={reaction}
               onClick={handleLike}
             />
           </div>
@@ -225,14 +266,19 @@ export default function Comment(props: CommentProps) {
             <div className="flex flex-col gap-4">
               <textarea
                 maxLength={150}
-                placeholder="댓글을 입력해주세요 (최대 150자)"
-                className="w-full h-40 border border-grey_300 p-4"></textarea>
+                placeholder="답글을 입력해주세요 (최대 150자)"
+                className="w-full h-40 border border-grey_300 p-4"
+                value={reply}
+                onChange={e => setReply(e.target.value)}></textarea>
               <div className="flex justify-end gap-2">
                 <GreyButton
                   label="취소"
                   onClick={() => setShowEdit(false)}
                 />
-                <BlackButton label="등록" />
+                <BlackButton
+                  label="등록"
+                  onClick={handleReply}
+                />
               </div>
             </div>
           )}
@@ -240,8 +286,9 @@ export default function Comment(props: CommentProps) {
       </div>
       {child_comments.map(item => (
         <Reply
-          key={item.id}
+          key={item.comment_id}
           replyData={item}
+          fetchData={fetchData}
         />
       ))}
     </div>
