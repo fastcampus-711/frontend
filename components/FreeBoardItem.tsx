@@ -63,7 +63,7 @@ export default function FreeBoardItem({
           )}
           <Link
             className="mr-2"
-            href={visible ? `/community/frees/${id}` : "#"}
+            href={visible ? `/boards/frees/${id}` : "#"}
             onClick={handleClick}>
             <p className="font-medium">{title}</p>
           </Link>

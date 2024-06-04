@@ -18,10 +18,10 @@ export default function NotUseFullButton({
   const count_of_bad = props.count_reaction_type_bad
   let style, iconSrc
 
-  if (usefull === true) {
+  if (usefull === "GOOD") {
     style = "text-grey_250 border-grey_200"
     iconSrc = notUsefullDefaultIcon.src
-  } else if (usefull === false) {
+  } else if (usefull === "BAD") {
     style = "text-grey_900 border-grey_900"
     iconSrc = notUsefullActiveIcon.src
   } else if (usefull === "DEFAULT") {

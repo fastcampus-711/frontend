@@ -114,7 +114,7 @@ export default async function Header() {
           </li>
           <li>
             <Link
-              href={"/community/frees?catid=0&page=1"}
+              href={"/boards/frees?catid=0&page=1"}
               className="text-grey_900 text-lg font-semibold">
               소통공간
             </Link>

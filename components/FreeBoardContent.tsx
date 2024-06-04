@@ -386,7 +386,7 @@ export default function FreeBoardContent({
   const handleCategoryChange = (changedData: number) => {
     setSelectedCategory(changedData)
     router.push(
-      `/community/${category}?catid=${changedData}&keyword=${keyword}&page=1`
+      `/boards/${category}?catid=${changedData}&keyword=${keyword}&page=1`
     )
   }
 
@@ -398,7 +398,7 @@ export default function FreeBoardContent({
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     router.push(
-      `/community/${category}?catid=${selectedCategory}&keyword=${keyword}&page=${page}`
+      `/boards/${category}?catid=${selectedCategory}&keyword=${keyword}&page=${page}`
     )
   }
 
