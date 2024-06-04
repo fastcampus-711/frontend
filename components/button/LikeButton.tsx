@@ -5,7 +5,7 @@ import Image from "next/image"
 type LikeButtonProps = {
   className?: string
   likecount: number
-  like: boolean | String
+  like: string | null
   onClick?: () => void
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 

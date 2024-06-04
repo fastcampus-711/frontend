@@ -136,7 +136,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-3/5">
-          <Link href={"/community/frees?catid=0&page=1"}>
+          <Link href={"/boards/frees?catid=0&page=1"}>
             <div className="h-14 flex justify-between items-center px-4 mb-6 border-b bg-grey_50 rounded-lg">
               <div className="flex gap-4 items-center">
                 <span className="text-grey_900 text-2xl font-semibold leading-6">
@@ -162,7 +162,7 @@ export default function Home() {
           <div>
             <SubMenuBar
               option="community"
-              category=""
+              category="frees"
             />
           </div>
           <div>
