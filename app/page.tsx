@@ -162,7 +162,7 @@ export default function Home() {
           <div>
             <SubMenuBar
               option="community"
-              category=""
+              category="frees"
             />
           </div>
           <div>

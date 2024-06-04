@@ -63,7 +63,9 @@ export default function Fee() {
                 관리비조회
             </p>
         </div>
-        <BoardSubMenuBar option="fee" category="fee" />
+        <div className="w-[250px]">
+            <BoardSubMenuBar option="fee" category="fee" />
+        </div>
         <div className="max-w-[1200px] m-auto">
           <div className="w-[1200px] bg-grey_25 rounded-2xl border border-grey_200 px-5 py-10 flex flex-col gap-6">
             {/* <div className="inline-flex  rounded-tl-2xl rounded-tr-2xl"> */}

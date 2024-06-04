@@ -27,7 +27,7 @@ export default function LoginContent() {
     const router = useRouter();
 
     const onClickJoinButton = () => {
-        router.push("/join/terms")
+        router.push("/user/join/terms")
     }
     
     const width = 486;

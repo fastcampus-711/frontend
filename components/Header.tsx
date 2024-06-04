@@ -72,7 +72,7 @@ export default async function Header() {
             <p>로그아웃</p>
           </div> */}
           <div className="flex gap-6">
-            <Link href="/join/terms">회원가입</Link>
+            <Link href="/user/join/terms">회원가입</Link>
             <Link href="/login">로그인</Link>
           </div>
         </div>
@@ -128,7 +128,7 @@ export default async function Header() {
           </li>
           <li>
             <Link
-              href={"/fee"}
+              href={"/myfee"}
               className="text-grey_900 text-lg font-semibold">
               관리비조회
             </Link>

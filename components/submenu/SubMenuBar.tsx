@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function BoardSubMenuBar({
   option,
   category
@@ -34,27 +36,24 @@ export default function BoardSubMenuBar({
 
   return (
     // <div className="w-[1200px] h-14 justify-start items-start gap-[178px] inline-flex">
-    <div className="justify-start items-start flex">
-      <ul className="h-14 py-4 bg-white justify-center items-center gap-2.5 flex">
+    // <div>
+      <ul className="flex flex-1 justify-between items-center bg-white gap-2.5 hover:cursor-pointer">
         {options.map(opt => (
           <li
             key={opt.value}
-            className="me-2">
-            <a
+            className={`inline-flex w-full justify-center items-center text-lg py-3 px-4 ${
+              opt.value == category
+                ? "text-main_color border-b-2 border-main_color font-semibold"
+                : "text-grey_300 font-normal hover:border-b-2 hover:border-gray-200 "
+            }`}>
+            <Link
               key={opt.value}
               href={option === "fee" ? `/${opt.value}`:`/${option}/${opt.value}`}
-              className={`w-24 h-6 px-6 py-4 text-center font-['Pretendard']
-                                ${
-                                  opt.value == category
-                                    ? "text-main_color border-b-2 border-main_color text-[22px] font-semibold"
-                                    : "text-grey_300 text-xl font-normal hover:text-[22px] hover:border-b-2 hover:border-gray-200 "
-                                } `}>
-              {opt.name}
-            </a>
+              className={`px-6 text-center text-lg whitespace-nowrap`}>{opt.name}</Link>
           </li>
         ))}
       </ul>
-    </div>
+    // </div>
     // </div>
   )
 
