@@ -75,7 +75,7 @@ export default function EditFrees() {
       setContent(currentPost.content)
       setSelectedType(currentPost.category_id)
       if (currentPost.image_urls) {
-        setImageUrls(currentPost.imagesimage_urls)
+        setImageUrls(currentPost.image_urls)
       }
     }
   }, [currentPost])
