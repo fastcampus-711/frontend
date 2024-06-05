@@ -28,7 +28,7 @@ export default function BoardTitleBox(props: BoardTitleBox) {
           <div className="flex gap-4 items-center">
             <div className="w-10 h-10 overflow-hidden rounded-3xl bg-slate-200">
               <Image
-                src="https://avatars.githubusercontent.com/u/79270228?v=4"
+                src={user_image}
                 alt="유저이미지"
                 width={40}
                 height={40}

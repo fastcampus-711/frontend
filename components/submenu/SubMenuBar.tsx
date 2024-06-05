@@ -10,7 +10,7 @@ export default function BoardSubMenuBar({
   const communitySubOptions: { value: string; params: string; name: string }[] =
     [
       { value: "frees", params: "?catid=0&page=1", name: "자유 게시판" },
-      { value: "markets", params: "", name: "나눔장터" },
+      { value: "markets", params: "?catid=0&page=1", name: "나눔장터" },
       { value: "qnas", params: "", name: "QnA" }
     ]
   const noticeSubOptions = [
@@ -27,7 +27,7 @@ export default function BoardSubMenuBar({
   ]
 
   const options =
-    option == "community"
+    option == "boards"
       ? communitySubOptions
       : option == "notice"
         ? noticeSubOptions
