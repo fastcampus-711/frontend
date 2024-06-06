@@ -8,8 +8,6 @@ import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 import { Pagination, Navigation } from "swiper/modules"
-import AnsChoiceButton from "./button/AnsChoiceButton"
-import MeatballButton from "./button/MeatballButton"
 import SeeMoreButton from "./button/SeeMoreButton"
 import CommentEdit from "./comment/CommentEdit"
 import AnswerStateTag from "./tag/AnswerStateTag"
@@ -51,7 +49,7 @@ type CommentData = {
 type Post = {
   id: number
   user_image: string
-  isanswer: string
+  status: string
   isnew: boolean
   title: string
   image_urls?: string[] | null
@@ -65,7 +63,7 @@ type Post = {
 
 type QnaItemProps = {
   id: number
-  isanswer: string
+  status: string
   isnew: boolean
   user_image: string
   title: string
@@ -79,7 +77,7 @@ type QnaItemProps = {
 
 export default function QnaItem({
   id,
-  isanswer,
+  status,
   user_image,
   isnew,
   image_urls,
@@ -237,7 +235,7 @@ export default function QnaItem({
     <div className="border border-grey_200 rounded-lg mb-10">
       <div className="flex justify-between items-center px-10 py-4 border-b border-grey_50">
         <div className="flex gap-4 items-center">
-          <AnswerStateTag answer={isanswer} />
+          <AnswerStateTag status={status} />
           <p className="text-grey_900 text-lg font-medium">{title}</p>
         </div>
         <div className="flex gap-4">
@@ -318,17 +316,17 @@ export default function QnaItem({
         </div>
       </div>
       <div className="px-10 py-6">
-        {comments.length === 0 && (
-          <div className="flex justify-center items-center text-grey_250 text-lg font-medium">
-            등록된 답변이 없습니다.
-          </div>
-        )}
         {comments.length < 7 && (
           <CommentEdit
             id={id}
             count_of_comments={count_of_comments}
             fetchData={fetchData}
           />
+        )}
+        {comments.length === 0 && (
+          <div className="flex justify-center items-center text-grey_250 text-lg font-medium">
+            등록된 답변이 없습니다.
+          </div>
         )}
         {comments.length >= 7 && (
           <div className="flex justify-center items-center text-center bg-grey_100 w-full h-40 text-grey_250 text-lg font-medium border border-grey_200 p-4">

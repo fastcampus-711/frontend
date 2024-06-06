@@ -13,7 +13,29 @@ import familyImg from "@/public/img/family.png"
 import bannerMainImg from "@/public/img/banner_main.png"
 import CommunitySearch from "@/components/CommunitySearch"
 
-export default function Home() {
+export default async function Home() {
+  const freesRes = await fetch(
+    // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/frees?catid=0&page=1`
+  )
+  const freesData = await freesRes.json()
+
+  const marketsRes = await fetch(
+    // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/markets?catid=0&keyword=undefined&status=undefined&page=1`
+  )
+  const marketsData = await marketsRes.json()
+
+  // const qnaRes = await fetch(
+  //   // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
+  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/qna/markets?catid=0&keyword=undefined&status=undefined&page=1`
+  // )
+  // const qnaData = await qnaRes.json()
+
+  // console.log(freesData.posts.content)
+  // console.log(marketsData.posts.content)
+  // console.log(qnaData.posts.content)
+
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] m-auto mb-32">
       <div className="relative">
