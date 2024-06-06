@@ -17,9 +17,14 @@ export const GET = async (request: NextRequest) => {
 
   let url = `https://711.ha-ving.store/boards/qna?category-id=${catid}&page=${page}`
 
-  if (searchParams && keyword !== undefined && keyword !== "undefined") {
-    // url += `?keyword=${searchParams.get("keyword")}`
-    url = `https://711.ha-ving.store/boards/qna?category-id=${catid}&keyword=${keyword}&page=${page}`
+  if (keyword !== undefined && keyword !== "undefined") {
+    if (status !== undefined && status !== "undefined") {
+      url = `https://711.ha-ving.store/boards/qna?category-id=${catid}&keyword=${keyword}&status=${status}&page=${page}`
+    } else {
+      url = `https://711.ha-ving.store/boards/qna?category-id=${catid}&keyword=${keyword}&page=${page}`
+    }
+  } else if (status !== undefined && status !== "undefined") {
+    url = `https://711.ha-ving.store/boards/qna?category-id=${catid}&status=${status}&page=${page}`
   }
 
   try {
