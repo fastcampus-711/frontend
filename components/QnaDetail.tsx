@@ -8,5 +8,5 @@ export default function QnaDetail({
   responseData: ResponseData
 }) {
   console.log(responseData)
-  return <div>QnA 상세</div>
+  return <div>수정 테스트</div>
 }
