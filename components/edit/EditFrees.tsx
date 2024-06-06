@@ -64,7 +64,7 @@ export default function EditFrees() {
       setSelectedBoard(11)
     } else if (category.value === "markets") {
       setSelectedBoard(12)
-    } else if (category.value === "qnas") {
+    } else if (category.value === "qna") {
       setSelectedBoard(13)
     }
   }, [category.value])
@@ -75,7 +75,7 @@ export default function EditFrees() {
       setContent(currentPost.content)
       setSelectedType(currentPost.category_id)
       if (currentPost.image_urls) {
-        setImageUrls(currentPost.imagesimage_urls)
+        setImageUrls(currentPost.image_urls)
       }
     }
   }, [currentPost])
@@ -88,7 +88,7 @@ export default function EditFrees() {
     } else if (value === 12) {
       dispatch(setCategory("markets"))
     } else if (value === 13) {
-      dispatch(setCategory("qnas"))
+      dispatch(setCategory("qna"))
     }
   }
 

@@ -10,6 +10,7 @@ type CommunitySearchProps = {
   placeholder: string
   category: string
   catid: number
+  status?: string
   page: number
 }
 
@@ -18,6 +19,7 @@ export default function CommunitySearch({
   placeholder,
   category,
   catid,
+  status,
   page
 }: CommunitySearchProps) {
   const router = useRouter()
@@ -30,7 +32,21 @@ export default function CommunitySearch({
 
     console.log(keyword)
     console.log(category)
-    router.push(`/boards/${category}?catid=${catid}&keyword=${keyword}&page=1`)
+    console.log(status)
+
+    if (keyword === "undefined" || keyword === undefined || keyword === "") {
+      router.push(`/boards/${category}?catid=${catid}&page=1`)
+    } else {
+      if (category === "markets") {
+        router.push(
+          `/boards/${category}?catid=${catid}&keyword=${keyword}&status=${status}&page=1`
+        )
+      } else {
+        router.push(
+          `/boards/${category}?catid=${catid}&keyword=${keyword}&page=1`
+        )
+      }
+    }
     if (inputRef.current) {
       inputRef.current.value = ""
     }

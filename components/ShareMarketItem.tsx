@@ -1,38 +1,129 @@
+// import NewTag from "./tag/NewTag"
+// import TxStateTag from "./tag/TxStateTag"
+// import TxTypeTag from "./tag/TxTypeTag"
+
+// type ShareMarketItemProps = {
+//   issaled: string
+//   isnew: boolean
+//   subcategory: string
+//   title: string
+//   price: string
+//   nickname: string
+//   hits: string
+//   date: string
+// }
+
+// export default function ShareMarketItem({
+//   issaled,
+//   isnew,
+//   subcategory,
+//   title,
+//   price,
+//   nickname,
+//   hits,
+//   date
+// }: ShareMarketItemProps) {
+//   return (
+//     <div className="flex gap-6">
+//       <div className="w-[272px] h-[185px] bg-slate-200">img</div>
+//       <div className="flex flex-col justify-between py-2">
+//         <div>
+//           <TxTypeTag
+//             subcategory={subcategory}
+//             className="mr-2"
+//           />
+//           <TxStateTag issaled={issaled} />
+//           <div className="text-grey_900 text-lg font-semibold mt-2 mb-3 flex gap-2 items-center">
+//             <p>{title}</p>
+//             <span>{isnew ? <NewTag /> : ""}</span>
+//           </div>
+//           {price ? (
+//             <p className="text-grey_900 text-xl font-semibold">
+//               가격 :{price}원
+//             </p>
+//           ) : (
+//             ""
+//           )}
+//         </div>
+//         <div>
+//           <span className="text-grey_700 mr-6">{nickname}</span>
+//           <span className="text-grey_700">조회 {hits}</span>
+//           <p className="text-grey_250">{date}</p>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
+
+import Image from "next/image"
 import NewTag from "./tag/NewTag"
 import TxStateTag from "./tag/TxStateTag"
 import TxTypeTag from "./tag/TxTypeTag"
+import noImgImg from "@/public/img/no_img.png"
 
 type ShareMarketItemProps = {
-  issaled: string
-  isnew: boolean
-  subcategory: string
+  status: string
+  category_name: string
+  image_urls?: string[] | null
   title: string
   price: string
-  nickname: string
+  user_nickname: string
   hits: string
-  date: string
+  created_at: string
+  ishot: boolean
+  isnew: boolean
 }
 
 export default function ShareMarketItem({
-  issaled,
-  isnew,
-  subcategory,
+  status,
+  category_name,
+  image_urls,
   title,
   price,
-  nickname,
+  user_nickname,
   hits,
-  date
+  created_at,
+  ishot,
+  isnew
 }: ShareMarketItemProps) {
+  const convertDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const year = date.getFullYear()
+    const month = (date.getMonth() + 1).toString().padStart(2, "0")
+    const day = date.getDate().toString().padStart(2, "0")
+    return `${year}.${month}.${day}`
+  }
+
+  const convertedDate = convertDate(created_at)
+
   return (
     <div className="flex gap-6">
-      <div className="w-[272px] h-[185px] bg-slate-200">img</div>
-      <div className="flex flex-col justify-between py-2">
+      <div className="relative w-[272px] h-[185px] bg-slate-200">
+        {image_urls && image_urls.length > 0 ? (
+          <Image
+            src={image_urls[0]}
+            alt="이미지아이콘"
+            fill
+            style={{ objectFit: "cover" }}
+          />
+        ) : (
+          <Image
+            src={noImgImg.src}
+            width={0}
+            alt="이미지없음"
+            height={0}
+            sizes="100vw"
+            style={{ width: "272px", height: "auto" }}
+          />
+        )}
+      </div>
+      <div className="flex flex-1 flex-col justify-between py-2">
         <div>
           <TxTypeTag
-            subcategory={subcategory}
+            subcategory={category_name}
             className="mr-2"
           />
-          <TxStateTag issaled={issaled} />
+          <TxStateTag issaled={status} />
           <div className="text-grey_900 text-lg font-semibold mt-2 mb-3 flex gap-2 items-center">
             <p>{title}</p>
             <span>{isnew ? <NewTag /> : ""}</span>
@@ -45,10 +136,12 @@ export default function ShareMarketItem({
             ""
           )}
         </div>
-        <div>
-          <span className="text-grey_700 mr-6">{nickname}</span>
-          <span className="text-grey_700">조회 {hits}</span>
-          <p className="text-grey_250">{date}</p>
+        <div className="flex flex-col gap-2">
+          <span className="text-grey_700">{user_nickname}</span>
+          <div className="flex justify-between">
+            <span className="text-grey_700">조회 {hits}</span>
+            <span className="text-grey_250">{convertedDate}</span>
+          </div>
         </div>
       </div>
     </div>

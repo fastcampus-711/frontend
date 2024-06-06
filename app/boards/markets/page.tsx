@@ -1,22 +1,22 @@
-import FreeBoardContent from "@/components/FreeBoardContent"
 import CommunitySearch from "@/components/CommunitySearch"
 import BoardSubMenuBar from "@/components/submenu/SubMenuBar"
 import SetCategory from "@/components/SetCategory"
+import ShareMarketContent from "@/components/ShareMarketContent"
 
 export default async function Page({
   searchParams
 }: {
-  searchParams: { keyword: string; catid: number; page: number }
+  searchParams: { keyword: string; status: string; catid: number; page: number }
 }) {
-  const category = "frees"
-  const { keyword, catid, page } = searchParams
+  const category = "markets"
+  const { keyword, status, catid, page } = searchParams
 
   const res = await fetch(
     // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/frees?catid=${catid}&keyword=${keyword}&page=${page}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/markets?catid=${catid}&keyword=${keyword}&status=${status}&page=${page}`
   )
   const responseData = await res.json()
-  let componentProps = { responseData, category, keyword, catid, page }
+  let componentProps = { responseData, category, keyword, status, catid, page }
 
   return (
     <div className="max-w-[1200px] m-auto mb-40">
@@ -35,9 +35,10 @@ export default async function Page({
           className="flex-1 max-w-[480px]"
           catid={catid}
           page={page}
+          status={status}
         />
       </div>
-      <FreeBoardContent {...componentProps} />
+      <ShareMarketContent {...componentProps} />
     </div>
   )
 }

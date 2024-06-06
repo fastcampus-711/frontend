@@ -1,37 +1,22 @@
-import FreeBoardContent from "@/components/FreeBoardContent"
-import ShareMarketContent from "@/components/ShareMarketContent"
-import QnaContent from "@/components/QnaContent"
 import CommunitySearch from "@/components/CommunitySearch"
 import BoardSubMenuBar from "@/components/submenu/SubMenuBar"
 import SetCategory from "@/components/SetCategory"
+import QnaContent from "@/components/QnaContent"
 
 export default async function Page({
-  params,
   searchParams
 }: {
-  params: { category: string }
-  searchParams: { keyword: string; catid: number; page: number }
+  searchParams: { keyword: string; status: string; catid: number; page: number }
 }) {
-  const { category } = params
-  const { keyword, catid, page } = searchParams
+  const category = "qna"
+  const { keyword, status, catid, page } = searchParams
 
   const res = await fetch(
     // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?catid=${catid}&keyword=${keyword}&page=${page}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/qna?catid=${catid}&keyword=${keyword}&status=${status}&page=${page}`
   )
   const responseData = await res.json()
-  let componentProps = { responseData, category, keyword, catid, page }
-  let contentComponent
-
-  if (category === "qnas") {
-    contentComponent = <QnaContent {...componentProps} />
-  } else if (category === "markets") {
-    contentComponent = <ShareMarketContent {...componentProps} />
-  } else if (category === "frees") {
-    contentComponent = <FreeBoardContent {...componentProps} />
-  } else {
-    contentComponent = null
-  }
+  let componentProps = { responseData, category, keyword, status, catid, page }
 
   return (
     <div className="max-w-[1200px] m-auto mb-40">
@@ -41,7 +26,7 @@ export default async function Page({
       </div>
       <div className="flex justify-between">
         <BoardSubMenuBar
-          option="community"
+          option="boards"
           category={category}
         />
         <CommunitySearch
@@ -52,7 +37,7 @@ export default async function Page({
           page={page}
         />
       </div>
-      {contentComponent}
+      <QnaContent {...componentProps} />
     </div>
   )
 }

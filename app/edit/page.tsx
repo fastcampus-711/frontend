@@ -13,7 +13,7 @@ export default function Edit() {
     contentComponent = <EditFrees />
   } else if (category.value === "markets") {
     contentComponent = <EditMarkets />
-  } else if (category.value === "qnas") {
+  } else if (category.value === "qna") {
     contentComponent = <EditQna />
   }
 
