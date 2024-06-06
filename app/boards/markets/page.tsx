@@ -35,6 +35,7 @@ export default async function Page({
           className="flex-1 max-w-[480px]"
           catid={catid}
           page={page}
+          status={status}
         />
       </div>
       <ShareMarketContent {...componentProps} />

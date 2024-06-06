@@ -385,9 +385,13 @@ export default function FreeBoardContent({
 
   const handleCategoryChange = (changedData: number) => {
     setSelectedCategory(changedData)
-    router.push(
-      `/boards/${category}?catid=${changedData}&keyword=${keyword}&page=1`
-    )
+    if (keyword === "undefiend" || keyword === undefined) {
+      router.push(`/boards/${category}?catid=${changedData}&page=1`)
+    } else {
+      router.push(
+        `/boards/${category}?catid=${changedData}&keyword=${keyword}&page=1`
+      )
+    }
   }
 
   const handleGoEdit = () => {

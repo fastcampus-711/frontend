@@ -202,7 +202,7 @@ type Options = {
   name: string
 }
 
-export default function EditFrees() {
+export default function EditMarkets() {
   const router = useRouter()
   const currentPost = useSelector((state: any) => state.post.currentPost)
   const category = useSelector((state: any) => state.category)
@@ -240,7 +240,7 @@ export default function EditFrees() {
       setSelectedBoard(11)
     } else if (category.value === "markets") {
       setSelectedBoard(12)
-    } else if (category.value === "qnas") {
+    } else if (category.value === "qna") {
       setSelectedBoard(13)
     }
   }, [category.value])
@@ -264,7 +264,7 @@ export default function EditFrees() {
     } else if (value === 12) {
       dispatch(setCategory("markets"))
     } else if (value === 13) {
-      dispatch(setCategory("qnas"))
+      dispatch(setCategory("qna"))
     }
   }
 
@@ -444,8 +444,8 @@ export default function EditFrees() {
                 className="py-8">
                 <textarea
                   name="content"
-                  placeholder="내용을 입력해주세요 (최대 150자)"
-                  maxLength={150}
+                  placeholder="내용을 입력해주세요 (최대 2000자)"
+                  maxLength={2000}
                   value={content}
                   onChange={e => setContent(e.target.value)}
                   className="w-full h-40 bg-grey_50 p-4 rounded-xl"
