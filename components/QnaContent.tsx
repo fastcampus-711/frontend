@@ -21,7 +21,7 @@ type Comment = {
 type Post = {
   id: number
   user_image: string
-  isanswer: string
+  status: string
   isnew: boolean
   title: string
   image_urls?: string[] | null
@@ -56,20 +56,39 @@ export default function QnaContent({
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const [selectedCategory, setSelectedCategory] = useState(catid)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedStatus, setSelectedStatus] = useState("")
+  const [currentPage, setCurrentPage] = useState(page)
 
-  const categoryOptions = [
-    { value: "전체상태", name: "전체" },
-    { value: "답변대기", name: "답변대기" },
-    { value: "답변완료", name: "답변완료" },
-    { value: "답변채택", name: "답변채택" }
+  const statusOptions = [
+    { value: "ALL", name: "전체" },
+    { value: "AWAITING_RESPONSE", name: "답변대기" },
+    { value: "RESPONSE_ACCEPTED", name: "답변채택" }
   ]
 
-  const handleCategoryChange = (changedData: number) => {
-    setSelectedCategory(changedData)
-    router.push(
-      `/boards/${category}?catid=${changedData}&keyword=${keyword}&page=1`
-    )
+  const handleStatusChange = (changedData: string) => {
+    setSelectedStatus(changedData)
+    if (
+      (keyword === undefined || keyword === "" || keyword.trim() === "") &&
+      (changedData === undefined || changedData === "ALL" || changedData === "")
+    ) {
+      router.push(`/boards/${category}?catid=0&page=1`)
+    } else if (
+      (keyword === undefined || keyword === "" || keyword.trim() === "") &&
+      changedData !== undefined &&
+      changedData !== "ALL" &&
+      changedData !== ""
+    ) {
+      router.push(`/boards/${category}?catid=0&status=${changedData}&page=1`)
+    } else if (
+      keyword !== undefined &&
+      (changedData === undefined || changedData === "ALL" || changedData === "")
+    ) {
+      router.push(`/boards/${category}?catid=0&keyword=${keyword}&page=1`)
+    } else {
+      router.push(
+        `/boards/${category}?catid=0&keyword=${keyword}&status=${changedData}&page=1`
+      )
+    }
   }
 
   const handleGoEdit = () => {
@@ -79,9 +98,34 @@ export default function QnaContent({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    router.push(
-      `/boards/${category}?catid=${selectedCategory}&keyword=${keyword}&page=${page}`
-    )
+    if (
+      (keyword === undefined || keyword === "" || keyword.trim() === "") &&
+      (selectedStatus === undefined ||
+        selectedStatus === "ALL" ||
+        selectedStatus === "")
+    ) {
+      router.push(`/boards/${category}?catid=0&page=${page}`)
+    } else if (
+      (keyword === undefined || keyword === "" || keyword.trim() === "") &&
+      selectedStatus !== undefined &&
+      selectedStatus !== "ALL" &&
+      selectedStatus !== ""
+    ) {
+      router.push(
+        `/boards/${category}?catid=0&status=${selectedStatus}&page=${page}`
+      )
+    } else if (
+      keyword !== undefined &&
+      (selectedStatus === undefined ||
+        selectedStatus === "ALL" ||
+        selectedStatus === "")
+    ) {
+      router.push(`/boards/${category}?catid=0&keyword=${keyword}&page=${page}`)
+    } else {
+      router.push(
+        `/boards/${category}?catid=0&keyword=${keyword}&status=${selectedStatus}&page=${page}`
+      )
+    }
   }
 
   return (
@@ -89,8 +133,8 @@ export default function QnaContent({
       <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
         <DropDown
           label="답변상태"
-          options={categoryOptions}
-          event={handleCategoryChange}
+          options={statusOptions}
+          event={handleStatusChange}
         />
         <PrimaryButton
           label="글쓰기"
@@ -107,7 +151,7 @@ export default function QnaContent({
             image_urls={item.image_urls}
             title={item.title}
             content={item.content}
-            isanswer={item.isanswer}
+            status={item.status}
             isnew={item.isnew}
             created_at={item.created_at}
             count_of_comments={item.count_of_comments}

@@ -5,27 +5,28 @@ import Image from "next/image"
 
 type AnswerStateTagProps = {
   className?: string
-  answer: string
+  status: string
 }
 
 export default function AnswerStateTag({
   className,
   ...props
 }: AnswerStateTagProps) {
-  const answer = props.answer
+  const status = props.status
   let style, text, source, alter
-
-  if (answer === "answered") {
-    style = "text-grey_250"
-    text = "답변완료"
-    source = ansAnsweredIcon
-    alter = "답변완료 아이콘"
-  } else if (answer === "pending") {
+  console.log(status)
+  // if (status === "answered") {
+  //   style = "text-grey_250"
+  //   text = "답변완료"
+  //   source = ansAnsweredIcon
+  //   alter = "답변완료 아이콘"
+  // } else
+  if (status === "AWAITING_RESPONSE") {
     style = "text-[#002D5F]"
     text = "답변대기"
     source = ansPendingIcon
     alter = "답변대기 아이콘"
-  } else {
+  } else if (status === "RESPONSE_ACCEPTED") {
     style = "text-[#FF9111]"
     text = "답변채택"
     source = ansChoiceIcon
