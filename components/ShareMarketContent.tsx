@@ -208,7 +208,7 @@ export default function ShareMarketContent({
 
   const statusData = [
     {
-      id: " ",
+      id: "ALL",
       name: "전체"
     },
     {
@@ -237,16 +237,63 @@ export default function ShareMarketContent({
 
   const handleCategoryChange = (changedData: number) => {
     setSelectedCategory(changedData)
-    router.push(
-      `/boards/${category}?catid=${changedData}&keyword=${keyword}&status=${status}&page=1`
-    )
+
+    if (
+      (keyword === undefined || keyword === "" || keyword.trim() === "") &&
+      (status === undefined || status === "ALL" || status === "")
+    ) {
+      router.push(`/boards/${category}?catid=${changedData}&page=1`)
+    } else if (
+      (keyword === undefined || keyword === "" || keyword.trim() === "") &&
+      status !== undefined &&
+      status !== "ALL" &&
+      status !== ""
+    ) {
+      router.push(
+        `/boards/${category}?catid=${changedData}&status=${status}&page=1`
+      )
+    } else if (
+      keyword !== undefined &&
+      (status === undefined || status === "ALL" || status === "")
+    ) {
+      router.push(
+        `/boards/${category}?catid=${changedData}&keyword=${keyword}&page=1`
+      )
+    } else {
+      router.push(
+        `/boards/${category}?catid=${changedData}&keyword=${keyword}&status=${status}&page=1`
+      )
+    }
   }
 
   const handleStatusChange = (changedData: string) => {
     setSelectedStatus(changedData)
-    router.push(
-      `/boards/${category}?catid=${catid}&keyword=${keyword}&status=${changedData}&page=1`
-    )
+    console.log(typeof changedData)
+    console.log(changedData)
+
+    if (
+      changedData === "undefined" ||
+      changedData === undefined ||
+      changedData === "ALL"
+    ) {
+      if (keyword === undefined) {
+        router.push(`/boards/${category}?catid=${catid}&page=1`)
+      } else {
+        router.push(
+          `/boards/${category}?catid=${catid}&keyword=${keyword}&page=1`
+        )
+      }
+    } else {
+      if (keyword === undefined) {
+        router.push(
+          `/boards/${category}?catid=${catid}&status=${changedData}&page=1`
+        )
+      } else {
+        router.push(
+          `/boards/${category}?catid=${catid}&keyword=${keyword}&status=${changedData}&page=1`
+        )
+      }
+    }
   }
 
   const handleGoEdit = () => {
@@ -256,9 +303,37 @@ export default function ShareMarketContent({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    router.push(
-      `/boards/${category}?catid=${selectedCategory}&keyword=${keyword}&status=${selectedStatus}&page=${page}`
-    )
+
+    if (
+      (keyword === undefined || keyword === "" || keyword.trim() === "") &&
+      (selectedStatus === undefined ||
+        selectedStatus === "ALL" ||
+        selectedStatus === "")
+    ) {
+      router.push(`/boards/${category}?catid=${selectedCategory}&page=${page}`)
+    } else if (
+      (keyword === undefined || keyword === "" || keyword.trim() === "") &&
+      selectedStatus !== undefined &&
+      selectedStatus !== "ALL" &&
+      selectedStatus !== ""
+    ) {
+      router.push(
+        `/boards/${category}?catid=${selectedCategory}&status=${selectedStatus}&page=${page}`
+      )
+    } else if (
+      keyword !== undefined &&
+      (selectedStatus === undefined ||
+        selectedStatus === "ALL" ||
+        selectedStatus === "")
+    ) {
+      router.push(
+        `/boards/${category}?catid=${selectedCategory}&keyword=${keyword}&page=${page}`
+      )
+    } else {
+      router.push(
+        `/boards/${category}?catid=${selectedCategory}&keyword=${keyword}&status=${selectedStatus}&page=${page}`
+      )
+    }
   }
 
   return (

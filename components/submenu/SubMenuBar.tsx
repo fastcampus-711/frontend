@@ -11,7 +11,7 @@ export default function BoardSubMenuBar({
     [
       { value: "frees", params: "?catid=0&page=1", name: "자유 게시판" },
       { value: "markets", params: "?catid=0&page=1", name: "나눔장터" },
-      { value: "qnas", params: "", name: "QnA" }
+      { value: "qna", params: "?catid=0&page=1", name: "QnA" }
     ]
   const noticeSubOptions = [
     { value: "notice", params: "", name: "공지사항" },

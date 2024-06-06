@@ -2,9 +2,13 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { AppDispatch } from "@/redux/store"
+import { useDispatch } from "react-redux"
+import { clearCurrentPost } from "@/redux/slices/postSlice"
 import PrimaryButton from "./button/PrimaryButton"
 import DropDown from "./dropdown/DropDown"
 import QnaItem from "./Qnaitem"
+import Pagination from "./pagination/pagination"
 
 type Comment = {
   nickname: string
@@ -16,27 +20,43 @@ type Comment = {
 
 type Post = {
   id: number
+  user_image: string
   isanswer: string
   isnew: boolean
   title: string
+  image_urls?: string[] | null
   content: string
-  nickname: string
-  date: string
+  created_at: string
+  user_nickname: string
   count_of_comments: string
-  comment?: Comment[]
+  category_name: string
+  item: Post
 }
 
-type ResponseData = Post[]
+type ResponseData = {
+  posts: {
+    content: Post[]
+  }
+  pagination_bar_number: number[]
+}
 
 export default function QnaContent({
   responseData,
-  category
+  category,
+  keyword,
+  catid,
+  page
 }: {
   responseData: ResponseData
   category: string
+  keyword: string
+  catid: number
+  page: number
 }) {
   const router = useRouter()
-  const [selectedCategory, setSelectedCategory] = useState("전체카테고리")
+  const dispatch = useDispatch<AppDispatch>()
+  const [selectedCategory, setSelectedCategory] = useState(catid)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const categoryOptions = [
     { value: "전체상태", name: "전체" },
@@ -45,12 +65,23 @@ export default function QnaContent({
     { value: "답변채택", name: "답변채택" }
   ]
 
-  const handleCategoryChange = (changedData: string) => {
+  const handleCategoryChange = (changedData: number) => {
     setSelectedCategory(changedData)
+    router.push(
+      `/boards/${category}?catid=${changedData}&keyword=${keyword}&page=1`
+    )
   }
 
   const handleGoEdit = () => {
+    dispatch(clearCurrentPost())
     router.push("/edit")
+  }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    router.push(
+      `/boards/${category}?catid=${selectedCategory}&keyword=${keyword}&page=${page}`
+    )
   }
 
   return (
@@ -66,20 +97,28 @@ export default function QnaContent({
           onClick={handleGoEdit}
         />
       </div>
-      {responseData && responseData.map(item => (
-        <QnaItem
-          key={item.id}
-          id={item.id}
-          isanswer={item.isanswer}
-          isnew={item.isnew}
-          title={item.title}
-          content={item.content}
-          nickname={item.nickname}
-          date={item.date}
-          count_of_comments={item.count_of_comments}
-          comment={item.comment}
-        />
-      ))}
+      {responseData &&
+        responseData.posts.content.map(item => (
+          <QnaItem
+            key={item.id}
+            id={item.id}
+            user_nickname={item.user_nickname}
+            user_image={item.user_image}
+            image_urls={item.image_urls}
+            title={item.title}
+            content={item.content}
+            isanswer={item.isanswer}
+            isnew={item.isnew}
+            created_at={item.created_at}
+            count_of_comments={item.count_of_comments}
+            item={item}
+          />
+        ))}
+      <Pagination
+        paginationData={responseData.pagination_bar_number}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   )
 }

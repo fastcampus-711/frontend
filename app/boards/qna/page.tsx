@@ -1,19 +1,19 @@
 import CommunitySearch from "@/components/CommunitySearch"
 import BoardSubMenuBar from "@/components/submenu/SubMenuBar"
 import SetCategory from "@/components/SetCategory"
-import ShareMarketContent from "@/components/ShareMarketContent"
+import QnaContent from "@/components/QnaContent"
 
 export default async function Page({
   searchParams
 }: {
   searchParams: { keyword: string; status: string; catid: number; page: number }
 }) {
-  const category = "markets"
+  const category = "qna"
   const { keyword, status, catid, page } = searchParams
 
   const res = await fetch(
     // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/markets?catid=${catid}&keyword=${keyword}&status=${status}&page=${page}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/qna?catid=${catid}&keyword=${keyword}&status=${status}&page=${page}`
   )
   const responseData = await res.json()
   let componentProps = { responseData, category, keyword, status, catid, page }
@@ -35,10 +35,9 @@ export default async function Page({
           className="flex-1 max-w-[480px]"
           catid={catid}
           page={page}
-          status={status}
         />
       </div>
-      <ShareMarketContent {...componentProps} />
+      <QnaContent {...componentProps} />
     </div>
   )
 }
