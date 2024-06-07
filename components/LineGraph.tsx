@@ -5,7 +5,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels"
 import { useEffect, useRef, useState } from "react"
 import {  Line } from "react-chartjs-2"
 
-export default function LineGraph({year, month, datas} : {year:number, month:number, datas:any}) {
+export default function LineGraph({year, month, getData} : {year:number, month:number, getData:number[]}) {
     const [labels, setLabels] = useState<string[]>([])
     
     useEffect(() => {
@@ -17,7 +17,7 @@ export default function LineGraph({year, month, datas} : {year:number, month:num
     const data = {
         labels: labels,
         datasets: [{
-            data: datas,
+            data: getData,
             borderColor: "rgba(13, 120, 122, 1)",
             pointBackgroundColor: "rgba(13, 120, 122, 1)",
             pointRadius: 6, //포인터 반경 범위 

@@ -2,6 +2,12 @@ import DetailFeeContent from "@/components/DetailFeeContent";
 import MyFeeContent from "@/components/MyFeeContent";
 import fs from "fs";
 
+type api = {
+    success: boolean
+    status: number
+    timestamp: number
+    data: any
+}
 export default async function Page(
     {params, searchParams}
     : {params: { category: string }
@@ -14,7 +20,6 @@ export default async function Page(
     //     `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/fee/${category}?year=${year}&month=${month}`
     // )
 
-    // const responseData = await res.json()
     const feeFetch = async(type: string, year: number, month: number) => {
         try {
             let url = `https://711.ha-ving.store/maintenance-bills/${type}?year=${year}&month=${month}`
@@ -35,14 +40,15 @@ export default async function Page(
 
     if (category === "my") {
         await Promise.all([
-            feeFetch("circular-chart", year, month), 
-            feeFetch("summary", year, month), 
-            feeFetch("month-on-month", year, month),
-            feeFetch("year-on-year", year, month), 
-            feeFetch("square-on-square", year, month)
+            feeFetch("circular-chart", year, month), //도넛 차트 API
+            feeFetch("summary", year, month), //납기, 감면, 미납, 납기 후 API
+            feeFetch("month-on-month", year, month), //전월 대비 API
+            feeFetch("year-on-year", year, month), //전년 대비 API
+            feeFetch("square-on-square", year, month), //동일면적 API
+            feeFetch("details", year, month) //관리비 세부 정보 API
         ]).then((datas)=> {
-            const [circular, summary, month_on_month, year_on_year, square_on_square] = datas
-            componentProps = {year, month, circular, summary, month_on_month, year_on_year, square_on_square}
+            const [circular, summary, month_on_month, year_on_year, square_on_square, details] = datas
+            componentProps = {year, month, circular, summary, month_on_month, year_on_year, square_on_square, details}
             contentComponent = <MyFeeContent {...componentProps}/>
         }).catch((error) => {
             console.error("fee page(my) error: ", error)
@@ -50,9 +56,9 @@ export default async function Page(
     } 
     else if (category === "detail"){
         await Promise.all([
-            feeFetch("energy-consumption-status", year, month), 
-            feeFetch("details",year, month),
-            feeFetch("details", year, month-1)
+            feeFetch("energy-consumption-status", year, month), //에너지 소비현황 API
+            feeFetch("details",year, month), //당월 고지서 상세내역 API
+            feeFetch("details", year, Number(month)-Number(1)) //전월 고지서 상세내역 API
         ]).then((datas)=> {
             const [energy, details, lastYearDetails] = datas
             componentProps = {year, month, energy, details, lastYearDetails}

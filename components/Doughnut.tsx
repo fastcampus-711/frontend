@@ -19,49 +19,40 @@ type circular_chart_data = {
   etc_value: number
 }
 
-export default function DoughnutGraph({year, month} : {year:number, month:number}) {
-  const [labels, setLabels] = useState<string[]>([])
-  const [datas, setDatas] = useState<number[]>([])
-
-  const circularFetch = async () => {
-    try {
-        let url = `https://711.ha-ving.store/maintenance-bills/circular-chart?year=${year}&month=${month}`
-
-        const response = await fetch(url,{ cache: "no-store" })
-
-        if (response.ok) {
-            const circular_data = await response.json()
-            const data : circular_chart_data = circular_data.data
-
-            // const top5Labels = [data.rank_first_column_name, data.rank_second_column_name,
-            //   data.rank_third_column_name, data.rank_fourth_column_name, data.rank_fifth_column_name,
-            //   data.etc
-            // ]
-            const top5Labels = ["온수", "전기", "난방", "일반관리비", "수도", "기타"]
-            const top5Values = [data.rank_first_column_value, data.rank_second_column_value,
-              data.rank_third_column_value, data.rank_fourth_column_value, data.rank_fifth_column_value,
-              data.etc_value
-            ]
-            setLabels(top5Labels)
-            setDatas(top5Values)
-        }
-    } catch (error) {
-      console.error("도넛 차트 에러 발생:", error)
-    }
-  }
-
-  useEffect(() => {
-    circularFetch()
-  },[])
-
+export default function DoughnutGraph({year, month, getData, getLabel} : {year:number, month:number, getData:number[], getLabel:string[]}) {
   Chart.register(ArcElement, Tooltip, Legend);
 
+  const [datas, setDatas] = useState<number[]>(getData)
+  const [backgroundColor, setBackgroundColor] = useState<string[]>(["rgba(13, 120, 122, 1)"])
+
+  useEffect(() => {
+    const set = () => {
+      getData.map((item) => {
+        if(item === undefined) {
+          setDatas([100])
+          setBackgroundColor(["rgba(13, 120, 122, 1)"])
+        } else {
+          setDatas(getData)
+          setBackgroundColor([
+            "rgba(0, 168, 255, 1)",
+            "rgba(116, 79, 250, 1)",
+            "rgba(115, 61, 164, 1)",
+            "rgba(91, 80, 127, 1)",
+            "rgba(18, 197, 161, 1)",
+            "rgba(64, 212, 164, 1)"
+          ])
+        } 
+      })
+    }
+
+    set()
+    
+  },[getData])
+
   const options = {
-    // responsive: true,
     maintainAspectRatio: false,
-    // cutoutPercentage: 50,
     plugins: {
-      legend: {
+        legend: {
           display: true,
           position: "bottom" as const, //그냥 "bottom"은 에러남
           labels: {
@@ -72,44 +63,38 @@ export default function DoughnutGraph({year, month} : {year:number, month:number
               size: 15
             }
           }
+        },
+        tooltip: {
+          enabled: datas.length === 1 ? false: true
         }
-      },
-      tooltip: {
-        enabled: true
-      },
-      
-    }
+      }
+  }
 
   const data = {
-    labels: labels,
+    labels: datas.length === 1 ? [] : getLabel,
     datasets: [{
       data: datas,
-      backgroundColor: [
-        'rgba(0, 168, 255, 1)',
-        'rgba(116, 79, 250, 1)',
-        'rgba(115, 61, 164, 1)',
-        'rgba(91, 80, 127, 1)',
-        'rgba(18, 197, 161, 1)',
-        'rgba(64, 212, 164, 1)'
-      ],
+      backgroundColor: backgroundColor,
       hoverOffset:10,
       datalabels: {
+        display: datas.length === 1 ? false : true,
         labels: {
-          name: {
-            align: "center" as const,
-            font: {size: 15},
-            formatter: function(value: any, ctx: any) {
-              return ctx.chart.data.labels[ctx.dataIndex];
-            }
-          },
+            name: {
+              align: "center" as const,
+              font: {size: 15},
+              formatter: function(value: any, ctx: any) {
+                return ctx.chart.data.labels[ctx.dataIndex];
+              }
+            },
         },
         color: "white"
       }
     }]
   }
+
   return (
     // <div>
-      <Doughnut data={data} options={options}/>
+      <Doughnut data={data} options={options} />
     // </div>
   )
 }
