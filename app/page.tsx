@@ -11,30 +11,29 @@ import googlePlayImg from "@/public/img/google_play.png"
 import appStoreImg from "@/public/img/app_store.png"
 import familyImg from "@/public/img/family.png"
 import bannerMainImg from "@/public/img/banner_main.png"
-import CommunitySearch from "@/components/CommunitySearch"
+import CommunitySection from "@/components/main/CommunitySection"
+import NoticesSection from "@/components/main/NoticesSection"
 
 export default async function Home() {
   const freesRes = await fetch(
-    // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/frees?catid=0&page=1`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/frees?catid=0&keyword=undefined&page=1`
   )
-  const freesData = await freesRes.json()
-
   const marketsRes = await fetch(
-    // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
     `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/markets?catid=0&keyword=undefined&status=undefined&page=1`
   )
+  const qnaRes = await fetch(
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/qna?catid=0&keyword=undefined&status=undefined&page=1`
+  )
+  const noticesRes = await fetch(
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/notices?catid=0&keyword=undefined&page=1`
+  )
+
+  const freesData = await freesRes.json()
   const marketsData = await marketsRes.json()
+  const qnaData = await qnaRes.json()
+  const noticesData = await noticesRes.json()
 
-  // const qnaRes = await fetch(
-  //   // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
-  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/qna/markets?catid=0&keyword=undefined&status=undefined&page=1`
-  // )
-  // const qnaData = await qnaRes.json()
-
-  // console.log(freesData.posts.content)
-  // console.log(marketsData.posts.content)
-  // console.log(qnaData.posts.content)
+  console.log(noticesData)
 
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] m-auto mb-32">
@@ -89,131 +88,12 @@ export default async function Home() {
         </div>
       </div>
       <div className="flex w-full gap-6">
-        <div className="w-2/5">
-          <Link href={"/notice"}>
-            <div className="h-14 flex justify-between items-center px-4 mb-6 border-b bg-grey_50 rounded-lg">
-              <div className="flex gap-4 items-center">
-                <span className="text-grey_900 text-2xl font-semibold leading-6">
-                  공지사항
-                </span>
-              </div>
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M12 8L20 16L12 24"
-                  stroke="#656565"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </Link>
-          <div>
-            <div className="flex px-2 py-4">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                공동생활
-              </div>
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                다 같이 사용하는 아파트입니다. 층간소음에 유의해주시기를
-                바랍니다.
-              </p>
-            </div>
-            <div className="flex px-2 py-4">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                공사안내
-              </div>
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                지하주차장 누수 문제로 공사합니다. 5월 3일 (10:00~12:00)
-              </p>
-            </div>
-            <div className="flex px-2 py-4">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                관리비
-              </div>
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                4월 관리비 고지서 우편함에 있습니다.
-              </p>
-            </div>
-            <div className="flex px-2 py-4">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                선거관리위원회
-              </div>
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                동대표 투표 진행으로 선거위원 뽑습니다. 참여 부탁드립니다
-              </p>
-            </div>
-            <div className="flex px-2 py-4">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                기타
-              </div>
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                어린이를 위한 작은 도서관 시행합니다.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="w-3/5">
-          <Link href={"/boards/frees?catid=0&page=1"}>
-            <div className="h-14 flex justify-between items-center px-4 mb-6 border-b bg-grey_50 rounded-lg">
-              <div className="flex gap-4 items-center">
-                <span className="text-grey_900 text-2xl font-semibold leading-6">
-                  소통공간
-                </span>
-              </div>
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M12 8L20 16L12 24"
-                  stroke="#656565"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </Link>
-          <div>
-            <SubMenuBar
-              option="community"
-              category="frees"
-            />
-          </div>
-          <div>
-            <div className="flex px-2 py-4">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                아파트/동네소식
-              </div>
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                고3인데, 동네에 조용하게 공부할만한 스터디카페 추천해주세요
-              </p>
-            </div>
-            <div className="flex px-2 py-4">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                아파트/동네소식
-              </div>
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                작은 도서관 진행해서 아이들 데리고 가봤습니다~^^
-              </p>
-            </div>
-            <div className="flex px-2 py-4">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                아파트/동네소식
-              </div>
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                지하주차장 누수로 깜짝 놀랐네요.
-              </p>
-            </div>
-          </div>
-        </div>
+        <NoticesSection noticesData={noticesData.posts.content} />
+        <CommunitySection
+          freesData={freesData.posts.content}
+          marketsData={marketsData.posts.content}
+          qnaData={qnaData.posts.content}
+        />
       </div>
       <div className="flex w-full gap-6">
         <div className="w-2/5">
@@ -234,9 +114,9 @@ export default async function Home() {
                 <path
                   d="M12 8L20 16L12 24"
                   stroke="#656565"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>
@@ -282,9 +162,9 @@ export default async function Home() {
                 <path
                   d="M12 8L20 16L12 24"
                   stroke="#656565"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>
