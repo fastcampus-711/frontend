@@ -19,7 +19,7 @@ serviceAccount:
 
 image:
   repository: harbor.ha-ving.store/docker/711-front
-  tag: "13f9c66c6fa490145a4392d559cf761b91812209"
+  tag: "384bedc4f553c5867a09d2b37fed10e4a8010fbf"
   pullPolicy: IfNotPresent
 
 podAnnotations: {}
