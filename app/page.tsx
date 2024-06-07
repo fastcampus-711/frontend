@@ -15,25 +15,36 @@ import CommunitySection from "@/components/main/CommunitySection"
 import NoticesSection from "@/components/main/NoticesSection"
 
 export default async function Home() {
+  // const freesRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/frees?catid=0&keyword=undefined&page=1`
+  // )
+  // const marketsRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/markets?catid=0&keyword=undefined&status=undefined&page=1`
+  // )
+  // const qnaRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/qna?catid=0&keyword=undefined&status=undefined&page=1`
+  // )
+  // const noticesRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/notices?catid=0&keyword=undefined&page=1`
+  // )
+
   const freesRes = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/frees?catid=0&keyword=undefined&page=1`
+    `https://711.ha-ving.store/boards/frees?catid=0&page=1`
   )
   const marketsRes = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/markets?catid=0&keyword=undefined&status=undefined&page=1`
+    `https://711.ha-ving.store/boards/markets?catid=0&page=1`
   )
   const qnaRes = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/qna?catid=0&keyword=undefined&status=undefined&page=1`
+    `https://711.ha-ving.store/boards/qna?catid=0&page=1`
   )
   const noticesRes = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/notices?catid=0&keyword=undefined&page=1`
+    `https://711.ha-ving.store/boards/notices?catid=0&page=1`
   )
 
   const freesData = await freesRes.json()
   const marketsData = await marketsRes.json()
   const qnaData = await qnaRes.json()
   const noticesData = await noticesRes.json()
-
-  console.log(noticesData)
 
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] m-auto mb-32">
@@ -88,11 +99,11 @@ export default async function Home() {
         </div>
       </div>
       <div className="flex w-full gap-6">
-        <NoticesSection noticesData={noticesData.posts.content} />
+        <NoticesSection noticesData={noticesData.data.posts.content} />
         <CommunitySection
-          freesData={freesData.posts.content}
-          marketsData={marketsData.posts.content}
-          qnaData={qnaData.posts.content}
+          freesData={freesData.data.posts.content}
+          marketsData={marketsData.data.posts.content}
+          qnaData={qnaData.data.posts.content}
         />
       </div>
       <div className="flex w-full gap-6">
