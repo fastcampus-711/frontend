@@ -100,7 +100,7 @@ export default async function Header() {
           </li>
           <li>
             <Link
-              href={"/notice"}
+              href={"/boards/notices?catid=0&page=1"}
               className="text-grey_900 text-lg font-semibold">
               공지사항
             </Link>
