@@ -89,16 +89,36 @@ export default function EditMarkets() {
     setSelectedType(value)
   }
 
+  const validateFile = (file: File): boolean => {
+    const allowedExtensions = ["png", "jpg", "jpeg", "gif"]
+    const maxSize = 10 * 1024 * 1024 // 10MB
+
+    const extension = file.name.split(".").pop()?.toLowerCase()
+    if (!extension || !allowedExtensions.includes(extension)) {
+      alert("이미지는 PNG, JPG, GIF 형식만 업로드 가능합니다.")
+      return false
+    }
+
+    if (file.size > maxSize) {
+      alert("파일 크기는 최대 10MB를 넘을 수 없습니다.")
+      return false
+    }
+
+    return true
+  }
+
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const files = event.target.files
     if (files && files.length > 0) {
+      const validFiles = Array.from(files).filter(validateFile)
+      if (validFiles.length === 0) return
+
       const formData = new FormData()
-      Array.from(files).forEach((file, index) => {
+      validFiles.forEach(file => {
         formData.append("files", file)
       })
-
       try {
         const response = await fetch("https://711.ha-ving.store/attach", {
           method: "POST",

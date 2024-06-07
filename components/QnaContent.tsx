@@ -200,7 +200,7 @@ export default function QnaContent({
                 className="mb-8"
               />
               <div>
-                <span className="text-main_color">'{keyword}' </span>
+                <span className="text-main_color">&#39;{keyword}&#39; </span>
                 <span>에 대한 검색 결과가 </span>
                 <span className="text-main_color">0건 </span>
                 <span>입니다.</span>

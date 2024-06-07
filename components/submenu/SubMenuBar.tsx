@@ -42,7 +42,7 @@ export default function BoardSubMenuBar({
       {options.map(opt => (
         <li
           key={opt.value}
-          className={`inline-flex w-[144px] justify-center items-center text-lg py-3 px-4 ${
+          className={`inline-flex w-[144px] justify-center items-center text-lg ${
             opt.value == category
               ? "text-main_color border-b-2 border-main_color font-semibold"
               : "text-grey_300 font-normal hover:border-b-2 hover:border-gray-200 "
@@ -50,7 +50,7 @@ export default function BoardSubMenuBar({
           <Link
             key={opt.value}
             href={`/${option}/${opt.value}${opt.params}`}
-            className={`px-6 text-center text-lg whitespace-nowrap`}>
+            className={`w-full px-2 py-3 text-center text-lg whitespace-nowrap`}>
             {opt.name}
           </Link>
         </li>
