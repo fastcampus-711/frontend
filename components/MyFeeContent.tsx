@@ -271,8 +271,8 @@ export default function MyFeeContent({
                                     </span>
                                 </div>
                                 <div className="flex flex-col gap-6 text-right font-semibold">
-                                    {summaryData && summaryData.map((item) => (
-                                        <p>{item.toLocaleString('ko-KR')}원</p>
+                                    {summaryData && summaryData.map((item, index) => (
+                                        <p key={`${item}_${index}`}>{item.toLocaleString('ko-KR')}원</p>
                                     ))}
                                 </div>
                             </div>
