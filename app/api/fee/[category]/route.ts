@@ -1,11 +1,11 @@
 import type { NextRequest } from "next/server"
 import fs from "fs"
 
-export const config = {
-    api: {
-        bodyParser: false,
-    }
-}
+// export const config = {
+//     api: {
+//         bodyParser: false,
+//     }
+// }
 
 export const POST = async() => {
     console.log("POST start")
