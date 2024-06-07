@@ -55,8 +55,9 @@ const config: Config = {
         graph_up: "#FF5151",
         graph_down: "#0085FF",
 
-        
-
+        //increase & decrease
+        increase_color: "#FF2F2F",
+        decrease_color: "#0085FF"
       },
       screens: {
         small: "375px",

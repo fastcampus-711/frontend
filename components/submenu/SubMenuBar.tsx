@@ -22,8 +22,8 @@ export default function BoardSubMenuBar({
     { value: "", params: "", name: "나의민원" }
   ]
   const feeOptions = [
-    { value: "myfee", params: "", name: "우리집관리비" },
-    { value: "fee", params: "", name: "관리비 상세보기" }
+    { value: "my", params: "?year=2024&month=5", name: "우리집관리비" },
+    { value: "detail", params: "?year=2024&month=5", name: "관리비 상세보기" }
   ]
 
   const options =

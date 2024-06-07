@@ -13,6 +13,8 @@
     "@reduxjs/toolkit": "^2.2.5",
     "aws-sdk": "^2.1613.0",
     "chart.js": "^4.4.3",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "fs": "^0.0.1-security",
     "json-server": "^1.0.0-alpha.23",
     "next": "^14.2.3",
     "quill-image-resize-module-ts": "^3.0.3",
