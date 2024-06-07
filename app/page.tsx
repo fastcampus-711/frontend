@@ -29,16 +29,20 @@ export default async function Home() {
   // )
 
   const freesRes = await fetch(
-    `https://711.ha-ving.store/boards/frees?catid=0&page=1`
+    `https://711.ha-ving.store/boards/frees?catid=0&page=1`,
+    { cache: "no-store" }
   )
   const marketsRes = await fetch(
-    `https://711.ha-ving.store/boards/markets?catid=0&page=1`
+    `https://711.ha-ving.store/boards/markets?catid=0&page=1`,
+    { cache: "no-store" }
   )
   const qnaRes = await fetch(
-    `https://711.ha-ving.store/boards/qna?catid=0&page=1`
+    `https://711.ha-ving.store/boards/qna?catid=0&page=1`,
+    { cache: "no-store" }
   )
   const noticesRes = await fetch(
-    `https://711.ha-ving.store/boards/notices?catid=0&page=1`
+    `https://711.ha-ving.store/boards/notices?catid=0&page=1`,
+    { cache: "no-store" }
   )
 
   const freesData = await freesRes.json()
