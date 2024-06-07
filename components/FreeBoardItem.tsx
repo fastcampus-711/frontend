@@ -8,7 +8,7 @@ type FreeBoardItemProps = {
   id: number
   user_nickname: string
   category_name: string
-  title: string
+  title: string | React.ReactNode
   image_urls?: string[] | null
   visible: boolean
   count_reaction_type_good: number

@@ -238,9 +238,9 @@ export default function NoticesDetail({
   return (
     <div>
       <div className="flex gap-1 pb-6 text-grey_600 text-lg">
-        <span>소통공간</span>
-        <span>&gt;</span>
-        <span className="text-grey_900">자유게시판</span>
+        {/* <span>소통공간</span>
+        <span>&gt;</span> */}
+        <span className="text-grey_900">공지사항</span>
       </div>
       <div className="flex flex-col gap-12 mb-40">
         <div className="flex flex-col gap-10 border-b-[1px] border-grey_50 ">

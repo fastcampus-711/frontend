@@ -1,19 +1,32 @@
 "use client"
 
-import Link from "next/link"
 import { useState } from "react"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import Link from "next/link"
 import PopularTag from "../tag/PopularTag"
 import Image from "next/image"
 import imgIcon from "@/public/icon/img.svg"
 import NewTag from "../tag/NewTag"
 import Tab from "../tab/Tab"
+import ShareMarketItem from "../ShareMarketItem"
 
 type PostData = {
   id: number
+  status: string
+  isnew: boolean
+  hits: string
+  count_of_comments: string
+  category: string
   category_name: string
   title: string
-  image_urls: string[] | null
-  count_of_comments: number
+  content: string
+  image_urls?: string[] | null
+  price: string
+  user_nickname: string
+  created_at: string
+  comment?: Comment[]
   hot: boolean
   new: boolean
 }
@@ -29,6 +42,15 @@ export default function CommunitySection({
 }) {
   const [activeTab, setActiveTab] = useState("frees")
 
+  const settings = {
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 500,
+    autoplaySpeed: 5000
+  }
+
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }
@@ -40,7 +62,7 @@ export default function CommunitySection({
   ]
 
   return (
-    <div className="w-3/5">
+    <div className="w-3/5 max-w-[calc(60%-32px)]">
       <Link href={"/boards/frees?catid=0&page=1"}>
         <div className="h-14 flex justify-between items-center px-4 mb-6 border-b bg-grey_50 rounded-lg">
           <div className="flex gap-4 items-center">
@@ -64,134 +86,156 @@ export default function CommunitySection({
           </svg>
         </div>
       </Link>
-
       <Tab
         tabData={tabsData}
         activeTab={activeTab}
         handleTabChange={handleTabChange}
       />
-
       {activeTab === "frees" && (
         <div>
-          {freesData.slice(0, 4).map(item => (
-            <div
-              key={item.id}
-              className="flex px-2 py-4 border-b border-grey_200">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                {item.category_name}
+          {freesData && freesData.length > 0 ? (
+            freesData.slice(0, 3).map(item => (
+              <div
+                key={item.id}
+                className="flex px-2 py-4 border-b border-grey_200">
+                <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
+                  {item.category_name}
+                </div>
+                <Link
+                  href={`/boards/frees/${item.id}`}
+                  className="flex gap-2 px-2">
+                  {item.hot ? <PopularTag /> : ""}
+                  <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
+                    {item.title}
+                  </p>
+                </Link>
+                <div className="inline-flex">
+                  <span>
+                    {item.image_urls && item.image_urls.length > 0 ? (
+                      <Image
+                        src={imgIcon.src}
+                        alt="이미지아이콘"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        style={{ width: "24px", height: "auto" }}
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                  <span className="mx-[2px] text-[#FF5151]">
+                    [{item.count_of_comments}]
+                  </span>
+                  <span>{item.new ? <NewTag /> : ""}</span>
+                </div>
               </div>
-              <Link
-                href={`/boards/frees/${item.id}`}
-                className="flex gap-2 px-2">
-                {item.hot ? <PopularTag /> : ""}
-                <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
-                  {item.title}
-                </p>
-              </Link>
-              <div className="inline-flex">
-                <span>
-                  {item.image_urls && item.image_urls.length > 0 ? (
-                    <Image
-                      src={imgIcon.src}
-                      alt="이미지아이콘"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: "24px", height: "auto" }}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </span>
-                <span className="mx-[2px] text-[#FF5151]">
-                  [{item.count_of_comments}]
-                </span>
-                <span>{item.new ? <NewTag /> : ""}</span>
-              </div>
+            ))
+          ) : (
+            <div className="px-2 py-4 text-center text-grey_900 text-lg font-medium leading-[30px]">
+              등록된 게시물이 없습니다.
             </div>
-          ))}
+          )}
+          <div className="flex justify-end pt-4">
+            <Link
+              href={"/boards/frees?catid=0&page=1"}
+              className="text-grey_300 underline">
+              전체보기
+            </Link>
+          </div>
         </div>
       )}
       {activeTab === "markets" && (
         <div>
-          {marketsData.slice(0, 4).map(item => (
-            <div
-              key={item.id}
-              className="flex px-2 py-4 border-b border-grey_200">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                {item.category_name}
-              </div>
-              <Link
-                href={`/boards/markets/${item.id}`}
-                className="flex gap-2 px-2">
-                {item.hot ? <PopularTag /> : ""}
-                <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
-                  {item.title}
-                </p>
-              </Link>
-              <div className="inline-flex">
-                <span>
-                  {item.image_urls && item.image_urls.length > 0 ? (
-                    <Image
-                      src={imgIcon.src}
-                      alt="이미지아이콘"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: "24px", height: "auto" }}
+          {marketsData && marketsData.length > 0 ? (
+            <Slider {...settings}>
+              {marketsData.slice(0, 4).map(item => (
+                <div
+                  key={item.id}
+                  className="flex px-2 py-4 border-b border-grey_200">
+                  <Link href={`/boards/markets/${item.id}`}>
+                    <ShareMarketItem
+                      status={item.status}
+                      category_name={item.category_name}
+                      image_urls={item.image_urls}
+                      title={item.title}
+                      price={item.price}
+                      user_nickname={item.user_nickname}
+                      hits={item.hits}
+                      created_at={item.created_at}
+                      ishot={item.hot}
+                      isnew={item.new}
                     />
-                  ) : (
-                    ""
-                  )}
-                </span>
-                <span className="mx-[2px] text-[#FF5151]">
-                  [{item.count_of_comments}]
-                </span>
-                <span>{item.new ? <NewTag /> : ""}</span>
-              </div>
+                  </Link>
+                </div>
+              ))}
+            </Slider>
+          ) : (
+            <div className="px-2 py-4 text-center text-grey_900 text-lg font-medium leading-[30px]">
+              등록된 게시물이 없습니다.
             </div>
-          ))}
+          )}
+          <div className="flex justify-end pt-4">
+            <Link
+              href={"/boards/markets?catid=0&page=1"}
+              className="text-grey_300 underline">
+              전체보기
+            </Link>
+          </div>
         </div>
       )}
       {activeTab === "qna" && (
         <div>
-          {qnaData.slice(0, 4).map(item => (
-            <div
-              key={item.id}
-              className="flex px-2 py-4 border-b border-grey_200">
-              <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                {item.category_name}
+          {qnaData && qnaData.length > 0 ? (
+            qnaData.slice(0, 3).map(item => (
+              <div
+                key={item.id}
+                className="flex px-2 py-4 border-b border-grey_200">
+                <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
+                  {item.category_name}
+                </div>
+                <Link
+                  href={`/boards/qna?catid=0&page=1`}
+                  className="flex gap-2 px-2">
+                  {item.hot ? <PopularTag /> : ""}
+                  <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
+                    {item.title}
+                  </p>
+                </Link>
+                <div className="inline-flex">
+                  <span>
+                    {item.image_urls && item.image_urls.length > 0 ? (
+                      <Image
+                        src={imgIcon.src}
+                        alt="이미지아이콘"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        style={{ width: "24px", height: "auto" }}
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                  <span className="mx-[2px] text-[#FF5151]">
+                    [{item.count_of_comments}]
+                  </span>
+                  <span>{item.new ? <NewTag /> : ""}</span>
+                </div>
               </div>
-              <Link
-                href={`/boards/qna?catid=0&page=1`}
-                className="flex gap-2 px-2">
-                {item.hot ? <PopularTag /> : ""}
-                <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
-                  {item.title}
-                </p>
-              </Link>
-              <div className="inline-flex">
-                <span>
-                  {item.image_urls && item.image_urls.length > 0 ? (
-                    <Image
-                      src={imgIcon.src}
-                      alt="이미지아이콘"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: "24px", height: "auto" }}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </span>
-                <span className="mx-[2px] text-[#FF5151]">
-                  [{item.count_of_comments}]
-                </span>
-                <span>{item.new ? <NewTag /> : ""}</span>
-              </div>
+            ))
+          ) : (
+            <div className="px-2 py-4 text-center text-grey_900 text-lg font-medium leading-[30px]">
+              등록된 게시물이 없습니다.
             </div>
-          ))}
+          )}
+          <div className="flex justify-end pt-4">
+            <Link
+              href={"/boards/qna?catid=0&page=1"}
+              className="text-grey_300 underline">
+              전체보기
+            </Link>
+          </div>
         </div>
       )}
     </div>

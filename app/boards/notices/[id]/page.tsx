@@ -4,7 +4,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/notices/${id}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/notices/${id}`,
+    { cache: "no-store" }
   )
   const responseData = await res.json()
   const category = "notices"

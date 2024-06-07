@@ -38,11 +38,11 @@ export default function BoardSubMenuBar({
   return (
     // <div className="w-[1200px] h-14 justify-start items-start gap-[178px] inline-flex">
     // <div>
-    <ul className="flex flex-1 justify-between items-center bg-white gap-2.5 hover:cursor-pointer">
+    <ul className="flex flex-1 items-center bg-white gap-2.5 hover:cursor-pointer">
       {options.map(opt => (
         <li
           key={opt.value}
-          className={`inline-flex w-full justify-center items-center text-lg py-3 px-4 ${
+          className={`inline-flex w-[144px] justify-center items-center text-lg py-3 px-4 ${
             opt.value == category
               ? "text-main_color border-b-2 border-main_color font-semibold"
               : "text-grey_300 font-normal hover:border-b-2 hover:border-gray-200 "
