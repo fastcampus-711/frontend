@@ -128,7 +128,7 @@ export default async function Header() {
           </li>
           <li>
             <Link
-              href={"/myfee"}
+              href={`/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth()}`}
               className="text-grey_900 text-lg font-semibold">
               관리비조회
             </Link>
