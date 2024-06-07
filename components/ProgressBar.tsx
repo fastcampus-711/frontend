@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image"
 import icon from "@/public/icon/fee_samearea.svg"
 
-export default function Progressbar({progress}: {progress:number}){
+export default function Progressbar({progress, myfee}: {progress:number, myfee:number}){
     const [rate, setRate] = useState(0);
     const [toolTip, setToolTip] = useState(true);
 
@@ -12,9 +12,10 @@ export default function Progressbar({progress}: {progress:number}){
         const interval = setInterval(() => {
             setRate((prev) => prev < progress ? prev + 5 : prev)
         }, 30);
-    
+        if(myfee === undefined)
+            setRate(0)
         return () => clearInterval(interval);
-      }, []);
+      }, [myfee]);
     
     const handleClickIcon = () => {
         setToolTip(!toolTip)
@@ -27,7 +28,7 @@ export default function Progressbar({progress}: {progress:number}){
                 style={{width: `${rate+5}%`}}>
                 <div className="w-[93px] h-14 px-4 py-2 bg-grey_50 rounded flex-col justify-center items-center gap-1 inline-flex">
                     <div className="text-center text-teal-700 text-sm font-medium font-['Pretendard']">우리집</div>
-                    <div className="text-center text-teal-700 text-base font-semibold font-['Pretendard']">432,100</div>
+                    <div className="text-center text-teal-700 text-base font-semibold font-['Pretendard']">{myfee}</div>
                 </div>
             </div>
             <div className="w-full bg-grey_100 rounded-full h-2.5 dark:bg-gray-700">

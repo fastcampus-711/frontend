@@ -3,12 +3,12 @@
 import BoardSubMenuBar from "@/components/submenu/SubMenuBar"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-
+import HorizontalBar from "./HorizontalBar"
+import HalfDoughnutGraph from "./HalfDoughnut"
 import Image from "next/image"
 
 import feeIncrease from "@/public/icon/fee_increase.svg"
 import feeDecrease from "@/public/icon/fee_decrease.svg"
-import HorizontalBar from "./HorizontalBar"
 
 type id = {
   house_id: number
@@ -120,46 +120,33 @@ export default function DetailFeeContent({
   const [selectedYear, setSelectedYear] = useState(year)
   const [selectedMonth, setSelectedMonth] = useState(month)
 
-  // const [energyData, setEnergyData] = useState<number[]>([])
-  // const [detailData, setDetailData] = useState<number[]>([])
-
-  
   //energy
+  const [energyDatas, setEnergyDatas] = useState<energy[]>(energy && energy.data)
   const [energyIndex, setEnergyIndex] = useState(0)
   const categories = ["전기", "수도", "온수", "난방"]
-  const energyDatas : energy[] = energy.data
+  // const energyDatas : energy[] = energy && energy.data
 
   //details
-  const detailDatas: sub_maintenance_fee = details.data.sub_maintenance_fee
-  const lastDetailDatas: sub_maintenance_fee = lastYearDetails.data.sub_maintenance_fee
-  // const categories : {[label: string]: string}[] = [
-  //   {"전기": "ELECTRICITY"}, 
-  //   {"수도": "WATER"},
-  //   {"온수": "HOTWATER"},
-  //   {"난방": "HEATING"},
-  // ]
-
-
+  const detail : detailFee = details.data
+  const lastDetail : detailFee = lastYearDetails.data
+  const subFee : sub_maintenance_fee = detail && detail.sub_maintenance_fee
+  const lastSubFee : sub_maintenance_fee = lastDetail && lastDetail.sub_maintenance_fee
 
   const [category, setCategory] = useState("전기")
-  // const categories = ["전기", "수도", "온수", "난방"]
 
-  const detailCategories = ["일반 관리비", "청소비","경비비","소독비","승강기유지비","장기수선충당금","대표회의운영비"]
   const detailItems = [
-    {label: "일반 관리비", value1: detailDatas.general_maintenance_fee, value2:lastDetailDatas.general_maintenance_fee},
-    {label: "청소비", value1:detailDatas.cleaning_fee, value2:lastDetailDatas.cleaning_fee},
-    {label: "경비비", value1:detailDatas.security_fee, value2:lastDetailDatas.security_fee},
-    {label: "소독비", value1:detailDatas.dis_intection_fee, value2:lastDetailDatas.dis_intection_fee},
-    {label: "승강기유지비", value1:detailDatas.lift_fee, value2:lastDetailDatas.lift_fee},
-    {label: "장기수선충당금", value1:detailDatas.long_term_repairing_fee, value2:lastDetailDatas.long_term_repairing_fee},
-    {label: "대표회의운영비", value1:detailDatas.representative_meeting_fee, value2:lastDetailDatas.representative_meeting_fee},
+    {label: "일반 관리비", value1: subFee && subFee.general_maintenance_fee, value2:lastSubFee && lastSubFee.general_maintenance_fee},
+    {label: "청소비", value1:subFee && subFee.cleaning_fee, value2:lastSubFee && lastSubFee.cleaning_fee},
+    {label: "경비비", value1:subFee && subFee.security_fee, value2:lastSubFee && lastSubFee.security_fee},
+    {label: "소독비", value1:subFee && subFee.dis_intection_fee, value2:lastSubFee && lastSubFee.dis_intection_fee},
+    {label: "승강기유지비", value1:subFee && subFee.lift_fee, value2:lastSubFee && lastSubFee.lift_fee},
+    {label: "장기수선충당금", value1:subFee && subFee.long_term_repairing_fee, value2:lastSubFee && lastSubFee.long_term_repairing_fee},
+    {label: "대표회의운영비", value1:subFee && subFee.representative_meeting_fee, value2:lastSubFee && lastSubFee.representative_meeting_fee},
   ]
 
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1; //왜 4월로 나오지...?
 
-  // const [year, setYear] = useState(currentYear)
-  // const [month, setMonth] = useState(currentMonth)
   const [startMonth, setStartMonth] = useState(1)
   const [endMonth, setEndMonth] = useState(12)
 
@@ -168,18 +155,22 @@ export default function DetailFeeContent({
   const MoveInMonth = 5
 
 
-  const compareMonthUsage =  Math.round((
+  const compareMonthUsage =  energyDatas && Math.round((
     energyDatas[energyIndex].present_usage
     - energyDatas[energyIndex].last_year_usage) 
     /energyDatas[energyIndex].present_usage
     * 100)
-  const compareAverageUsage = Math.round((
+  const compareAverageUsage = energyDatas && Math.round((
     energyDatas[energyIndex].present_usage
     - energyDatas[energyIndex].average_usage_of_same_square) 
     /energyDatas[energyIndex].present_usage
     * 100)
 
   const router = useRouter()
+  
+  useEffect(() => {
+    router.push(`/fee/detail?year=${selectedYear}&month=${selectedMonth}`)
+  }, [selectedYear, selectedMonth])
   
   useEffect(() => {
     if(selectedYear === currentYear) {
@@ -193,7 +184,7 @@ export default function DetailFeeContent({
         setEndMonth(12)
         setStartMonth(1)
     }
-    router.push(`/fee/detail?year=${selectedYear}&month=${selectedMonth}`)
+    
   }, [selectedYear, selectedMonth])
 
   const handleSelectYearChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
@@ -205,9 +196,6 @@ export default function DetailFeeContent({
       setSelectedMonth(select)
   }
 
-  const handleClickCategory = () =>{
-
-  }
   return (
     <>
       <div className="flex flex-col gap-8 max-w-[1200px] m-auto pb-10">
@@ -271,7 +259,6 @@ export default function DetailFeeContent({
                         <p className="text-main_color px-1">[{category}] </p>
                         <p>사용량/금액 비교</p>
                       </div>
-                      {/* <span className="inline-flex p-2 gap-1 text-base font-medium">전년동월 대비</span> */}
                       <div className="inline-flex p-2 justify-start items-center gap-1 text-base font-medium">
                           <span>
                               전년동월 대비{" "}
@@ -288,22 +275,22 @@ export default function DetailFeeContent({
                       </div>
                     </div>
                     <div className="w-[528px] h-[175px]">
-                      <HorizontalBar year={selectedYear} month={selectedMonth} datas={[energyDatas[energyIndex].last_year_fee, energyDatas[energyIndex].present_fee]}/>
+                      <HorizontalBar year={selectedYear} month={selectedMonth} datas={energyDatas && [energyDatas[energyIndex].last_year_fee, energyDatas && energyDatas[energyIndex].present_fee]}/>
                     </div>
                     <div className="flex justify-between px-6 py-4  rounded-lg border border-grey_200 ">
                       <div className="w-1/2 flex flex-col gap-2 border-r border-grey_200 pr-6">
                         <div className="flex justify-between items-center gap-2">
                           <p className="text-grey_300 text-sm font-normal">{selectedYear-1}년 {selectedMonth}월</p>
-                          <p className="text-right text-base text-grey_500 font-normal">{energyDatas[energyIndex].last_year_fee.toLocaleString('ko-KR')}원</p>
+                          <p className="text-right text-base text-grey_500 font-normal">{energyDatas && energyDatas[energyIndex].last_year_fee.toLocaleString('ko-KR')}원</p>
                         </div>
-                        <p className="text-right text-grey_300 text-sm">{energyDatas[energyIndex].last_year_usage} kWh</p>
+                        <p className="text-right text-grey_300 text-sm">{energyDatas && energyDatas[energyIndex].last_year_usage} kWh</p>
                       </div>
                       <div className="w-1/2 flex flex-col gap-2 pl-6">
                         <div className="flex justify-between items-center gap-2">
                           <p className="text-sm font-normal">{selectedYear}년 {selectedMonth}월</p>
-                          <p className="text-right text-base text-main_color font-semibold">{energyDatas[energyIndex].present_fee.toLocaleString('ko-KR')}원</p>
+                          <p className="text-right text-base text-main_color font-semibold">{energyDatas && energyDatas[energyIndex].present_fee.toLocaleString('ko-KR')}원</p>
                         </div>
-                        <p className="text-right text-main_color text-sm">{energyDatas[energyIndex].present_usage} kWh</p>
+                        <p className="text-right text-main_color text-sm">{energyDatas && energyDatas[energyIndex].present_usage} kWh</p>
                       </div>
                     </div>
                   </div>
@@ -319,7 +306,7 @@ export default function DetailFeeContent({
                           <span>
                               평균 대비{" "}
                           </span>
-                          <span className={`flex flex-nowrap gap-1 ${(compareAverageUsage > 0) ? "text-increase_color" : "text-decreaseColor"}`}>
+                          <span className={`flex flex-nowrap gap-1 ${(compareAverageUsage > 0) ? "text-increase_color" : "text-decrease_color"}`}>
                               {compareAverageUsage}%
                               <Image
                                   src={(compareAverageUsage > 0) ? feeIncrease.src : feeDecrease.src}
@@ -353,16 +340,16 @@ export default function DetailFeeContent({
                       <div className="w-1/2 flex flex-col gap-2 border-r border-grey_200 pr-6">
                         <div className="flex justify-between items-center gap-2">
                           <p className="text-grey_300 text-sm font-normal">아파트 평균 금액</p>
-                          <p className="text-right text-base text-grey_500 font-normal">{energyDatas[energyIndex].average_fee_of_same_square.toLocaleString('ko-KR')}원</p>
+                          <p className="text-right text-base text-grey_500 font-normal">{energyDatas && energyDatas[energyIndex].average_fee_of_same_square.toLocaleString('ko-KR')}원</p>
                         </div>
-                        <p className="text-right text-grey_300 text-sm">{energyDatas[energyIndex].average_usage_of_same_square.toLocaleString('ko-KR')} kWh</p>
+                        <p className="text-right text-grey_300 text-sm">{energyDatas && energyDatas[energyIndex].average_usage_of_same_square.toLocaleString('ko-KR')} kWh</p>
                       </div>
                       <div className="w-1/2 flex flex-col gap-2 pl-6">
                         <div className="flex justify-between items-center gap-2">
                           <p className="text-sm font-normal">우리집 사용 금액</p>
-                          <p className="text-right text-base text-main_color font-semibold">{energyDatas[energyIndex].present_fee.toLocaleString('ko-KR')}원</p>
+                          <p className="text-right text-base text-main_color font-semibold">{energyDatas && energyDatas[energyIndex].present_fee.toLocaleString('ko-KR')}원</p>
                         </div>
-                        <p className="text-right text-main_color text-sm">{energyDatas[energyIndex].present_usage} kWh</p>
+                        <p className="text-right text-main_color text-sm">{energyDatas && energyDatas[energyIndex].present_usage} kWh</p>
                       </div>
                     </div>
                   </div>               
@@ -384,30 +371,21 @@ export default function DetailFeeContent({
                 </span>
               </div>
               <div className="flex flex-col justify-start">
-                {/* {detailItems.map((item, index) => (
-                  <div key={index} className="px-10 py-6 flex justify-between">
-                    <p className="w-[750px] text-left text-lg font-medium">{item.label}</p>
-                    <span className="w-full flex gap-[130px]">
-                      <p className="w-full text-right text-lg font-semibold">{item.value1.toLocaleString('ko-KR')}원</p>
-                      <p className="w-full text-right text-lg font-semibold">{item.value2.toLocaleString('ko-KR')}원</p>
-                      <p className={`w-full text-right text-lg font-semibold 
-                                  ${(item.value1 - item.value2) > 0 ? "text-increase_color" 
-                                  : (item.value1 - item.value2) === 0 ? "text-grey_500" : "text-decrease_color"}`}>
-                        {(item.value1 - item.value2) > 0 ? "+" : ""}{(item.value1 - item.value2) === 0 ? "-" : (item.value1 - item.value2).toLocaleString('ko-KR')}원
-                      </p>
-                    </span>
-                  </div>
-                ))} */}
                 {detailItems && detailItems.map((item, index) => (
                   <div key={index} className="px-10 py-6 flex justify-between">
                     <p className="w-[750px] text-left text-lg font-medium">{item.label}</p>
                     <span className="w-full flex gap-[130px]">
-                      <p className="w-full text-right text-lg font-semibold">{item.value1.toLocaleString('ko-KR')}원</p>
-                      <p className="w-full text-right text-lg font-semibold">{item.value2.toLocaleString('ko-KR')}원</p>
+                      <p className="w-full text-right text-lg font-semibold">{item.value1 === undefined ? "-" : item.value1.toLocaleString('ko-KR')}원</p>
+                      <p className="w-full text-right text-lg font-semibold">{item.value2 === undefined ? "-" : item.value2.toLocaleString('ko-KR')}원</p>
                       <p className={`w-full text-right text-lg font-semibold 
-                                  ${(item.value1 - item.value2) > 0 ? "text-increase_color" 
-                                  : (item.value1 - item.value2) === 0 ? "text-grey_500" : "text-decrease_color"}`}>
-                        {(item.value1 - item.value2) > 0 ? "+" : ""}{(item.value1 - item.value2) === 0 ? "-" : (item.value1 - item.value2).toLocaleString('ko-KR')}원
+                                  ${item.value1 !== undefined && item.value2 !== undefined && (item.value1 - item.value2) > 0 ? "text-increase_color" 
+                                  : item.value1 !== undefined && item.value2 !== undefined && (item.value1 - item.value2) < 0 ? "text-decrease_color" : "text-grey_500"}`}>
+                        {item.value1 !== undefined && item.value2 !== undefined && 
+                          ((item.value1 - item.value2) > 0)
+                          ? `+${(item.value1 - item.value2).toLocaleString('ko-KR')}원`
+                          : ((item.value1 - item.value2) < 0 
+                            ? `${(item.value1 - item.value2).toLocaleString('ko-KR')}원`
+                            : "-")}
                       </p>
                     </span>
                   </div>
