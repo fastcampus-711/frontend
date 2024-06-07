@@ -49,11 +49,7 @@ export default function BoardSubMenuBar({
           }`}>
           <Link
             key={opt.value}
-            href={
-              option === "fee"
-                ? `/${opt.value}`
-                : `/${option}/${opt.value}${opt.params}`
-            }
+            href={`/${option}/${opt.value}${opt.params}`}
             className={`px-6 text-center text-lg whitespace-nowrap`}>
             {opt.name}
           </Link>
