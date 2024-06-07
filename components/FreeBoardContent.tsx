@@ -9,6 +9,8 @@ import PrimaryButton from "./button/PrimaryButton"
 import FreeBoardItem from "./FreeBoardItem"
 import DropDown from "./dropdown/DropDown"
 import Pagination from "./pagination/pagination"
+import warningImg from "@/public/img/warning.png"
+import Image from "next/image"
 
 type Reactions = {
   count_reaction_type_good: number
@@ -65,6 +67,7 @@ export default function FreeBoardContent({
   catid: number
   page: number
 }) {
+  console.log(keyword)
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const [selectedCategory, setSelectedCategory] = useState(catid)
@@ -173,44 +176,68 @@ export default function FreeBoardContent({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    router.push(
-      `/boards/${category}?catid=${selectedCategory}&keyword=${keyword}&page=${page}`
+    if (keyword === "undefined" || keyword === undefined) {
+      router.push(`/boards/${category}?catid=${selectedCategory}&page=${page}`)
+    } else {
+      router.push(
+        `/boards/${category}?catid=${selectedCategory}&keyword=${keyword}&page=${page}`
+      )
+    }
+  }
+
+  const highlightKeyword = (title: string, keyword: string) => {
+    if (!keyword) return title
+    const parts = title.split(new RegExp(`(${keyword})`, "gi"))
+    return (
+      <>
+        {parts.map((part, index) => (
+          <span
+            key={index}
+            style={
+              part.toLowerCase() === keyword.toLowerCase()
+                ? { color: "red" }
+                : {}
+            }>
+            {part}
+          </span>
+        ))}
+      </>
     )
   }
 
   return (
     <div>
-      <div className="border-b border-grey_900">
-        <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
-          <DropDown
-            label="분류"
-            options={categoryOptions}
-            event={handleCategoryChange}
-            initialValue={catid}
-          />
-          <PrimaryButton
-            label="글쓰기"
-            onClick={handleGoEdit}
-          />
-        </div>
-        <table className="w-full">
-          <tbody>
-            <tr className="text-center text-lg font-medium text-grey_700 border-b border-grey_900">
-              <td className="p-4 w-40">분류</td>
-              <td className="p-4">제목</td>
-              <td className="p-4 w-40">글쓴이</td>
-              <td className="p-2 w-20">공감수</td>
-              <td className="p-2 w-20">조회수</td>
-              <td className="p-4 w-32">등록일</td>
-            </tr>
-            {responseData &&
-              responseData.posts.content.map(item => (
+      {responseData.posts.content.length > 0 ? (
+        <div>
+          <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
+            <DropDown
+              label="분류"
+              options={categoryOptions}
+              event={handleCategoryChange}
+              initialValue={catid}
+            />
+            <PrimaryButton
+              label="글쓰기"
+              onClick={handleGoEdit}
+            />
+          </div>
+          <table className="w-full">
+            <tbody>
+              <tr className="text-center text-lg font-medium text-grey_700 border-b border-grey_900">
+                <td className="p-4 w-40">분류</td>
+                <td className="p-4">제목</td>
+                <td className="p-4 w-40">글쓴이</td>
+                <td className="p-2 w-20">공감수</td>
+                <td className="p-2 w-20">조회수</td>
+                <td className="p-4 w-32">등록일</td>
+              </tr>
+              {responseData.posts.content.map(item => (
                 <FreeBoardItem
                   key={item.id}
                   id={item.id}
                   user_nickname={item.user_nickname}
                   category_name={item.category_name}
-                  title={item.title}
+                  title={highlightKeyword(item.title, keyword)}
                   image_urls={item.image_urls}
                   visible={item.visible}
                   count_reaction_type_good={
@@ -225,14 +252,52 @@ export default function FreeBoardContent({
                   isnew={item.new}
                 />
               ))}
-          </tbody>
-        </table>
-      </div>
-      <Pagination
-        paginationData={responseData.pagination_bar_number}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
+            </tbody>
+          </table>
+          <Pagination
+            paginationData={responseData.pagination_bar_number}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      ) : (
+        <div>
+          {keyword ? (
+            <div className="flex flex-col items-center text-lg font-medium text-grey_700 py-12 mt-8 mb-10">
+              <Image
+                src={warningImg.src}
+                alt="경고이미지"
+                width={128}
+                height={128}
+                className="mb-8"
+              />
+              <div>
+                <span className="text-main_color">'{keyword}' </span>
+                <span>에 대한 검색 결과가 </span>
+                <span className="text-main_color">0건 </span>
+                <span>입니다.</span>
+              </div>
+              <div className="text-grey_250">검색된 게시글이 없습니다.</div>
+            </div>
+          ) : (
+            <table className="w-full">
+              <tbody>
+                <tr className="text-center text-lg font-medium text-grey_700 border-b border-grey_900">
+                  <td className="p-4 w-40">분류</td>
+                  <td className="p-4">제목</td>
+                  <td className="p-4 w-40">글쓴이</td>
+                  <td className="p-2 w-20">공감수</td>
+                  <td className="p-2 w-20">조회수</td>
+                  <td className="p-4 w-32">등록일</td>
+                </tr>
+                <tr className="text-center text-lg font-medium text-grey_700 mt-8 mb-10">
+                  <td colSpan={6}>등록된 게시글이 없습니다.</td>
+                </tr>
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
     </div>
   )
 }

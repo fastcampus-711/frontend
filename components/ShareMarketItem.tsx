@@ -8,7 +8,7 @@ type ShareMarketItemProps = {
   status: string
   category_name: string
   image_urls?: string[] | null
-  title: string
+  title: string | React.ReactNode
   price: string
   user_nickname: string
   hits: string
@@ -71,7 +71,7 @@ export default function ShareMarketItem({
             <p>{title}</p>
             <span>{isnew ? <NewTag /> : ""}</span>
           </div>
-          {price ? (
+          {category_name === "중고거래" && price ? (
             <p className="text-grey_900 text-xl font-semibold">
               가격 :{price}원
             </p>

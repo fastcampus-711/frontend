@@ -13,6 +13,7 @@ import familyImg from "@/public/img/family.png"
 import bannerMainImg from "@/public/img/banner_main.png"
 import CommunitySection from "@/components/main/CommunitySection"
 import NoticesSection from "@/components/main/NoticesSection"
+import ScheduleSection from "@/components/main/ScheduleSection"
 
 export default async function Home() {
   // const freesRes = await fetch(
@@ -61,46 +62,58 @@ export default async function Home() {
         />
       </div>
       <div className="flex gap-24 justify-center font-bold">
-        <div className="flex flex-col items-center gap-2">
-          <Image
-            src={feeIcon.src}
-            alt="관리비조회아이콘"
-            width={64}
-            height={64}
-          />
-          <span className="text-grey_900 text-xl font-semibold">
-            관리비조회
-          </span>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <Image
-            src={boardIcon.src}
-            alt="민원게시판아이콘"
-            width={64}
-            height={64}
-          />
-          <span className="text-grey_900 text-xl font-semibold">
-            민원게시판
-          </span>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <Image
-            src={voteIcon.src}
-            alt="주민투표아이콘"
-            width={64}
-            height={64}
-          />
-          <span className="text-grey_900 text-xl font-semibold">주민투표</span>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <Image
-            src={carIcon.src}
-            alt="방문차량아이콘"
-            width={64}
-            height={64}
-          />
-          <span className="text-grey_900 text-xl font-semibold">방문차량</span>
-        </div>
+        <Link href={"/fee/my?year=2024&month=5"}>
+          <div className="flex flex-col items-center gap-2">
+            <Image
+              src={feeIcon.src}
+              alt="관리비조회아이콘"
+              width={64}
+              height={64}
+            />
+            <span className="text-grey_900 text-xl font-semibold">
+              관리비조회
+            </span>
+          </div>
+        </Link>
+        <Link href={"/complaints"}>
+          <div className="flex flex-col items-center gap-2">
+            <Image
+              src={boardIcon.src}
+              alt="민원게시판아이콘"
+              width={64}
+              height={64}
+            />
+            <span className="text-grey_900 text-xl font-semibold">
+              민원게시판
+            </span>
+          </div>
+        </Link>
+        <Link href={"#"}>
+          <div className="flex flex-col items-center gap-2">
+            <Image
+              src={voteIcon.src}
+              alt="주민투표아이콘"
+              width={64}
+              height={64}
+            />
+            <span className="text-grey_900 text-xl font-semibold">
+              주민투표
+            </span>
+          </div>
+        </Link>
+        <Link href={"#"}>
+          <div className="flex flex-col items-center gap-2">
+            <Image
+              src={carIcon.src}
+              alt="방문차량아이콘"
+              width={64}
+              height={64}
+            />
+            <span className="text-grey_900 text-xl font-semibold">
+              방문차량
+            </span>
+          </div>
+        </Link>
       </div>
       <div className="flex w-full gap-6">
         <NoticesSection noticesData={noticesData.data.posts.content} />
@@ -111,55 +124,11 @@ export default async function Home() {
         />
       </div>
       <div className="flex w-full gap-6">
-        <div className="w-2/5">
-          <Link href={"/community/frees"}>
-            <div className="h-14 flex justify-between items-center px-4 mb-6 border-b bg-grey_50 rounded-lg">
-              <div className="flex gap-4 items-center">
-                <span className="text-grey_900 text-2xl font-semibold leading-6">
-                  일정표
-                </span>
-              </div>
-
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M12 8L20 16L12 24"
-                  stroke="#656565"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-          </Link>
-          <div>
-            <SubMenuBar
-              option="community"
-              category=""
-            />
-          </div>
-          <div>
-            <div className="flex px-2 py-4">
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                고3인데, 동네에 조용하게 공부할만한 스터디카페 추천해주세요
-              </p>
-            </div>
-            <div className="flex px-2 py-4">
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                작은 도서관 진행해서 아이들 데리고 가봤습니다~^^
-              </p>
-            </div>
-            <div className="flex px-2 py-4">
-              <p className="flex-1 px-2 text-grey_900 text-lg font-medium truncate">
-                지하주차장 누수로 깜짝 놀랐네요.
-              </p>
-            </div>
-          </div>
-        </div>
+        <ScheduleSection
+          freesData={freesData.data.posts.content}
+          marketsData={marketsData.data.posts.content}
+          qnaData={qnaData.data.posts.content}
+        />
         <div className="w-3/5">
           <Link href={"/fee"}>
             <div className="h-14 flex justify-between items-center px-4 mb-6 border-b bg-grey_50 rounded-lg">
@@ -227,18 +196,32 @@ export default async function Home() {
               className="mb-4"
             />
             <div className="flex gap-4">
-              <Image
-                src={googlePlayImg.src}
-                alt="구글플레이"
-                width={190}
-                height={56}
-              />
-              <Image
-                src={appStoreImg.src}
-                alt="앱스토어"
-                width={175}
-                height={56}
-              />
+              <Link
+                rel="noopener noreferrer"
+                target="_blank"
+                href={
+                  "https://play.google.com/store/apps/details?id=kr.co.azsmart.apartner&hl=ko&pli=1"
+                }>
+                <Image
+                  src={googlePlayImg.src}
+                  alt="구글플레이"
+                  width={190}
+                  height={56}
+                />
+              </Link>
+              <Link
+                rel="noopener noreferrer"
+                target="_blank"
+                href={
+                  "https://apps.apple.com/kr/app/%EC%95%84%ED%8C%8C%ED%8A%B8%EB%84%88-no-1-%EC%95%84%ED%8C%8C%ED%8A%B8%EC%95%B1/id1243505765"
+                }>
+                <Image
+                  src={appStoreImg.src}
+                  alt="앱스토어"
+                  width={175}
+                  height={56}
+                />
+              </Link>
             </div>
           </div>
           <Image
