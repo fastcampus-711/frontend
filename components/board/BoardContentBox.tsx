@@ -47,9 +47,10 @@ export default function BoardContentBox(props: BoardContentBoxProps) {
         navigation={true}
         modules={[Pagination, Navigation]}
         className="w-full">
-        {image_urls.map((item, index) => (
-          <SwiperSlide key={index}>
-            {/* <div className="w-full h-[624px] bg-slate-200">
+        {image_urls &&
+          image_urls.map((item, index) => (
+            <SwiperSlide key={index}>
+              {/* <div className="w-full h-[624px] bg-slate-200">
               <Image
                 src={item}
                 alt="게시판이미지"
@@ -57,23 +58,23 @@ export default function BoardContentBox(props: BoardContentBoxProps) {
                 style={{ objectFit: "contain" }}
               />
             </div> */}
-            <div className="relative w-full h-[624px] bg-slate-200">
-              <Image
-                src={item}
-                alt="게시판이미지"
-                fill
-                style={{ objectFit: "cover" }}
-                className="blur-lg"
-              />
-              <Image
-                src={item}
-                alt="게시판이미지"
-                fill
-                style={{ objectFit: "contain" }}
-              />
-            </div>
-          </SwiperSlide>
-        ))}
+              <div className="relative w-full h-[624px] bg-slate-200">
+                <Image
+                  src={item}
+                  alt="게시판이미지"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  className="blur-lg"
+                />
+                <Image
+                  src={item}
+                  alt="게시판이미지"
+                  fill
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
+            </SwiperSlide>
+          ))}
       </Swiper>
       <p className="text-grey_900 text-xl font-medium">{content}</p>
     </div>

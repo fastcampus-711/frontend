@@ -14,7 +14,7 @@ export default function BoardSubMenuBar({
       { value: "qna", params: "?catid=0&page=1", name: "QnA" }
     ]
   const noticeSubOptions = [
-    { value: "notice", params: "", name: "공지사항" },
+    { value: "notices", params: "?catid=0&page=1", name: "공지사항" },
     { value: "schedule", params: "", name: "일정표" }
   ]
   const complaintOptions = [
