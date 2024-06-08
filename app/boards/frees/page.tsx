@@ -13,8 +13,10 @@ export default async function Page({
 
   const res = await fetch(
     // `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/community/${category}?keyword=${title}`
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/frees?catid=${catid}&keyword=${keyword}&page=${page}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/frees?catid=${catid}&keyword=${keyword}&page=${page}`,
+    { cache: "no-store" }
   )
+  // const responseData = await res.json()
   const responseData = await res.json()
   let componentProps = { responseData, category, keyword, catid, page }
 
@@ -24,15 +26,14 @@ export default async function Page({
       <div className="py-8">
         <p className="text-grey_900 text-[32px] font-semibold">소통공간</p>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-start">
         <BoardSubMenuBar
           option="boards"
           category={category}
         />
         <CommunitySearch
           category={category}
-          placeholder="게시판 내 재검색"
-          className="flex-1 max-w-[480px]"
+          placeholder="게시판 내 검색"
           catid={catid}
           page={page}
         />

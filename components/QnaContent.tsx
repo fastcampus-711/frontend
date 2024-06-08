@@ -9,6 +9,8 @@ import PrimaryButton from "./button/PrimaryButton"
 import DropDown from "./dropdown/DropDown"
 import QnaItem from "./Qnaitem"
 import Pagination from "./pagination/pagination"
+import warningImg from "@/public/img/warning.png"
+import Image from "next/image"
 
 type Comment = {
   nickname: string
@@ -128,41 +130,90 @@ export default function QnaContent({
     }
   }
 
+  const highlightKeyword = (title: string, keyword: string) => {
+    if (!keyword) return title
+    const parts = title.split(new RegExp(`(${keyword})`, "gi"))
+    return (
+      <>
+        {parts.map((part, index) => (
+          <span
+            key={index}
+            style={
+              part.toLowerCase() === keyword.toLowerCase()
+                ? { color: "red" }
+                : {}
+            }>
+            {part}
+          </span>
+        ))}
+      </>
+    )
+  }
+
   return (
     <div>
-      <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
-        <DropDown
-          label="답변상태"
-          options={statusOptions}
-          event={handleStatusChange}
-        />
-        <PrimaryButton
-          label="글쓰기"
-          onClick={handleGoEdit}
-        />
-      </div>
-      {responseData &&
-        responseData.posts.content.map(item => (
-          <QnaItem
-            key={item.id}
-            id={item.id}
-            user_nickname={item.user_nickname}
-            user_image={item.user_image}
-            image_urls={item.image_urls}
-            title={item.title}
-            content={item.content}
-            status={item.status}
-            isnew={item.isnew}
-            created_at={item.created_at}
-            count_of_comments={item.count_of_comments}
-            item={item}
+      {responseData.posts.content.length > 0 ? (
+        <div>
+          <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
+            <DropDown
+              label="답변상태"
+              options={statusOptions}
+              event={handleStatusChange}
+            />
+            <PrimaryButton
+              label="글쓰기"
+              onClick={handleGoEdit}
+            />
+          </div>
+          {responseData &&
+            responseData.posts.content.map(item => (
+              <QnaItem
+                key={item.id}
+                id={item.id}
+                user_nickname={item.user_nickname}
+                user_image={item.user_image}
+                image_urls={item.image_urls}
+                title={highlightKeyword(item.title, keyword)}
+                content={item.content}
+                status={item.status}
+                isnew={item.isnew}
+                created_at={item.created_at}
+                count_of_comments={item.count_of_comments}
+                item={item}
+              />
+            ))}
+          <Pagination
+            paginationData={responseData.pagination_bar_number}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
           />
-        ))}
-      <Pagination
-        paginationData={responseData.pagination_bar_number}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
+        </div>
+      ) : (
+        <div>
+          {keyword ? (
+            <div className="flex flex-col items-center text-lg font-medium text-grey_700 py-12 mt-8 mb-10">
+              <Image
+                src={warningImg.src}
+                alt="경고이미지"
+                width={128}
+                height={128}
+                className="mb-8"
+              />
+              <div>
+                <span className="text-main_color">&#39;{keyword}&#39; </span>
+                <span>에 대한 검색 결과가 </span>
+                <span className="text-main_color">0건 </span>
+                <span>입니다.</span>
+              </div>
+              <div className="text-grey_250">검색된 게시글이 없습니다.</div>
+            </div>
+          ) : (
+            <div className="text-center text-lg font-medium text-grey_700 mt-8 mb-10">
+              등록된 게시글이 없습니다.
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

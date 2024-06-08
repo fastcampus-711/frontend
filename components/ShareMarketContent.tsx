@@ -10,6 +10,8 @@ import ShareMarketItem from "./ShareMarketItem"
 import DropDown from "./dropdown/DropDown"
 import PrimaryButton from "./button/PrimaryButton"
 import Pagination from "./pagination/pagination"
+import warningImg from "@/public/img/warning.png"
+import Image from "next/image"
 
 type Comment = {
   nickname: string
@@ -214,58 +216,106 @@ export default function ShareMarketContent({
     }
   }
 
+  const highlightKeyword = (title: string, keyword: string) => {
+    if (!keyword) return title
+    const parts = title.split(new RegExp(`(${keyword})`, "gi"))
+    return (
+      <>
+        {parts.map((part, index) => (
+          <span
+            key={index}
+            style={
+              part.toLowerCase() === keyword.toLowerCase()
+                ? { color: "red" }
+                : {}
+            }>
+            {part}
+          </span>
+        ))}
+      </>
+    )
+  }
+
   return (
     <div>
-      <div className="m-8"></div>
-      <div className="flex justify-between">
-        <div className="w-[500px] h-12 justify-start items-start flex gap-4 flex-wrap">
-          <DropDown
-            label="거래방식"
-            options={categoryOptions}
-            event={handleCategoryChange}
-            initialValue={catid}
-          />
-          <DropDown
-            label="거래상태"
-            options={statusOptions}
-            event={handleStatusChange}
-            initialValue={status}
+      {responseData.posts.content.length > 0 ? (
+        <div>
+          <div className="m-8"></div>
+          <div className="flex justify-between">
+            <div className="w-[500px] h-12 justify-start items-start flex gap-4 flex-wrap">
+              <DropDown
+                label="거래방식"
+                options={categoryOptions}
+                event={handleCategoryChange}
+                initialValue={catid}
+              />
+              <DropDown
+                label="거래상태"
+                options={statusOptions}
+                event={handleStatusChange}
+                initialValue={status}
+              />
+            </div>
+            <PrimaryButton
+              label="글쓰기"
+              onClick={handleGoEdit}
+            />
+          </div>
+          <div className="m-10"></div>
+          <div className="flex gap-x-6 gap-y-12 flex-wrap">
+            {responseData.posts.content.map(item => (
+              <div
+                key={item.id}
+                className="flex-1 basis-2/5 max-w-[588px]">
+                <Link href={`/boards/markets/${item.id}`}>
+                  <ShareMarketItem
+                    status={item.status}
+                    category_name={item.category_name}
+                    image_urls={item.image_urls}
+                    title={highlightKeyword(item.title, keyword)}
+                    price={item.price}
+                    user_nickname={item.user_nickname}
+                    hits={item.hits}
+                    created_at={item.created_at}
+                    ishot={item.hot}
+                    isnew={item.new}
+                  />
+                </Link>
+              </div>
+            ))}
+          </div>
+          <Pagination
+            paginationData={responseData.pagination_bar_number}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
           />
         </div>
-        <PrimaryButton
-          label="글쓰기"
-          onClick={handleGoEdit}
-        />
-      </div>
-      <div className="m-10"></div>
-      <div className="flex gap-x-6 gap-y-12 flex-wrap">
-        {responseData &&
-          responseData.posts.content.map(item => (
-            <div
-              key={item.id}
-              className="flex-1 basis-2/5 max-w-[588px]">
-              <Link href={`/boards/markets/${item.id}`}>
-                <ShareMarketItem
-                  status={item.status}
-                  category_name={item.category_name}
-                  image_urls={item.image_urls}
-                  title={item.title}
-                  price={item.price}
-                  user_nickname={item.user_nickname}
-                  hits={item.hits}
-                  created_at={item.created_at}
-                  ishot={item.hot}
-                  isnew={item.new}
-                />
-              </Link>
+      ) : (
+        <div>
+          {keyword ? (
+            <div className="flex flex-col items-center text-lg font-medium text-grey_700 py-12 mt-8 mb-10">
+              <Image
+                src={warningImg.src}
+                alt="경고이미지"
+                width={128}
+                height={128}
+                className="mb-8"
+              />
+              <div>
+                <span className="text-main_color">&#39;{keyword}&#39; </span>
+                <span>에 대한 검색 결과가 </span>
+                <span className="text-main_color">0건 </span>
+                <span>입니다.</span>
+              </div>
+              <div className="text-grey_250">검색된 게시글이 없습니다.</div>
             </div>
-          ))}
-      </div>
-      <Pagination
-        paginationData={responseData.pagination_bar_number}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
+          ) : (
+            <div className="text-center text-lg font-medium text-grey_700 mt-8 mb-10">
+              등록된 게시글이 없습니다.
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

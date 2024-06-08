@@ -5,11 +5,10 @@ import { AppDispatch } from "@/redux/store"
 import { setCategory } from "@/redux/slices/categorySlice"
 import PrimaryButton from "../button/PrimaryButton"
 import DropDown from "../dropdown/DropDown"
-import GoBackButton from "../button/GoBackButton"
 import closeIcon from "@/public/icon/close.svg"
 import imgIcon from "@/public/icon/img.svg"
 import Image from "next/image"
-import Confirm from "../modal/confirm"
+import GreyButton from "../button/GreyButton"
 
 type Options = {
   value: number
@@ -90,16 +89,36 @@ export default function EditMarkets() {
     setSelectedType(value)
   }
 
+  const validateFile = (file: File): boolean => {
+    const allowedExtensions = ["png", "jpg", "jpeg", "gif"]
+    const maxSize = 10 * 1024 * 1024 // 10MB
+
+    const extension = file.name.split(".").pop()?.toLowerCase()
+    if (!extension || !allowedExtensions.includes(extension)) {
+      alert("이미지는 PNG, JPG, GIF 형식만 업로드 가능합니다.")
+      return false
+    }
+
+    if (file.size > maxSize) {
+      alert("파일 크기는 최대 10MB를 넘을 수 없습니다.")
+      return false
+    }
+
+    return true
+  }
+
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const files = event.target.files
     if (files && files.length > 0) {
+      const validFiles = Array.from(files).filter(validateFile)
+      if (validFiles.length === 0) return
+
       const formData = new FormData()
-      Array.from(files).forEach((file, index) => {
+      validFiles.forEach(file => {
         formData.append("files", file)
       })
-
       try {
         const response = await fetch("https://711.ha-ving.store/attach", {
           method: "POST",
@@ -188,15 +207,18 @@ export default function EditMarkets() {
     }
   }
 
+  const handleGoBack = () => {
+    if (
+      confirm(
+        "글 작성을 취소하시겠어요? 저장하지 않고 페이지를 벗어날 경우 지금까지 작성한 내용이 사라집니다."
+      )
+    ) {
+      router.back()
+    }
+  }
+
   return (
     <div>
-      <Confirm
-        title={"알림"}
-        content_title={"게시판을 변경하시겠어요?"}
-        content_description={
-          "게시판을 변경할 경우, 지금까지 작성한 내용이 사라집니다."
-        }
-      />
       <form onSubmit={handleUpdate}>
         <table className="w-full">
           <tbody>
@@ -212,7 +234,7 @@ export default function EditMarkets() {
                     disabled={!!currentPost}
                   />
                   <DropDown
-                    label="타입"
+                    label="분류"
                     options={typeOptions}
                     event={handleTypeChange}
                     initialValue={selectedType}
@@ -351,7 +373,10 @@ export default function EditMarkets() {
         </div>
       </form>
       <div className="inline-flex pl-[1032px] py-8 translate-y-[-108px]">
-        <GoBackButton label="취소" />
+        <GreyButton
+          label="취소"
+          onClick={handleGoBack}
+        />
       </div>
     </div>
   )
