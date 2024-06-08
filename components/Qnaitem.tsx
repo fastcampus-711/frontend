@@ -168,6 +168,9 @@ export default function QnaItem({
         const responseData = await response.json()
         console.log("댓글 수정 성공:", responseData)
         fetchData() // 수정된 댓글을 다시 불러옵니다.
+        const newShowModifyList = [...showModifyList]
+        newShowModifyList[index] = false
+        setShowModifyList(newShowModifyList)
       } else {
         console.error("댓글 수정을 실패했습니다.:", response.statusText)
       }
@@ -364,9 +367,14 @@ export default function QnaItem({
                         onClick={() => {
                           const newShowModifyList = [...showModifyList]
                           newShowModifyList[index] = !newShowModifyList[index]
+                          setCommentContents(prevState => {
+                            const newCommentContents = [...prevState]
+                            newCommentContents[index] = item.content // 기본값으로 댓글 내용 설정
+                            return newCommentContents
+                          })
                           setShowModifyList(newShowModifyList)
                         }}>
-                        수정
+                        {showModifyList[index] ? "취소" : "수정"}
                       </button>
                       <button
                         className="text-grey_600 font-medium"
@@ -390,7 +398,8 @@ export default function QnaItem({
                           const newCommentContents = [...commentContents]
                           newCommentContents[index] = e.target.value
                           setCommentContents(newCommentContents)
-                        }}></textarea>
+                        }}
+                      />
                       <div className="flex justify-end gap-2">
                         <GreyButton
                           label="취소"
@@ -402,7 +411,14 @@ export default function QnaItem({
                         />
                         <BlackButton
                           label="등록"
-                          onClick={() => handleUpdate(item.comment_id, index)}
+                          onClick={() => {
+                            handleUpdate(item.comment_id, index)
+                            setShowModifyList(prevState => {
+                              const newShowModifyList = [...prevState]
+                              newShowModifyList[index] = false
+                              return newShowModifyList
+                            })
+                          }}
                         />
                       </div>
                     </div>
