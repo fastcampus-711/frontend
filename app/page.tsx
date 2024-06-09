@@ -15,7 +15,14 @@ import CommunitySection from "@/components/main/CommunitySection"
 import NoticesSection from "@/components/main/NoticesSection"
 import ScheduleSection from "@/components/main/ScheduleSection"
 
+import { cookies } from "next/headers"
+
 export default async function Home() {
+  const cookieStore = cookies()
+  const accessToken = cookieStore.get("accesstoken")
+
+  console.log(accessToken)
+
   const freesRes = await fetch(
     `https://711.ha-ving.store/boards/frees?catid=0&page=1`,
     { cache: "no-store" }
@@ -49,7 +56,8 @@ export default async function Home() {
         />
       </div>
       <div className="flex gap-24 justify-center font-bold">
-        <Link href={`/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}`}>
+        <Link
+          href={`/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}`}>
           <div className="flex flex-col items-center gap-2">
             <Image
               src={feeIcon.src}
