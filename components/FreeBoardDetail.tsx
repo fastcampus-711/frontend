@@ -89,12 +89,8 @@ export default function FreeBoardDetail({
   } = responseData
 
   useEffect(() => {
-    const accessToken = document.cookie
-      .split("; ")
-      .find(row => row.startsWith("accesstoken="))
-      ?.split("=")[1]
-
-    console.log("Access Token:", accessToken)
+    const cookies = document.cookie
+    console.log("Cookies:", cookies)
   }, [])
 
   const router = useRouter()

@@ -153,6 +153,10 @@ export default function LoginContent() {
         const responseData = await response.json()
         const accessToken = responseData.data.access_token
         const refreshToken = responseData.data.refresh_token
+        document.cookie = `accessToken=${accessToken}; path=/; domain=.ha-ving.store`
+        // document.cookie = `accessToken=${accessToken}; path=/; domain=.ha-ving.store;SameSite=None; Secure`
+        localStorage.setItem("accessToken", accessToken)
+
         dispatch(
           loginSuccess({
             accessToken: accessToken,

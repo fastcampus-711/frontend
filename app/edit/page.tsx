@@ -32,26 +32,15 @@
 //     </div>
 //   )
 // }
-
 "use client"
-
-import { useEffect } from "react"
 
 import { useSelector, useDispatch } from "react-redux"
 import EditFrees from "@/components/edit/EditFrees"
 import EditMarkets from "@/components/edit/EditMarkets"
 import EditQna from "@/components/edit/EditQna"
+import { useEffect } from "react"
 
 export default function Edit() {
-  useEffect(() => {
-    const accessToken = document.cookie
-      .split("; ")
-      .find(row => row.startsWith("accesstoken="))
-      ?.split("=")[1]
-
-    console.log("Access Token:", accessToken)
-  }, [])
-
   const category = useSelector((state: any) => state.category)
   let contentComponent
 
@@ -62,6 +51,11 @@ export default function Edit() {
   } else if (category.value === "qna") {
     contentComponent = <EditQna />
   }
+
+  useEffect(() => {
+    const cookies = document.cookie
+    console.log("Cookies:", cookies)
+  }, [])
 
   return (
     <div className="max-w-[1200px] m-auto mb-40">
