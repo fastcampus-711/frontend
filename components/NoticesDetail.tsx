@@ -88,6 +88,15 @@ export default function NoticesDetail({
     reaction_type
   } = responseData
 
+  useEffect(() => {
+    const accessToken = document.cookie
+      .split("; ")
+      .find(row => row.startsWith("accesstoken="))
+      ?.split("=")[1]
+
+    console.log("Access Token:", accessToken)
+  }, [])
+
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const [reaction, setReaction] = useState<boolean | string>(reaction_type)
