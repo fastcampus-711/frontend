@@ -3,6 +3,7 @@ import Footer from "@/components/Footer"
 import "./globals.css"
 import Header from "@/components/Header"
 import ReduxProvider from "@/redux/provider"
+import { CookiesProvider } from "next-client-cookies/server"
 
 const pretendard = localFont({
   src: "../public/fonts/PretendardVariable.woff2",
@@ -21,11 +22,14 @@ export default function RootLayout({
       lang="ko"
       className={`${pretendard.variable}`}>
       <body className={pretendard.className}>
-        <ReduxProvider>
-          <Header />
-          {children}
-          <Footer />
-        </ReduxProvider>
+        <CookiesProvider>
+          <ReduxProvider>
+            <Header />
+            {children}
+            <Footer />
+          </ReduxProvider>
+        </CookiesProvider>
+        ;
       </body>
     </html>
   )

@@ -14,12 +14,12 @@ import bannerMainImg from "@/public/img/banner_main.png"
 import CommunitySection from "@/components/main/CommunitySection"
 import NoticesSection from "@/components/main/NoticesSection"
 import ScheduleSection from "@/components/main/ScheduleSection"
-
-import { cookies } from "next/headers"
+import { getCookies } from "next-client-cookies/server"
 
 export default async function Home() {
-  const cookieStore = cookies()
-  const accessToken = cookieStore.get("accesstoken") as string | undefined
+  const cookies = getCookies()
+  const accessToken = cookies.get("accesstoken")
+  console.log(accessToken)
 
   const freesRes = await fetch(
     `https://711.ha-ving.store/boards/frees?catid=0&page=1`,
@@ -46,11 +46,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] m-auto mb-32">
       <div>
-        <input
-          type="hidden"
-          id="accessToken"
-          value={accessToken ? accessToken : "ㅇㅇ"}
-        />
+        <p>My cookie value: {cookies.get("accesstoken")}</p>
       </div>
       <div className="relative">
         <Image
