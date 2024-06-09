@@ -19,8 +19,6 @@ import { getCookies } from "next-client-cookies/server"
 export default async function Home() {
   const cookies = getCookies()
   const accessToken = cookies.get("accessToken")
-  const accesstoken = cookies.get("accesstoken")
-  console.log(accessToken)
 
   const freesRes = await fetch(
     `https://711.ha-ving.store/boards/frees?catid=0&page=1`,
@@ -48,7 +46,6 @@ export default async function Home() {
     <div className="flex flex-col gap-8 max-w-[1200px] m-auto mb-32">
       <div>
         <p>My cookie value: {accessToken}</p>
-        <p>My cookie value: {accesstoken}</p>
       </div>
       <div className="relative">
         <Image
