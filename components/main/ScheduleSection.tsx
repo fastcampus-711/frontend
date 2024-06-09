@@ -74,6 +74,7 @@ export default function ScheduleSection({
       <Tab
         tabData={tabsData}
         activeTab={activeTab}
+        width={"full"}
         handleTabChange={handleTabChange}
       />
       <div>

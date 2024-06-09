@@ -89,6 +89,7 @@ export default function CommunitySection({
       <Tab
         tabData={tabsData}
         activeTab={activeTab}
+        width={"full"}
         handleTabChange={handleTabChange}
       />
       {activeTab === "frees" && (
