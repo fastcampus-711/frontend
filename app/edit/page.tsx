@@ -42,7 +42,7 @@ import { useCookies } from "next-client-cookies"
 
 export default function Edit() {
   const cookies = useCookies()
-  const accessToken = cookies.get("my-cookie")
+  const accessToken = cookies.get("accessToken")
   const category = useSelector((state: any) => state.category)
   let contentComponent
 
