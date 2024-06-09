@@ -16,19 +16,6 @@ import NoticesSection from "@/components/main/NoticesSection"
 import ScheduleSection from "@/components/main/ScheduleSection"
 
 export default async function Home() {
-  // const freesRes = await fetch(
-  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/frees?catid=0&keyword=undefined&page=1`
-  // )
-  // const marketsRes = await fetch(
-  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/markets?catid=0&keyword=undefined&status=undefined&page=1`
-  // )
-  // const qnaRes = await fetch(
-  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/qna?catid=0&keyword=undefined&status=undefined&page=1`
-  // )
-  // const noticesRes = await fetch(
-  //   `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/boards/notices?catid=0&keyword=undefined&page=1`
-  // )
-
   const freesRes = await fetch(
     `https://711.ha-ving.store/boards/frees?catid=0&page=1`,
     { cache: "no-store" }
