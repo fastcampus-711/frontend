@@ -62,7 +62,7 @@ export default async function Home() {
         />
       </div>
       <div className="flex gap-24 justify-center font-bold">
-        <Link href={"/fee/my?year=2024&month=5"}>
+        <Link href={`/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}`}>
           <div className="flex flex-col items-center gap-2">
             <Image
               src={feeIcon.src}

@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import logoMainImg from "@/public/img/logo_main.png"
 import searchIcon from "@/public/icon/search.svg"
+import GNB from "./GNB"
 
 export default async function Header() {
   return (
@@ -17,7 +18,7 @@ export default async function Header() {
           </div>
         </div>
       </div>
-      <nav className="flex gap-4 max-w-[1200px] m-auto">
+      <nav id="nav" className="flex gap-4 max-w-[1200px] m-auto">
         <div className="flex items-center pt-4 pb-4 ">
           <Link
             href="/"
@@ -86,6 +87,7 @@ export default async function Header() {
           </button>
         </div>
       </nav>
+      <GNB />
     </header>
   )
 }
