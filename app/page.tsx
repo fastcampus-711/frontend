@@ -19,9 +19,7 @@ import { cookies } from "next/headers"
 
 export default async function Home() {
   const cookieStore = cookies()
-  const accessToken = cookieStore.get("accesstoken")
-
-  console.log(accessToken)
+  const accessToken = cookieStore.get("accesstoken") as string | undefined
 
   const freesRes = await fetch(
     `https://711.ha-ving.store/boards/frees?catid=0&page=1`,
@@ -47,6 +45,13 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] m-auto mb-32">
+      <div>
+        <input
+          type="hidden"
+          id="accessToken"
+          value={accessToken ? accessToken : "ㅇㅇ"}
+        />
+      </div>
       <div className="relative">
         <Image
           src={bannerMainImg.src}
