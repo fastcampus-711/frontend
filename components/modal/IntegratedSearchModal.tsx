@@ -6,6 +6,7 @@ import closeIcon_thick from "@/public/icon/close_thick.svg"
 import searchIcon from "@/public/icon/search.svg"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function IntegratedSearchModal({isOpen, onClose, content} : {isOpen: boolean, onClose: ()=> void, content: boolean}) {
     if(!isOpen) return null
@@ -36,14 +37,14 @@ export default function IntegratedSearchModal({isOpen, onClose, content} : {isOp
                                             height={100}
                                         />
                                     </button>
-                                    <button onClick={handleSearch}>
+                                    <Link href={`/integratedSearch?keyword=${searchWord}`}>
                                         <Image
                                             src={searchIcon.src}
                                             alt="검색아이콘"
                                             width={40}
                                             height={40}
                                         />
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="flex flex-col gap-6">
