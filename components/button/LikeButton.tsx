@@ -24,10 +24,14 @@ export default function LikeButton({
   } else if (like === "BAD") {
     style = "border-grey_300 text-grey_250"
     iconSrc = thumbDefaultIcon.src
-  } else if (like === "DEFAULT") {
+  } else {
     style = "border-grey_300 text-grey_250"
     iconSrc = thumbDefaultIcon.src
   }
+  // else if (like === "DEFAULT") {
+  //   style = "border-grey_300 text-grey_250"
+  //   iconSrc = thumbDefaultIcon.src
+  // }
   return (
     <button
       className={`flex gap-2  font-medium rounded px-6 py-2 border ${className} ${style}`}

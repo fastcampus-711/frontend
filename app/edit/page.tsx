@@ -38,11 +38,8 @@ import { useSelector, useDispatch } from "react-redux"
 import EditFrees from "@/components/edit/EditFrees"
 import EditMarkets from "@/components/edit/EditMarkets"
 import EditQna from "@/components/edit/EditQna"
-import { useCookies } from "next-client-cookies"
 
 export default function Edit() {
-  const cookies = useCookies()
-  const accessToken = cookies.get("accessToken")
   const category = useSelector((state: any) => state.category)
   let contentComponent
 
@@ -56,9 +53,6 @@ export default function Edit() {
 
   return (
     <div className="max-w-[1200px] m-auto mb-40">
-      <div>
-        <p>My cookie value: {accessToken}</p>
-      </div>
       <div className="flex flex-col gap-10">
         <div className="flex gap-4 items-center border-b border-grey_200 pt-8 pb-4">
           <p className="text-grey_900 text-[32px] font-semibold">소통공간</p>

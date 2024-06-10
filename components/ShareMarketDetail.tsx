@@ -20,6 +20,7 @@ import TxTypeTag from "./tag/TxTypeTag"
 import _Pagination from "./pagination/pagination"
 
 import noImgImg from "@/public/img/no_img.png"
+import TxstateDropDown from "./dropdown/TxstateDropDown"
 
 type Reactions = {
   count_reaction_type_good: number
@@ -53,6 +54,7 @@ type CommentData = {
 type ResponseData = {
   id: number
   user_nickname: string
+  category_id: number
   user_image: string
   category_name: string
   title: string
@@ -74,12 +76,18 @@ type ShareMarketDetailProps = {
   responseData: ResponseData
 }
 
+type Options = {
+  value: string
+  name: string
+}
+
 export default function ShareMarketDetail({
   responseData
 }: ShareMarketDetailProps) {
   const {
     id,
     user_nickname,
+    category_id,
     category_name,
     image_urls,
     title,
@@ -99,6 +107,12 @@ export default function ShareMarketDetail({
   const [comments, setComments] = useState<CommentData[]>()
   const [currentPage, setCurrentPage] = useState(1)
   const [paginationData, setPaginationData] = useState<number[]>([])
+  const [selectedType, setSelectedType] = useState<string>(status)
+  const typeOptions: Options[] = [
+    { value: "SALE", name: "판매중" },
+    { value: "RESERVED", name: "예약중" },
+    { value: "SOLD_OUT", name: "판매완료" }
+  ]
 
   const convertDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -109,10 +123,6 @@ export default function ShareMarketDetail({
     const minutes = date.getMinutes().toString().padStart(2, "0")
     return `${year}.${month}.${day} ${hours}:${minutes}`
   }
-
-  console.log(responseData)
-  console.log(status)
-  console.log(price)
 
   const convertedDate = convertDate(created_at)
 
@@ -135,6 +145,40 @@ export default function ShareMarketDetail({
       }
     } catch (error) {
       console.error("에러 발생:", error)
+    }
+  }
+
+  const handleStatusChange = async (selectedType: string) => {
+    if (confirm("상태를 변경하시겠습니까?")) {
+      const updatedItem = {
+        category_id: category_id,
+        status: selectedType
+      }
+      console.log(updatedItem)
+      setSelectedType(selectedType)
+      try {
+        const response = await fetch(
+          `https://711.ha-ving.store/boards/markets/${id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify(updatedItem),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization:
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83OTI3MDIyOD92PTQiLCJwYXNzd29yZCI6IiQyYSQxMCRleHhmWXAveXZzNHpiY3cyRFNDalZlREFDaTVlcWZma01HaDlsVWwwTXFBRWRUM2h5WDVEeSIsInBob25lIjoiMDEwMTExMTIyMjIiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwibmlja25hbWUiOiJuaWNrbmFtZTEiLCJpZCI6MjEsInVzZXJuYW1lIjoidXNlciIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNzE3MDU5MjA5LCJleHAiOjE3MTk2NTEyMDl9.4bpxNGqYITfq2174mngAguJK3gQZ5gl7KzWB8N5eMQ4TV-e8_Ka7xlzCdGH8u6XEoiMywHZwJLM1_7tlAqtt0A"
+            }
+          }
+        )
+        if (response.ok) {
+          const responseData = await response.json()
+          console.log("상태 수정 성공:", responseData)
+          router.refresh()
+        } else {
+          console.error("상태 수정을 실패했습니다.:", response.statusText)
+        }
+      } catch (error) {
+        console.error("에러 발생:", error)
+      }
     }
   }
 
@@ -253,7 +297,13 @@ export default function ShareMarketDetail({
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-2">
                     <TxTypeTag subcategory={category_name} />
-                    <TxStateTag issaled={status} />
+                    {/* <TxStateTag issaled={status} /> */}
+                    <TxstateDropDown
+                      label="분류"
+                      options={typeOptions}
+                      event={value => handleStatusChange(value)}
+                      initialValue={selectedType}
+                    />
                   </div>
                   <div className="flex justify-between">
                     <p className="text-grey_900 text-xl font-semibold">
@@ -293,6 +343,7 @@ export default function ShareMarketDetail({
           </div>
         </div>
         <CommentEdit
+          type="댓글"
           id={id}
           count_of_comments={count_of_comments}
           fetchData={fetchData}

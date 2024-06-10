@@ -17,6 +17,9 @@ import noImgImg from "@/public/img/no_img.png"
 import GreyButton from "./button/GreyButton"
 import BlackButton from "./button/BlackButton"
 
+import ansDefaultIcon from "@/public/icon/ans_default.svg"
+import ansChoiceIcon from "@/public/icon/ans_choice.svg"
+
 type Reactions = {
   count_reaction_type_good: number
   count_reaction_type_bad: number
@@ -44,6 +47,7 @@ type CommentData = {
   post_id: number
   reaction_columns: Reactions | null
   reaction_type: string | null
+  top: boolean
 }
 
 type Post = {
@@ -100,6 +104,7 @@ export default function QnaItem({
   const [showModifyList, setShowModifyList] = useState<boolean[]>(
     comments.map(() => false)
   )
+  const [answerStatus, setAnswerStatus] = useState<string>(status)
 
   const convertDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -231,6 +236,41 @@ export default function QnaItem({
     }
   }
 
+  const handleAnswer = async (comment_id: number) => {
+    if (confirm("선택한 답변을 채택하시겠습니까?")) {
+      const data = {
+        post_id: id,
+        comment_id: comment_id,
+        status: "RESPONSE_ACCEPTED"
+      }
+      console.log(data)
+      try {
+        const response = await fetch(
+          `https://711.ha-ving.store/boards/qna/status`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization:
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83OTI3MDIyOD92PTQiLCJwYXNzd29yZCI6IiQyYSQxMCRleHhmWXAveXZzNHpiY3cyRFNDalZlREFDaTVlcWZma01HaDlsVWwwTXFBRWRUM2h5WDVEeSIsInBob25lIjoiMDEwMTExMTIyMjIiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwibmlja25hbWUiOiJuaWNrbmFtZTEiLCJpZCI6MjEsInVzZXJuYW1lIjoidXNlciIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNzE3MDU5MjA5LCJleHAiOjE3MTk2NTEyMDl9.4bpxNGqYITfq2174mngAguJK3gQZ5gl7KzWB8N5eMQ4TV-e8_Ka7xlzCdGH8u6XEoiMywHZwJLM1_7tlAqtt0A"
+            },
+            body: JSON.stringify(data)
+          }
+        )
+        if (response.ok) {
+          const responseData = await response.json()
+          console.log("답변 채택 성공:", responseData)
+          setAnswerStatus(responseData.data.status)
+          fetchData()
+        } else {
+          console.error("답변 채택을 실패했습니다.:", response.statusText)
+        }
+      } catch (error) {
+        console.error("에러 발생:", error)
+      }
+    }
+  }
+
   const handleGoEdit = () => {
     dispatch(setCurrentPost(item))
     router.push(`/edit`)
@@ -240,7 +280,7 @@ export default function QnaItem({
     <div className="border border-grey_200 rounded-lg mb-10">
       <div className="flex justify-between items-center px-10 py-4 border-b border-grey_50">
         <div className="flex gap-4 items-center">
-          <AnswerStateTag status={status} />
+          <AnswerStateTag status={answerStatus} />
           <p className="text-grey_900 text-lg font-medium">{title}</p>
         </div>
         <div className="flex gap-4">
@@ -324,6 +364,7 @@ export default function QnaItem({
       <div className="px-10 py-6">
         {comments.length < 7 && (
           <CommentEdit
+            type="답변"
             id={id}
             count_of_comments={count_of_comments}
             fetchData={fetchData}
@@ -347,6 +388,26 @@ export default function QnaItem({
             key={item.comment_id}
             className="px-10 py-6 border-t border-grey_200">
             <div className="flex gap-4">
+              <button className="flex items-start">
+                <div>
+                  {item.top ? (
+                    <Image
+                      src={ansChoiceIcon.src}
+                      alt="답변채택"
+                      width={32}
+                      height={32}
+                    />
+                  ) : (
+                    <Image
+                      src={ansDefaultIcon.src}
+                      alt="답변기본"
+                      width={32}
+                      height={32}
+                      onClick={() => handleAnswer(item.comment_id)}
+                    />
+                  )}
+                </div>
+              </button>
               <div className="w-10 h-10 overflow-hidden rounded-3xl bg-slate-200">
                 <Image
                   src={item.user_image}
