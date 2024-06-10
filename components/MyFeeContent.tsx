@@ -7,12 +7,17 @@ import BoardSubMenuBar from "@/components/submenu/SubMenuBar";
 import { useEffect, useState } from "react";
 import Image from "next/image"
 
+
+import feeAd from "@/public/img/feeAd.png"
 import detailBtn from "@/public/icon/fee_detailBtn_arrow.svg"
 import feeIncrease from "@/public/icon/fee_increase.svg"
 import feeDecrease from "@/public/icon/fee_decrease.svg"
 import inequality_left from "@/public/icon/inequality_left.svg"
 import inequality_right from "@/public/icon/inequality_right.svg"
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Confirm from "./modal/confirm";
+import Modal from "./modal/Modal";
+import DiscountModal from "./modal/DiscountModal";
 
 type circular = {
     rank_first_column_name: string
@@ -107,7 +112,7 @@ export default function MyFeeContent({
     
         const [selectedYear, setSelectedYear] = useState(year)
         const [selectedMonth, setSelectedMonth] = useState(month)
-        
+
         //circular
         const circulars : circular = circular.data
         //summary
@@ -124,19 +129,11 @@ export default function MyFeeContent({
         const detail: detailFee = details.data
 
         //입주 년도 & 월
-        // const MoveInYear : number = (detail === undefined) 
-        //     ? new Date().getFullYear() 
-        //     : parseInt(detail.start_service_date.split("-")[0])
-        // const MoveInMonth : number = (detail === undefined)
-        //     ? new Date().getMonth() + 1
-        //     : parseInt(detail.start_service_date.split("-")[1])
         const MoveInYear : number = 2017
         const MoveInMonth : number = 10
         const address = "패스트아파트 101동 1001호"
 
         //납부기한
-        // const [dueYear, setDueYear] = useState(new Date().getFullYear())
-        // const [dueMonth, setDueMonth] = useState(new Date().getMonth() + 1)
         const [dueDate, setDueDate] = useState(20)
 
         //전월 대비 관리비 사용 금액 비교
@@ -146,127 +143,94 @@ export default function MyFeeContent({
         const [compareYearFee, setCompareYearFee] = useState("-원")
         const [compareYearState, setCompareYearState] = useState("none")
 
-        
-        
-    
-        
-
         const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth() + 1; //왜 4월로 나오지...?
      
         const [startMonth, setStartMonth] = useState(1)
         const [endMonth, setEndMonth] = useState(currentMonth)
-    
-        
-    
-        
 
         const router = useRouter()
 
-        // useEffect(() => {
-        //     const compareMonth = () => {
-        //         if(months === undefined){
-        //             setCompareMonthFee("-원")
-        //             setCompareMonthState("none")
-        //         } else if(months.maintenance_fee_of_present - months.maintenance_fee_of_last_month >= 0) {
-        //             setCompareMonthFee(`+${(months.maintenance_fee_of_present - months.maintenance_fee_of_last_month).toLocaleString('ko-KR')}원`)
-        //             setCompareMonthState("positive")
-        //         } else if (months.maintenance_fee_of_present - months.maintenance_fee_of_last_month < 0) {
-        //             setCompareMonthFee(`${(months.maintenance_fee_of_present - months.maintenance_fee_of_last_month).toLocaleString('ko-KR')}원`)
-        //             setCompareMonthState("negative")
-        //         } else {
-        //             setCompareMonthFee("-원")
-        //             setCompareMonthState("none")
-        //         }
-        //     }
-        //     const compareYear = () => {
-        //         if(years === undefined) {
-        //             setCompareYearFee("-원")
-        //             setCompareYearState("none")
-        //         } else if(years.maintenance_fee_of_present - years.maintenance_fee_of_last_year >= 0){
-        //             setCompareYearFee(`+${(years.maintenance_fee_of_present - years.maintenance_fee_of_last_year).toLocaleString('ko-KR')}원`)
-        //             setCompareYearState("positive")
-        //         } else if (years.maintenance_fee_of_present - years.maintenance_fee_of_last_year < 0) {
-        //             setCompareYearFee(`${(years.maintenance_fee_of_present - years.maintenance_fee_of_last_year).toLocaleString('ko-KR')}원`)
-        //             setCompareYearState("negative")
-        //         } else {
-        //             setCompareYearFee("-원")
-        //             setCompareYearState("none")
-        //         }
-        //     }
-
-        //     compareMonth()
-        //     compareYear()
-        // },[selectedMonth, selectedYear])
-        useEffect(()=> {
-            router.push(`/fee/my?year=${selectedYear}&month=${selectedMonth}`)
-
-            const compareMonth = () => {
-                if(months && months.maintenance_fee_of_present - months.maintenance_fee_of_last_month >= 0) {
-                    setCompareMonthFee(`+${(months.maintenance_fee_of_present - months.maintenance_fee_of_last_month).toLocaleString('ko-KR')}원`)
-                    setCompareMonthState("positive")
-                } else if (months && months.maintenance_fee_of_present - months.maintenance_fee_of_last_month < 0) {
-                    setCompareMonthFee(`${(months.maintenance_fee_of_present - months.maintenance_fee_of_last_month).toLocaleString('ko-KR')}원`)
-                    setCompareMonthState("negative")
-                } else {
-                    setCompareMonthFee("-원")
-                    setCompareMonthState("none")
-                }
-            }
-            const compareYear = () => {
-                if(years && years.maintenance_fee_of_present - years.maintenance_fee_of_last_year >= 0){
-                    setCompareYearFee(`+${(years.maintenance_fee_of_present - years.maintenance_fee_of_last_year).toLocaleString('ko-KR')}원`)
-                    setCompareYearState("positive")
-                } else if (years && years.maintenance_fee_of_present - years.maintenance_fee_of_last_year < 0) {
-                    setCompareYearFee(`${(years.maintenance_fee_of_present - years.maintenance_fee_of_last_year).toLocaleString('ko-KR')}원`)
-                    setCompareYearState("negative")
-                } else {
-                    setCompareYearFee("-원")
-                    setCompareYearState("none")
-                }
-            }
-            compareMonth()
-            compareYear()
-        },[selectedYear, selectedMonth, compareMonthFee, compareYearFee])
-
-        useEffect(() => {
-            const setDate = () => {
-                if(selectedYear === currentYear) {
-                    setEndMonth(currentMonth)
-                    setStartMonth(1)
-                } else if(selectedYear === MoveInYear) {
-                    setEndMonth(12)
-                    setStartMonth(MoveInMonth)
-                }
-                else {
-                    setEndMonth(12)
-                    setStartMonth(1)
-                }
-
-                // setDueYear(parseInt(detail === undefined 
-                //     ? (Number(selectedMonth) + Number(1)) === 13 
-                //         ? (Number(selectedYear) + Number(1)).toString()
-                //             : selectedYear.toString() : detail.payment_due_date.split("-")[0]))
-                // setDueMonth(parseInt(detail === undefined 
-                //     ? (Number(selectedMonth) + Number(1)) === 13 
-                //         ? "1" 
-                //         : (Number(selectedMonth) + Number(1)).toString() 
-                //             : detail.payment_due_date.split("-")[1]))
-                // setDueDate(parseInt(detail === undefined ? "20" : detail.payment_due_date.split("-")[2]))
-            }
-            setDate()
+        // useEffect(()=> {
+        //     // router.push(`/fee/my?year=${selectedYear}&month=${selectedMonth}`)
 
             
-        }, [selectedYear, selectedMonth])
+        //         setDate()
+        //         compareMonth()
+        //         compareYear()
+            
+            
+        // },[selectedYear, selectedMonth])
+
+        // useEffect(() => {
+            
+        //     setDate()         
+        // }, [selectedYear, selectedMonth])
+
+        useEffect(() => {
+            compareMonth()
+            compareYear()
+            setDate()
+        }, [usePathname(), useSearchParams()])
     
+        const compareMonth = () => {
+            if(months && months.maintenance_fee_of_present - months.maintenance_fee_of_last_month >= 0) {
+                setCompareMonthFee(`+${(months.maintenance_fee_of_present - months.maintenance_fee_of_last_month).toLocaleString('ko-KR')}원`)
+                setCompareMonthState("positive")
+            } else if (months && months.maintenance_fee_of_present - months.maintenance_fee_of_last_month < 0) {
+                setCompareMonthFee(`${(months.maintenance_fee_of_present - months.maintenance_fee_of_last_month).toLocaleString('ko-KR')}원`)
+                setCompareMonthState("negative")
+            } else {
+                setCompareMonthFee("-원")
+                setCompareMonthState("none")
+            }
+        }
+        const compareYear = () => {
+            if(years && years.maintenance_fee_of_present - years.maintenance_fee_of_last_year >= 0){
+                setCompareYearFee(`+${(years.maintenance_fee_of_present - years.maintenance_fee_of_last_year).toLocaleString('ko-KR')}원`)
+                setCompareYearState("positive")
+            } else if (years && years.maintenance_fee_of_present - years.maintenance_fee_of_last_year < 0) {
+                setCompareYearFee(`${(years.maintenance_fee_of_present - years.maintenance_fee_of_last_year).toLocaleString('ko-KR')}원`)
+                setCompareYearState("negative")
+            } else {
+                setCompareYearFee("-원")
+                setCompareYearState("none")
+            }
+        }
+        
+        const setDate = () => {
+            if(selectedYear === currentYear) {
+                setEndMonth(currentMonth)
+                setStartMonth(1)
+            } else if(selectedYear === MoveInYear) {
+                setEndMonth(12)
+                setStartMonth(MoveInMonth)
+            }
+            else {
+                setEndMonth(12)
+                setStartMonth(1)
+            }
+        }
+
         const handleSelectYearChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
             const select = parseInt(event.target.value)
             setSelectedYear(select)
+            router.push(`/fee/my?year=${select}&month=${selectedMonth}`)
         }
         const handleSelectMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
             const select = parseInt(event.target.value)
             setSelectedMonth(select)
+            router.push(`/fee/my?year=${selectedYear}&month=${select}`)
         }
+
+        // const handleSelectYearChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
+        //     const select = parseInt(event.target.value)
+        //     setSelectedYear(select)
+        // }
+        // const handleSelectMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        //     const select = parseInt(event.target.value)
+        //     setSelectedMonth(select)
+        // }
     
         function addLeadingZero(number: number): string {
             const numberString = number.toString();
@@ -275,7 +239,25 @@ export default function MyFeeContent({
             }
             return numberString;
         }
-    
+
+
+        const [isModalOpen, setIsModalOpen] = useState(false)
+        const [isDiscountModalOpen, setIsDiscountModalOpen] = useState(false)
+
+        const handleOpenModal = () => {
+            setIsModalOpen(true)
+        }
+        const handleCloseModal = () => {
+            setIsModalOpen(false)
+        }
+        const handleOpenDiscountModal = () => {
+            setIsDiscountModalOpen(true)
+        }
+        const handleDiscountModal = () => {
+            setIsDiscountModalOpen(false)
+        }
+
+
         return (
             <div className="flex flex-col gap-8 max-w-[1200px] m-auto pb-10">
                 <div className="relative">
@@ -325,10 +307,6 @@ export default function MyFeeContent({
                                     <select className="text-gray-600 h-10 pl-5 pr-10 bg-white hover:cursor-pointer focus:outline-none appearance-auto"
                                             value={selectedYear}
                                             onChange={handleSelectYearChange}>
-                                        {/* {Array.from({length: year - MoveInYear + 1}, (_, index) => (
-                                            // <option key={currentYear - index} value={currentYear - index}>{currentYear - index}년</option>
-                                            <option key={year - index} value={year - index}>{year - index}년</option>
-                                        ))} */}
                                         {Array.from({length: currentYear - MoveInYear + 1}, (_, index) => (
                                             <option key={currentYear - index} value={currentYear - index}>{currentYear - index}년</option>
                                         ))}
@@ -336,10 +314,6 @@ export default function MyFeeContent({
                                     <select className="text-gray-600 h-10 pl-5 pr-10 bg-white hover:cursor-pointer focus:outline-none appearance-auto"
                                             value={selectedMonth}
                                             onChange={handleSelectMonthChange}>
-                                        {/* {Array.from({length: endMonth - startMonth + 1}, (_, index) => (
-                                            // <option key={endMonth - index} value={endMonth - index}>{endMonth - index}월</option>
-                                            <option key={endMonth - index} value={endMonth - index}>{month-index}월</option>
-                                        ))} */}
                                         {Array.from({length: endMonth - startMonth + 1}, (_, index) => (
                                             <option key={endMonth - index} value={endMonth - index}>{endMonth-index}월</option>
                                         ))}
@@ -360,16 +334,21 @@ export default function MyFeeContent({
                                             <div className="border-r-2 border-grey_200"></div>
                                         </span>
                                         <span className="flex justify-between">
-                                            <p>감면금액</p>
-                                            <button className="flex flex-nowrap items-center rounded bg-main_color text-white text-sm px-2 py-1 gap-2">
-                                                <p>상세내역 확인</p>
-                                                <Image
-                                                    src={detailBtn.src}
-                                                    alt="상세내역 아이콘"
-                                                    width={10}
-                                                    height={6}
-                                                />
-                                            </button>
+                                            <span className="inline-flex gap-2">
+                                                <p>감면금액</p>
+                                                <button className="flex flex-nowrap items-center rounded bg-main_color text-white text-sm px-2 py-1 gap-2"
+                                                        onClick={handleOpenDiscountModal}>
+                                                    <p>상세내역 확인</p>
+                                                    <Image
+                                                        src={detailBtn.src}
+                                                        alt="상세내역 아이콘"
+                                                        width={10}
+                                                        height={6}
+                                                    />
+                                                    
+                                                </button>
+                                                <DiscountModal isOpen={isDiscountModalOpen} onClose={handleDiscountModal} />
+                                            </span>
                                             <div className="border-r-2 border-grey_200"></div>
                                         </span>
                                         <span className="flex justify-between">
@@ -405,7 +384,10 @@ export default function MyFeeContent({
                                     </div>
                                 </div>
                                 {/* 관리비 납부 은행 */}
-                                <button className="inline-flex self-stretch p-4 bg-main_color text-white rounded-lg justify-center items-center gap-2.5">관리비 납부 은행</button>
+                                <button className="inline-flex self-stretch p-4 bg-main_color text-white rounded-lg justify-center items-center gap-2.5"
+                                        onClick={handleOpenModal}>관리비 납부 은행</button>
+                                {/* <Modal isOpen={isModalOpen} onClose={handleCloseModal}/> */}
+                                <Modal isOpen={isModalOpen} onClose={handleCloseModal} content={true} />
                             </div>
                         </div>
     
@@ -444,7 +426,7 @@ export default function MyFeeContent({
                                             months && months.maintenance_fee_of_present
                                         ]}/>
                                     </div>
-                                    <div className="w-full px-4 py-2 inline-flex justify-between items-center">
+                                    <div className="w-full px-4 py-2 inline-flex justify-around items-center">
                                         <p className="text-grey_300 font-normal">{(month == 2) ? 12 : ((month == 1) ? 11 : (month-2))}월</p>
                                         <p className="text-grey_300 font-normal">{(month == 1) ? 12 : (month-1)}월</p>
                                         <p className="font-medium">{month}월</p>
@@ -539,11 +521,23 @@ export default function MyFeeContent({
                                 </div>
                             </div>
     
-                            <div className="w-full  h-[100px] px-6 py-4 bg-grey_25 rounded-2xl border border-grey_200 justify-between items-start inline-flex">
-                                <div className="flex-col justify-center items-start gap-2 inline-flex">
-                                    <p>광고</p>
+                            <div className="w-full h-[100px] px-6 py-4 bg-grey_25 rounded-2xl border border-grey_200 justify-between items-start inline-flex">
+                                <div className="w-full inline-flex justify-between">
+                                        <div className="flex flex-col justify-center gap-2">
+                                            <div className="text-neutral-700 text-xl font-semibold">윗집도 아랫집도 가입했다는데!</div>
+                                            <div className="text-neutral-700 text-lg font-normal">우리집 지키는 KB주택화재보험</div>
+                                        </div>
+                                        <div className="relative">
+                                            <img className="w-28 h-16 rounded-lg" 
+                                                src="https://s3-alpha-sig.figma.com/img/648e/2db7/61a0905250fa5a32ef840261266b2cdd?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=N12Ijn~HC8xrDH03G3QleiBCvFxNoG7mcjc9UmD~gBhwXfZG3J2L5p14FcuX9QtHeoNfIuENlS21Vd0QXTXNzVN4KHFL6l5luk8Y77YDuTVInltTXRMhEBqgCHiAdgDHVY9pF3Q78iNysyQa9xJF1h5VTFuo7HiuNSIdUORA01GTOJmZsQgXumk8Xx4ZCqjEe44k7wXqvMozmx4IBCm9W9L9USuxu6p8tjIEG1ZuV~vcdlXpz-a2uVnIQFhurAodpeuZ9tctDQOjU7W0dtGBoqZjTB4QHiST9r5jnX2Ly5V08sy-JyCsiNpNWFo1lHnVF1ZjC3gEYyhKtv1PApwekQ__" />
+                                            <div className="absolute top-0 right-0 px-2 py-1 bg-zinc-800 rounded-2xl gap-2.5 flex">
+                                                <div className="text-white text-sm font-normal">AD</div>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
+
+                            
                         </div>
                     </div>
                 </div>
