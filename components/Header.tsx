@@ -3,8 +3,12 @@ import Image from "next/image"
 import logoMainImg from "@/public/img/logo_main.png"
 import searchIcon from "@/public/icon/search.svg"
 import GNB from "./GNB"
+import { getCookies } from "next-client-cookies/server"
 
 export default async function Header() {
+  const cookies = getCookies()
+  const accessToken = cookies.get("accessToken")
+
   return (
     <header className="">
       <div className="bg-main_color pt-4 pb-4 text-white">
@@ -12,13 +16,22 @@ export default async function Header() {
           <p className="text-white text-lg font-semibold">
             관리사무소(09:00~18:00) : Tel 1600-3123
           </p>
-          <div className="flex gap-6">
-            <Link href="/user/join/terms">회원가입</Link>
-            <Link href="/login">로그인</Link>
-          </div>
+          {accessToken ? (
+            <div className="flex gap-6">
+              <Link href="/user/join/terms">마이페이지</Link>
+              <Link href="/login">로그아웃</Link>
+            </div>
+          ) : (
+            <div className="flex gap-6">
+              <Link href="/user/join/terms">회원가입</Link>
+              <Link href="/login">로그인</Link>
+            </div>
+          )}
         </div>
       </div>
-      <nav id="nav" className="flex gap-4 max-w-[1200px] m-auto">
+      <nav
+        id="nav"
+        className="flex gap-4 max-w-[1200px] m-auto">
         <div className="flex items-center pt-4 pb-4 ">
           <Link
             href="/"
