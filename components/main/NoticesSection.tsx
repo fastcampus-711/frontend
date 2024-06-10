@@ -81,7 +81,7 @@ export default function NoticesSection({
             </div>
             <Link
               href={`/boards/notices/${item.id}`}
-              className="flex gap-2 px-2">
+              className="flex gap-2 px-2 truncate">
               {item.hot ? <PopularTag /> : ""}
               <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
                 {item.title}

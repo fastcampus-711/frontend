@@ -160,7 +160,7 @@ export default function Header() {
       </div>
       <nav
         id="nav"
-        className="flex gap-4 max-w-[1200px] m-auto">
+        className="flex max-w-[1200px] m-auto">
         <div className="flex items-center pt-4 pb-4 ">
           <Link
             href="/"
@@ -173,43 +173,43 @@ export default function Header() {
             />
           </Link>
         </div>
-        <ul className="flex gap-4 flex-1 justify-around items-center p-7">
-          <li>
+        <ul className="flex flex-1 w-[920px] justify-center items-center p-7">
+          <li className="w-[140px] flex justify-center">
             <Link
               href={"/intro/greetings"}
               className="text-grey_900 text-lg font-semibold">
               아파트소개
             </Link>
           </li>
-          <li>
+          <li className="w-[140px] flex justify-center">
             <Link
               href={"/boards/notices?catid=0&page=1"}
               className="text-grey_900 text-lg font-semibold">
               공지사항
             </Link>
           </li>
-          <li>
+          <li className="w-[140px] flex justify-center">
             <Link
               href={"/disclosure"}
               className="text-grey_900 text-lg font-semibold">
               의무공개
             </Link>
           </li>
-          <li>
+          <li className="w-[140px] flex justify-center">
             <Link
               href={"/boards/frees?catid=0&page=1"}
               className="text-grey_900 text-lg font-semibold">
               소통공간
             </Link>
           </li>
-          <li>
+          <li className="w-[140px] flex justify-center">
             <Link
               href={"/complaints"}
               className="text-grey_900 text-lg font-semibold">
               민원게시판
             </Link>
           </li>
-          <li>
+          <li className="w-[140px] flex justify-center">
             <Link
               href={`/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth()}`}
               className="text-grey_900 text-lg font-semibold">
