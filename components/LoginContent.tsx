@@ -137,8 +137,6 @@ export default function LoginContent() {
   }
 
   const handleLogin = async () => {
-    console.log(id)
-    console.log(pwd)
     try {
       const response = await fetch("https://711.ha-ving.store/auth/token", {
         method: "POST",

@@ -197,7 +197,7 @@ export default function CommunitySection({
                 </div>
                 <Link
                   href={`/boards/qna?catid=0&page=1`}
-                  className="flex gap-2 px-2">
+                  className="flex gap-2 px-2 truncate">
                   {item.hot ? <PopularTag /> : ""}
                   <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
                     {item.title}
