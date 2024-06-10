@@ -12,7 +12,7 @@ type energy = {
   average_usage_of_same_square: number
   present_usage: number
 }
-export default function HalfDoughnutGraph({datas}:{datas: number[]}) {
+export default function HalfDoughnutGraph({datas, unit}:{datas: number[], unit: string}) {
   
   // const percentageB = (datas[1] / datas[0]) * 100;
   Chart.register(ArcElement);
@@ -115,7 +115,7 @@ export default function HalfDoughnutGraph({datas}:{datas: number[]}) {
           동일면적평균
         </p>
         <p className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-2 text-sm whitespace-nowrap">
-          {datas !== undefined ? `(${datas[0]}kWh)` : "-kWh"}
+          {datas !== undefined ? `(${datas[0]}${unit})` : `-${unit}`}
         </p>
       </div>
     </div>

@@ -9,9 +9,9 @@ type ShareMarketItemProps = {
   category_name: string
   image_urls?: string[] | null
   title: string | React.ReactNode
-  price: string
+  price: number
   user_nickname: string
-  hits: string
+  hits: number
   created_at: string
   ishot: boolean
   isnew: boolean

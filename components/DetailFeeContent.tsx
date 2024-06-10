@@ -370,7 +370,8 @@ export default function DetailFeeContent({
                       </div>
                     </div>
                     <div className="w-[528px] h-[175px]">
-                      <HalfDoughnutGraph datas={energyDatas && [energyDatas[energyIndex].average_usage_of_same_square, energyDatas[energyIndex].present_usage]}/>
+                      <HalfDoughnutGraph datas={energyDatas && [energyDatas[energyIndex].average_usage_of_same_square, energyDatas[energyIndex].present_usage]}
+                                          unit={unit[energyIndex]}/>
                     </div>
                     <div className="flex justify-between px-6 py-4  rounded-lg border border-grey_200 ">
                       <div className="w-1/2 flex flex-col gap-2 border-r border-grey_200 pr-6">
