@@ -63,7 +63,7 @@ type categories = {
     MARKETS: dataType
 }
 
-export default async function IntegratedSearchContent({
+export default function IntegratedSearchContent({
     responseData,
     keyword
 }: {
