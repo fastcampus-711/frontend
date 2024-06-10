@@ -5,19 +5,20 @@ import ChartDataLabels from "chartjs-plugin-datalabels"
 import { useEffect, useRef, useState } from "react"
 import {  Bar, Line } from "react-chartjs-2"
 
-export default function HorizontalBar({year, month, datas} : {year:number, month:number, datas:any}) {
-    const [labels, setLabels] = useState<string[]>([])
+export default function HorizontalBar({year, month, getData} : {year:number, month:number, getData:number[]}) {
+    Chart.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, ChartDataLabels )
     
+    const [labels, setLabels] = useState<string[]>([])
+    const [datas, setDatas] = useState<number[]>(getData)
+
     useEffect(() => {
         setLabels([`${year-1}년 ${month}월`,`${year}년 ${month}월`])
-    },[month])
-
-    Chart.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, ChartDataLabels )
+    },[year, month])
 
     const data = {
         labels: labels,
         datasets: [{
-            data: datas,
+            data: getData,
             backgroundColor: ["rgba(211, 211, 211, 1)", "rgba(15, 115, 117, 1)"],
         }],
         

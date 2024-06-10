@@ -50,7 +50,7 @@ export default async function Home() {
       </div>
       <div className="flex gap-24 justify-center font-bold">
         <Link
-          href={`/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}`}>
+          href={`/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth()}`}>
           <div className="flex flex-col items-center gap-2">
             <Image
               src={feeIcon.src}
@@ -118,7 +118,7 @@ export default async function Home() {
           qnaData={qnaData.data.posts.content}
         />
         <div className="w-3/5">
-          <Link href={"/fee"}>
+          <Link href={`/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth()}`}>
             <div className="h-14 flex justify-between items-center px-4 mb-6 border-b bg-grey_50 rounded-lg">
               <div className="flex gap-4 items-center">
                 <span className="text-grey_900 text-2xl font-semibold leading-6">

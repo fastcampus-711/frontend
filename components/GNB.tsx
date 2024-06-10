@@ -52,11 +52,11 @@ export default function GNB() {
       subItems: [
         {
           title: "우리집관리비",
-          href: `/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}`
+          href: `/fee/my?year=${new Date().getFullYear()}&month=${new Date().getMonth()}`
         },
         {
           title: "관리비상세보기",
-          href: `/fee/detail?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}`
+          href: `/fee/detail?year=${new Date().getFullYear()}&month=${new Date().getMonth()}`
         }
       ]
     }

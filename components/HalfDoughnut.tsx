@@ -1,114 +1,123 @@
 "use client"
 
-import { Chart, ArcElement, Tooltip, Legend, plugins } from "chart.js"
-import { useEffect, useState } from "react"
-import {  Doughnut  } from "react-chartjs-2"
+import { Doughnut } from "react-chartjs-2";
+import { Chart, ArcElement } from "chart.js";
+import { Context } from "chartjs-plugin-datalabels";
+import Image from "next/image"
 
-type circular_chart_data = {
-  rank_first_column_name: string
-  rank_first_column_value: number
-  rank_second_column_name: string
-  rank_second_column_value: number
-  rank_third_column_name: string
-  rank_third_column_value: number
-  rank_fourth_column_name: string
-  rank_fourth_column_value: number
-  rank_fifth_column_name: string
-  rank_fifth_column_value: number
-  etc: string
-  etc_value: number
+import arrow from "@/public/icon/aptAverageArrow.svg"
+import { useEffect, useRef, useState } from "react";
+
+type energy = {
+  average_usage_of_same_square: number
+  present_usage: number
 }
+export default function HalfDoughnutGraph({datas, unit}:{datas: number[], unit: string}) {
+  
+  // const percentageB = (datas[1] / datas[0]) * 100;
+  Chart.register(ArcElement);
 
-export default function HalfDoughnutGraph({year, month, datas} : {year:number, month:number, datas:any}) {
-  const [labels, setLabels] = useState<string[]>([])
+  // const [canvasWidth, setCanvasWidth] = useState(0)
+  // const [canvasHeight, setCanvasHeight] = useState(0)
+  const [X, setX] = useState(0)
+  const [Y, setY] = useState(0)
+
+  // const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  // useEffect(() => {
+  //   const canvas = canvasRef.current
+  //   if(!canvas) return
+
+  //   const ctx = canvas.getContext("2d");
+  //   if (!ctx) {
+  //     throw new Error("Canvas rendering context is not available");
+  //   }
+
+  // const centerX = canvas.offsetWidth / 2;
+  // const centerY = canvas.offsetHeight  / 2;
+  // const radius = Math.min(centerX, centerY) - 10;
+
+  // const angleRadians = (percentageB - 90) * (Math.PI / 180);
+
+  // const x = centerX + radius * Math.cos(angleRadians);
+  // const y = centerY + radius * Math.sin(angleRadians);
+
+  // console.log("x, y",x, y)
+
+  // setX(x)
+  // setY(y)
+  // },[])
 
   const data = {
-    labels: labels,
-    datasets: [{
-      data: [50, 50],
-      backgroundColor: (context: any) => {
-        const chart = context.chart
-        const {ctx, chartArea} = chart
-        if(!chartArea) {
-            return null;
-        }
-        if(context.dataIndex === 0) {
-            return getGradient(chart, "rgba(15, 111, 117, 1)", "rgba(242, 242, 242, 1)")
-        } else if(context.dataIndex === 1) {
-            return getGradient(chart,  "rgba(255, 206, 80, 1)", "rgba(230, 230, 230, 1)" )
-        }
-      },
-      hoverOffset:10
-    }]
-  }
+    datasets: [
+      {
+        data: [10, 10, 10, 10, 10, 10],
+        backgroundColor: function(context: Context) {
+          const ctx = context.chart.ctx;
+          const canvas = context.chart.canvas;
 
-  function getGradient(chart: any, color1: string, color2: string) {
-    const {ctx, chartArea: {top, bottom, left, right}} = chart
-    const gradientSegment = ctx.createLinearGradient(left, 0, right, 0)
-    gradientSegment.addColorStop(0, color1)
-    gradientSegment.addColorStop(0.5, color2)
-    return gradientSegment
-  }
+          const gradient = ctx.createLinearGradient(0, 0, canvas.offsetWidth, 0);
+          gradient.addColorStop(1/4, '#0F6F75');
+          gradient.addColorStop(1/2, '#F2F2F2');
+          gradient.addColorStop(3/4, '#FFCE50');
+          gradient.addColorStop(1, '#E6E6E6');
 
-
-  useEffect(() => {
-    // circularFetch()
-  },[])
-
-  Chart.register(ArcElement, Tooltip, Legend);
-
-  const options = {
-    rotation: -90,
-    circumference: 180,
-    responsive: true,
-    maintainAspectRatio: false,
+          return gradient;
+        },
+        display: true,
+        borderColor: "white"
+      }
+    ]
+  };
+  const option = {
     plugins: {
       legend: {
-        display: false,
-        position: "bottom" as const, //그냥 "bottom"은 에러남
-        labels: {
-          usePointStyle: true,
-          boxWidth: 5,
-          boxHeight: 5,
-          font: {
-            size: 11
-          }
-        }
+        display: false
       },
       tooltip: {
         enabled: false
       },
-      datalabels: { 
-        align: "start" as const, //as const 없으면 오류
-        display: true,
-        backgroundColor: function() {
-            return "rgba(249, 249, 249, 1)";
-        },
-        borderColor: function() {
-            return "rgba(234, 234, 234, 1)";
-        },
-        borderWidth: 1,
-        color: function() {
-            return "rgba(25, 25, 25, 1)"
-        },
-        font: {
-            size: 16,
-            weight: "bold" as "bold",
-        },
-        formatter: function(value:any, context:any) {
-            if(context.active){
-                return value.toLocaleString('ko-KR') + "원"
-            }
-        },
-        offset: 8,
-        padding: 12,
-        textAlign: "center" as "center",
+      datalabels: {
+         display: false
+      }
     },
-    },
+    rotation: -90,
+    circumference: 180,
+    cutout: "60%",
+    maintainAspectRatio: false,
   }
   return (
-    <div>
-      <Doughnut data={data} options={options}/>
+    <div className="relative">
+      <div className="w-full">
+        <Doughnut
+          data={data}
+          options={option}
+        />
+      </div>
+      <div className="absolute flex flex-row bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="w-7 h-5 transform -translate-y-4">-60</div>
+        <div className="w-7 h-5 transform -translate-y-10">-20</div>
+        <div className="w-7 h-5 transform translate-x-2 -translate-y-12">0</div>
+        
+        <div className="w-7 h-5 transform -translate-y-10">+20</div>
+        <div className="w-7 transform transform -translate-y-4">+60</div>
+      </div>
+      <div className="absolute flex flex-row bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <Image
+            src={arrow.src}
+            alt="아파트 평균 아이콘"
+            width={16}
+            height={16}
+            className="transform -translate-y-20"
+        />
+        {/* <div className="w-6 h-4 transform translate-x-1 -translate-y-20">▲</div> */}
+        <p className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-2 text-sm whitespace-nowrap">
+          동일면적평균
+        </p>
+        <p className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-2 text-sm whitespace-nowrap">
+          {datas !== undefined ? `(${datas[0]}${unit})` : `-${unit}`}
+        </p>
+      </div>
     </div>
-  )
-}
+  );
+};

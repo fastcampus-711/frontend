@@ -6,8 +6,19 @@ import Image from "next/image"
 import logoMainImg from "@/public/img/logo_main.png"
 import searchIcon from "@/public/icon/search.svg"
 import GNB from "./GNB"
+import { useState } from "react"
+import IntegratedSearchModal from "./modal/IntegratedSearchModal"
 
 export default function Header() {
+  const [search, IsSearch] = useState(false)
+
+  const handleOpenModal = () => {
+    IsSearch(true)
+  }
+  const handleCloseModal = () => {
+    IsSearch(false)
+  }
+
   return (
     <header className="">
       <div className="bg-main_color pt-4 pb-4 text-white">
@@ -89,7 +100,11 @@ export default function Header() {
           </li>
         </ul>
         <div className="flex justify-end items-center w-[124px]">
-          <button className="flex gap-2 px-3 py-2 bg-[#A4E5E8] rounded-lg text-[#053A3C] font-medium">
+          <button
+            className="flex gap-2 px-3 py-2 bg-[#A4E5E8] rounded-lg text-[#053A3C] font-medium"
+            onClick={() => {
+              IsSearch(true)
+            }}>
             <Image
               src={searchIcon.src}
               alt="검색아이콘"
@@ -101,6 +116,11 @@ export default function Header() {
         </div>
       </nav>
       <GNB />
+      <IntegratedSearchModal
+        isOpen={search}
+        onClose={handleCloseModal}
+        content={true}
+      />
     </header>
   )
 }
