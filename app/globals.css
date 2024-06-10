@@ -4,3 +4,48 @@
 /* @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities'; */
+
+.swiper-pagination-current {
+  opacity: 0.7;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  background-color: white;
+  padding: 8px;
+  opacity: 0.5;
+  border-radius: 4px;
+}
+
+.swiper-pagination {
+  display: inline-flex;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 2px;
+  border: 2px;
+  width: 0;
+}
+
+.swiper-pagination-fraction {
+  display: inline-flex;
+  width: 0;
+}
+
+.swiper-pagination-horizontal {
+  display: inline-flex;
+  width: 0;
+}
+
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  display: inline-block;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 0px 8px;
+  border: 2px;
+  width: initial !important;
+  left: 50% !important;
+  transform: translateX(-50%);
+  border-radius: 16px;
+}

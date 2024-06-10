@@ -208,8 +208,21 @@ export default function QnaContent({
               <div className="text-grey_250">검색된 게시글이 없습니다.</div>
             </div>
           ) : (
-            <div className="text-center text-lg font-medium text-grey_700 mt-8 mb-10">
-              등록된 게시글이 없습니다.
+            <div>
+              <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
+                <DropDown
+                  label="답변상태"
+                  options={statusOptions}
+                  event={handleStatusChange}
+                />
+                <PrimaryButton
+                  label="글쓰기"
+                  onClick={handleGoEdit}
+                />
+              </div>
+              <div className="text-center text-lg font-medium text-grey_700 mt-8 mb-10">
+                등록된 게시글이 없습니다.
+              </div>
             </div>
           )}
         </div>

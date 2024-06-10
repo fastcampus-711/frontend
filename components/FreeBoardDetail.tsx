@@ -88,11 +88,6 @@ export default function FreeBoardDetail({
     reaction_type
   } = responseData
 
-  useEffect(() => {
-    const cookies = document.cookie
-    console.log("Cookies:", cookies)
-  }, [])
-
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const [reaction, setReaction] = useState<boolean | string>(reaction_type)
@@ -376,6 +371,7 @@ export default function FreeBoardDetail({
           </div>
         </div>
         <CommentEdit
+          type="댓글"
           id={id}
           count_of_comments={count_of_comments}
           fetchData={fetchData}

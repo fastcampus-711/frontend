@@ -21,16 +21,16 @@ export default function AnswerStateTag({
   //   source = ansAnsweredIcon
   //   alter = "답변완료 아이콘"
   // } else
-  if (status === "AWAITING_RESPONSE") {
-    style = "text-[#002D5F]"
-    text = "답변대기"
-    source = ansPendingIcon
-    alter = "답변대기 아이콘"
-  } else if (status === "RESPONSE_ACCEPTED") {
+  if (status === "RESPONSE_ACCEPTED") {
     style = "text-[#FF9111]"
     text = "답변채택"
     source = ansChoiceIcon
     alter = "답변채택 아이콘"
+  } else {
+    style = "text-[#002D5F]"
+    text = "답변대기"
+    source = ansPendingIcon
+    alter = "답변대기 아이콘"
   }
 
   return (

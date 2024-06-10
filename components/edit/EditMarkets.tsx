@@ -249,6 +249,8 @@ export default function EditMarkets() {
                 <input
                   type="number"
                   name="price"
+                  min="10"
+                  max="99999999"
                   value={selectedType === 26 ? price : 0}
                   onChange={e => setPrice(parseInt(e.target.value, 10))}
                   placeholder="거래할 물품의 금액을 입력하세요"
