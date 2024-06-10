@@ -1,4 +1,5 @@
 "use client"
+
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
@@ -80,7 +81,7 @@ export default function GNB() {
 
   return (
     <div
-      className={`${state ? "visible" : "invisible"} z-10 absolute w-full bg-grey_50 shadow-xl`}>
+      className={`z-10 absolute w-full bg-grey_50 shadow-xl overflow-hidden transition-all duration-300 ${state ? "max-h-[500px]" : "max-h-0"}`}>
       <div className="flex px-4 max-w-[1200px] m-auto">
         <span className="w-[124px]"></span>
         <div className="flex px-4 flex-1 justify-center">

@@ -310,8 +310,30 @@ export default function ShareMarketContent({
               <div className="text-grey_250">검색된 게시글이 없습니다.</div>
             </div>
           ) : (
-            <div className="text-center text-lg font-medium text-grey_700 mt-8 mb-10">
-              등록된 게시글이 없습니다.
+            <div>
+              <div className="flex justify-between">
+                <div className="w-[500px] h-12 justify-start items-start flex gap-4 flex-wrap">
+                  <DropDown
+                    label="거래방식"
+                    options={categoryOptions}
+                    event={handleCategoryChange}
+                    initialValue={catid}
+                  />
+                  <DropDown
+                    label="거래상태"
+                    options={statusOptions}
+                    event={handleStatusChange}
+                    initialValue={status}
+                  />
+                </div>
+                <PrimaryButton
+                  label="글쓰기"
+                  onClick={handleGoEdit}
+                />
+              </div>
+              <div className="text-center text-lg font-medium text-grey_700 mt-8 mb-10">
+                등록된 게시글이 없습니다.
+              </div>
             </div>
           )}
         </div>

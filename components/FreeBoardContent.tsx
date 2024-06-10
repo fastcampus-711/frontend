@@ -280,21 +280,35 @@ export default function FreeBoardContent({
               <div className="text-grey_250">검색된 게시글이 없습니다.</div>
             </div>
           ) : (
-            <table className="w-full">
-              <tbody>
-                <tr className="text-center text-lg font-medium text-grey_700 border-b border-grey_900">
-                  <td className="p-4 w-40">분류</td>
-                  <td className="p-4">제목</td>
-                  <td className="p-4 w-40">글쓴이</td>
-                  <td className="p-2 w-20">공감수</td>
-                  <td className="p-2 w-20">조회수</td>
-                  <td className="p-4 w-32">등록일</td>
-                </tr>
-                <tr className="text-center text-lg font-medium text-grey_700 mt-8 mb-10">
-                  <td colSpan={6}>등록된 게시글이 없습니다.</td>
-                </tr>
-              </tbody>
-            </table>
+            <div>
+              <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
+                <DropDown
+                  label="분류"
+                  options={categoryOptions}
+                  event={handleCategoryChange}
+                  initialValue={catid}
+                />
+                <PrimaryButton
+                  label="글쓰기"
+                  onClick={handleGoEdit}
+                />
+              </div>
+              <table className="w-full">
+                <tbody>
+                  <tr className="text-center text-lg font-medium text-grey_700 border-b border-grey_900">
+                    <td className="p-4 w-40">분류</td>
+                    <td className="p-4">제목</td>
+                    <td className="p-4 w-40">글쓴이</td>
+                    <td className="p-2 w-20">공감수</td>
+                    <td className="p-2 w-20">조회수</td>
+                    <td className="p-4 w-32">등록일</td>
+                  </tr>
+                  <tr className="text-center text-lg font-medium text-grey_700 mt-8 mb-10">
+                    <td colSpan={6}>등록된 게시글이 없습니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}
