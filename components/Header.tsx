@@ -133,17 +133,27 @@ export default function Header() {
           </p>
           {accessToken ? (
             <div className="flex gap-6">
-              <Link href="/user/join/terms">마이페이지</Link>
-              <div
-                className="cursor-pointer"
-                onClick={handleLogout}>
+              <Link
+                className="flex items-center"
+                href="/user/join/terms">
+                마이페이지
+              </Link>
+              <button onClick={() => cookies.remove("accessToken")}>
                 로그아웃
-              </div>
+              </button>
             </div>
           ) : (
             <div className="flex gap-6">
-              <Link href="/user/join/terms">회원가입</Link>
-              <Link href="/login">로그인</Link>
+              <Link
+                className="flex items-center"
+                href="/user/join/terms">
+                회원가입
+              </Link>
+              <Link
+                className="flex items-center"
+                href="/login">
+                로그인
+              </Link>
             </div>
           )}
         </div>
