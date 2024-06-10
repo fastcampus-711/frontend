@@ -6,17 +6,17 @@ import closeIcon_thick from "@/public/icon/close_thick.svg"
 import searchIcon from "@/public/icon/search.svg"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 
 export default function IntegratedSearchModal({isOpen, onClose, content} : {isOpen: boolean, onClose: ()=> void, content: boolean}) {
-    if(!isOpen) return null
-
     const [searchWord, setSearchWord] = useState("")
     const router = useRouter()
     const handleSearch = () => {
         router.push(`/integratedSearch?keyword=${searchWord}`)
         onClose()
     }
+
+    if(!isOpen) return null
+    
     return (
         <div className="flex fixed inset-0 bg-grey_800 bg-opacity-50 justify-center items-start z-50">
             <div className="max-w-[1080px] bg-white rounded-2xl overflow-hidden mt-[200px] ">
@@ -37,14 +37,14 @@ export default function IntegratedSearchModal({isOpen, onClose, content} : {isOp
                                             height={100}
                                         />
                                     </button>
-                                    <Link href={`/integratedSearch?keyword=${searchWord}`}>
+                                    <button onClick={handleSearch}>
                                         <Image
                                             src={searchIcon.src}
                                             alt="검색아이콘"
                                             width={40}
                                             height={40}
                                         />
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                             <div className="flex flex-col gap-6">
