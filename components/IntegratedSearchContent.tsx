@@ -333,7 +333,7 @@ export default async function IntegratedSearchContent({
                                 <td className="px-4 py-6 w-32">등록일</td>
                             </tr>
                             {responseData.QNAS.data.content.map(item => (
-                                <tr className="text-grey_400 text-center font-medium">
+                                <tr key={item.id} className="text-grey_400 text-center font-medium">
                                     <td className="px-4 py-6 w-40 ">
                                         <AnswerStateTag status={item.status} />
                                     </td>
