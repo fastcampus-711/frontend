@@ -1,7 +1,7 @@
 "use client"
 
 import BoardSubMenuBar from "@/components/submenu/SubMenuBar"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import HorizontalBar from "./HorizontalBar"
 import HalfDoughnutGraph from "./HalfDoughnut"
@@ -121,18 +121,25 @@ export default function DetailFeeContent({
   const [selectedMonth, setSelectedMonth] = useState(month)
 
   //energy
-  const [energyDatas, setEnergyDatas] = useState<energy[]>(energy && energy.data)
+  const energyData : energy = energy.data
+  // const [energyDatas, setEnergyDatas] = useState<energy[]>(energy && energy.data)
   const [energyIndex, setEnergyIndex] = useState(0)
   const categories = ["전기", "수도", "온수", "난방"]
-  // const energyDatas : energy[] = energy && energy.data
+  const energyDatas : energy[] = energy && energy.data
+
+  const [monthUsage, setMonthUsage] = useState("-%")
+  const [averageUsage, setAverageUsage] = useState("-%")
+  const [monthUsageState, setMonthUsageState] = useState("none")
+  const [averageUsageState, setAverageUsageState] = useState("none")
 
   //details
-  const detail : detailFee = details.data
-  const lastDetail : detailFee = lastYearDetails.data
+  const detail : detailFee = details && details.data
+  const lastDetail : detailFee = lastYearDetails && lastYearDetails.data
   const subFee : sub_maintenance_fee = detail && detail.sub_maintenance_fee
   const lastSubFee : sub_maintenance_fee = lastDetail && lastDetail.sub_maintenance_fee
 
   const [category, setCategory] = useState("전기")
+  const unit : string[] = ["Kwh", "m³", "Mcal/h", "MJ"]
 
   const detailItems = [
     {label: "일반 관리비", value1: subFee && subFee.general_maintenance_fee, value2:lastSubFee && lastSubFee.general_maintenance_fee},
@@ -154,28 +161,49 @@ export default function DetailFeeContent({
   const MoveInYear : number = 2015
   const MoveInMonth = 5
 
+  const router = useRouter()
 
-  const compareMonthUsage =  energyDatas && Math.round((
-    energyDatas[energyIndex].present_usage
+  const compareMonthUsage = () => {
+    const data = energyDatas && Math.round((
+      energyDatas[energyIndex].present_usage
     - energyDatas[energyIndex].last_year_usage) 
     /energyDatas[energyIndex].present_usage
     * 100)
-  const compareAverageUsage = energyDatas && Math.round((
-    energyDatas[energyIndex].present_usage
+    setMonthUsage(`${data}%`)
+
+    if(data > 0) {
+      setMonthUsage(`+${data}%`)
+      setMonthUsageState("positive")
+    } else if(data <=0) {
+      setMonthUsage(`${data}%`)
+      setMonthUsageState("negative")
+    } else {
+      setMonthUsage(`-%`)
+      setMonthUsageState("none")
+    }
+  }
+
+  const compareAverageUsage = () => {
+    const data = energyDatas && Math.round((
+      energyDatas[energyIndex].present_usage
     - energyDatas[energyIndex].average_usage_of_same_square) 
     /energyDatas[energyIndex].present_usage
     * 100)
-
-  const router = useRouter()
-  
-  useEffect(() => {
-    router.push(`/fee/detail?year=${selectedYear}&month=${selectedMonth}`)
-  }, [selectedYear, selectedMonth])
-  
-  useEffect(() => {
+    if(data > 0) {
+      setAverageUsage(`+${data}%`)
+      setAverageUsageState("positive")
+    } else if(data <=0) {
+      setAverageUsage(`${data}%`)
+      setAverageUsageState("negative")
+    } else {
+      setAverageUsage(`-%`)
+      setAverageUsageState("none")
+    }
+  }
+  const setDate = () => {
     if(selectedYear === currentYear) {
-        setEndMonth(currentMonth)
-        setStartMonth(1)
+      setEndMonth(currentMonth)
+      setStartMonth(1)
     } else if(selectedYear === MoveInYear) {
         setEndMonth(12)
         setStartMonth(MoveInMonth)
@@ -184,16 +212,29 @@ export default function DetailFeeContent({
         setEndMonth(12)
         setStartMonth(1)
     }
-    
-  }, [selectedYear, selectedMonth])
+  }
+  
+
+  useEffect(() => {
+    compareMonthUsage()
+    compareAverageUsage()
+    setDate()
+  },[usePathname(), useSearchParams()])
+
+  useEffect(() => {
+    compareMonthUsage()
+    compareAverageUsage()
+  },[energyIndex])
 
   const handleSelectYearChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
     const select = parseInt(event.target.value)
     setSelectedYear(select)
+    router.push(`/fee/detail?year=${select}&month=${selectedMonth}`)
   }
   const handleSelectMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
       const select = parseInt(event.target.value)
       setSelectedMonth(select)
+      router.push(`/fee/detail?year=${selectedYear}&month=${select}`)
   }
 
   return (
@@ -228,7 +269,6 @@ export default function DetailFeeContent({
                     ))}
                   </select>
                 </div>
-                
               </div>
                 
             {/* </div> */}
@@ -263,10 +303,16 @@ export default function DetailFeeContent({
                           <span>
                               전년동월 대비{" "}
                           </span>
-                          <span className={`flex flex-nowrap gap-1 ${(compareMonthUsage > 0) ? "text-increase_color" : "text-decreaseColor"}`}>
-                              {compareMonthUsage}%
+                          <span className={`flex flex-nowrap gap-1 
+                              ${(monthUsageState === "positive") 
+                              ? "text-increase_color" 
+                              : (monthUsageState === "negative" ? "text-decrease_color" : "text-grey_500")}`}>
+                              {monthUsage}
                               <Image
-                                  src={(compareMonthUsage > 0) ? feeIncrease.src : feeDecrease.src}
+                                    hidden={monthUsageState === "none"}
+                                    src={(monthUsageState === "positive") 
+                                        ? feeIncrease.src 
+                                        : feeDecrease.src}
                                   alt="전월대비 아이콘"
                                   width={16}
                                   height={16}
@@ -275,7 +321,7 @@ export default function DetailFeeContent({
                       </div>
                     </div>
                     <div className="w-[528px] h-[175px]">
-                      <HorizontalBar year={selectedYear} month={selectedMonth} datas={energyDatas && [energyDatas[energyIndex].last_year_fee, energyDatas && energyDatas[energyIndex].present_fee]}/>
+                      <HorizontalBar year={selectedYear} month={selectedMonth} getData={energyDatas && [energyDatas[energyIndex].last_year_fee, energyDatas[energyIndex].present_fee]}/>
                     </div>
                     <div className="flex justify-between px-6 py-4  rounded-lg border border-grey_200 ">
                       <div className="w-1/2 flex flex-col gap-2 border-r border-grey_200 pr-6">
@@ -283,14 +329,14 @@ export default function DetailFeeContent({
                           <p className="text-grey_300 text-sm font-normal">{selectedYear-1}년 {selectedMonth}월</p>
                           <p className="text-right text-base text-grey_500 font-normal">{energyDatas && energyDatas[energyIndex].last_year_fee.toLocaleString('ko-KR')}원</p>
                         </div>
-                        <p className="text-right text-grey_300 text-sm">{energyDatas && energyDatas[energyIndex].last_year_usage} kWh</p>
+                        <p className="text-right text-grey_300 text-sm">{energyDatas && energyDatas[energyIndex].last_year_usage} {unit[energyIndex]}</p>
                       </div>
                       <div className="w-1/2 flex flex-col gap-2 pl-6">
                         <div className="flex justify-between items-center gap-2">
                           <p className="text-sm font-normal">{selectedYear}년 {selectedMonth}월</p>
                           <p className="text-right text-base text-main_color font-semibold">{energyDatas && energyDatas[energyIndex].present_fee.toLocaleString('ko-KR')}원</p>
                         </div>
-                        <p className="text-right text-main_color text-sm">{energyDatas && energyDatas[energyIndex].present_usage} kWh</p>
+                        <p className="text-right text-main_color text-sm">{energyDatas && energyDatas[energyIndex].present_usage} {unit[energyIndex]}</p>
                       </div>
                     </div>
                   </div>
@@ -306,10 +352,16 @@ export default function DetailFeeContent({
                           <span>
                               평균 대비{" "}
                           </span>
-                          <span className={`flex flex-nowrap gap-1 ${(compareAverageUsage > 0) ? "text-increase_color" : "text-decrease_color"}`}>
-                              {compareAverageUsage}%
+                          <span className={`flex flex-nowrap gap-1 
+                              ${(averageUsageState === "positive") 
+                              ? "text-increase_color" 
+                              : (averageUsageState === "negative" ? "text-decrease_color" : "text-grey_500")}`}>
+                              {averageUsage}
                               <Image
-                                  src={(compareAverageUsage > 0) ? feeIncrease.src : feeDecrease.src}
+                                    hidden={averageUsageState === "none"}
+                                    src={(averageUsageState === "positive") 
+                                        ? feeIncrease.src 
+                                        : feeDecrease.src}
                                   alt="전월대비 아이콘"
                                   width={16}
                                   height={16}
@@ -318,23 +370,7 @@ export default function DetailFeeContent({
                       </div>
                     </div>
                     <div className="w-[528px] h-[175px]">
-                      그래프 
-                      {/* <HalfDoughnutGraph year={selectedYear} month={selectedMonth} datas={[energyDatas[energyIndex].average_usage_of_same_square, energyDatas[energyIndex].present_usage]}/>
-                      <div className="w-[528px] h-[175px] flex-col justify-center items-center gap-4 inline-flex">
-                        <div className="w-[349.02px] h-[175px] relative">
-                        <div className="w-[57.68px] h-[0px] left-[174.02px] top-[0.98px] absolute origin-top-left rotate-90 border border-white"></div>
-                        <div className="w-[59.13px] h-[0px] left-[247.50px] top-[17px] absolute origin-top-left rotate-[120.49deg] border border-white"></div>
-                        <div className="w-[59.06px] h-[0px] left-[103.51px] top-[16px] absolute origin-top-left rotate-[61.70deg] border border-white"></div>
-                        <div className="w-[57.68px] h-[0px] left-[22.49px] top-[89.94px] absolute origin-top-left rotate-[30.92deg] border border-white"></div>
-                        <div className="w-[57.68px] h-[0px] left-[325.85px] top-[89.94px] absolute origin-top-left rotate-[150deg] border border-white"></div>
-                        <div className="w-[9.78px] h-[18.58px] left-[169.51px] top-[62.57px] absolute text-zinc-900 text-base font-normal font-['Pretendard']">0</div>
-                        <div className="w-[30.58px] h-[18.58px] left-[204.51px] top-[63px] absolute origin-top-left rotate-[31.39deg] text-zinc-900 text-base font-normal font-['Pretendard']">+20</div>
-                        <div className="w-[26.40px] h-[18.58px] left-[72.35px] top-[134.53px] absolute origin-top-left rotate-[-58.61deg] text-zinc-900 text-base font-normal font-['Pretendard']">-60</div>
-                        <div className="w-[31.60px] h-[18.58px] left-[260.77px] top-[108.52px] absolute origin-top-left rotate-[55.90deg] text-zinc-900 text-base font-normal font-['Pretendard']">+60</div>
-                        <div className="w-[25.42px] h-[18.58px] left-[122.51px] top-[79.25px] absolute origin-top-left rotate-[-34.10deg] text-zinc-900 text-base font-normal font-['Pretendard']">-20</div>
-                        </div>
-                        <div className="text-center text-zinc-900 text-base font-normal font-['Pretendard']">동일면적평균<br/>(-kWh)</div>
-                      </div> */}
+                      <HalfDoughnutGraph datas={energyDatas && [energyDatas[energyIndex].average_usage_of_same_square, energyDatas[energyIndex].present_usage]}/>
                     </div>
                     <div className="flex justify-between px-6 py-4  rounded-lg border border-grey_200 ">
                       <div className="w-1/2 flex flex-col gap-2 border-r border-grey_200 pr-6">
@@ -342,14 +378,14 @@ export default function DetailFeeContent({
                           <p className="text-grey_300 text-sm font-normal">아파트 평균 금액</p>
                           <p className="text-right text-base text-grey_500 font-normal">{energyDatas && energyDatas[energyIndex].average_fee_of_same_square.toLocaleString('ko-KR')}원</p>
                         </div>
-                        <p className="text-right text-grey_300 text-sm">{energyDatas && energyDatas[energyIndex].average_usage_of_same_square.toLocaleString('ko-KR')} kWh</p>
+                        <p className="text-right text-grey_300 text-sm">{energyDatas && energyDatas[energyIndex].average_usage_of_same_square.toLocaleString('ko-KR')} {unit[energyIndex]}</p>
                       </div>
                       <div className="w-1/2 flex flex-col gap-2 pl-6">
                         <div className="flex justify-between items-center gap-2">
                           <p className="text-sm font-normal">우리집 사용 금액</p>
                           <p className="text-right text-base text-main_color font-semibold">{energyDatas && energyDatas[energyIndex].present_fee.toLocaleString('ko-KR')}원</p>
                         </div>
-                        <p className="text-right text-main_color text-sm">{energyDatas && energyDatas[energyIndex].present_usage} kWh</p>
+                        <p className="text-right text-main_color text-sm">{energyDatas && energyDatas[energyIndex].present_usage} {unit[energyIndex]}</p>
                       </div>
                     </div>
                   </div>               
