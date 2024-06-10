@@ -62,7 +62,7 @@ type ResponseData = {
   content: string
   image_urls?: string[]
   count_of_comments: string
-  hits: string
+  hits: number
   comment: CommentData[]
   created_at: string
   reaction_type: boolean | string

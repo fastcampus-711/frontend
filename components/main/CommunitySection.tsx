@@ -16,14 +16,14 @@ type PostData = {
   id: number
   status: string
   isnew: boolean
-  hits: string
+  hits: number
   count_of_comments: string
   category: string
   category_name: string
   title: string
   content: string
   image_urls?: string[] | null
-  price: string
+  price: number
   user_nickname: string
   created_at: string
   comment?: Comment[]
