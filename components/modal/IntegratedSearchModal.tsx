@@ -50,7 +50,7 @@ export default function IntegratedSearchModal({isOpen, onClose, content} : {isOp
                                 <div className="text-xl font-medium">최근 검색어</div>
                                 <div className="inline-flex flex-wrap gap-8">
                                     <div className="inline-flex h-14 px-5 py-4 bg-grey_50 rounded-2xl items-center gap-4">
-                                        <div className="text-grey_500 text-xl font-medium">무늬는 포도가 먹고시픈뎅</div>
+                                        <div className="text-grey_500 text-xl font-medium">test</div>
                                         <button>
                                             <Image
                                                 src={closeIcon.src}
@@ -62,7 +62,7 @@ export default function IntegratedSearchModal({isOpen, onClose, content} : {isOp
                                     </div>
                                     
                                     <div className="inline-flex h-14 px-5 py-4 bg-grey_50 rounded-2xl items-center gap-4">
-                                        <div className="text-grey_500 text-xl font-medium">국이 왜 이렇게 짜?</div>
+                                        <div className="text-grey_500 text-xl font-medium">123</div>
                                         <button>
                                             <Image
                                                 src={closeIcon.src}
@@ -73,7 +73,7 @@ export default function IntegratedSearchModal({isOpen, onClose, content} : {isOp
                                         </button>
                                     </div>
                                     <div className="inline-flex h-14 px-5 py-4 bg-grey_50 rounded-2xl items-center gap-4">
-                                        <div className="text-grey_500 text-xl font-medium">짜긴 뭐가 짜...</div>
+                                        <div className="text-grey_500 text-xl font-medium">456</div>
                                         <button>
                                             <Image
                                                 src={closeIcon.src}
@@ -84,7 +84,7 @@ export default function IntegratedSearchModal({isOpen, onClose, content} : {isOp
                                         </button>
                                     </div>
                                     <div className="inline-flex h-14 px-5 py-4 bg-grey_50 rounded-2xl items-center gap-4">
-                                        <div className="text-grey_500 text-xl font-medium">짜요 어머님 너무 쫄았나봐요</div>
+                                        <div className="text-grey_500 text-xl font-medium">789</div>
                                         <button>
                                             <Image
                                                 src={closeIcon.src}
@@ -95,7 +95,7 @@ export default function IntegratedSearchModal({isOpen, onClose, content} : {isOp
                                         </button>
                                     </div>
                                     <div className="inline-flex h-14 px-5 py-4 bg-grey_50 rounded-2xl items-center gap-4">
-                                        <div className="text-grey_500 text-xl font-medium">짜다니깐 쯧</div>
+                                        <div className="text-grey_500 text-xl font-medium">100</div>
                                         <button>
                                             <Image
                                                 src={closeIcon.src}
@@ -106,7 +106,7 @@ export default function IntegratedSearchModal({isOpen, onClose, content} : {isOp
                                         </button>
                                     </div>
                                     <div className="inline-flex h-14 px-5 py-4 bg-grey_50 rounded-2xl items-center gap-4">
-                                        <div className="text-grey_500 text-xl font-medium">호구마요?</div>
+                                        <div className="text-grey_500 text-xl font-medium">104</div>
                                         <button>
                                             <Image
                                                 src={closeIcon.src}
@@ -117,7 +117,7 @@ export default function IntegratedSearchModal({isOpen, onClose, content} : {isOp
                                         </button>
                                     </div>
                                     <div className="inline-flex h-14 px-5 py-4 bg-grey_50 rounded-2xl items-center gap-4">
-                                        <div className="text-grey_500 text-xl font-medium">호.박.고.구.마</div>
+                                        <div className="text-grey_500 text-xl font-medium">1004</div>
                                         <button>
                                             <Image
                                                 src={closeIcon.src}
