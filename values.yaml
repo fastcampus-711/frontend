@@ -51,11 +51,11 @@ ingress:
 
 resources:
   limits:
+    cpu: 2000m
+    memory: 2048Mi
+  requests:
     cpu: 1000m
     memory: 1024Mi
-  requests:
-    cpu: 500m
-    memory: 512Mi
 
 volumes: []
 # - name: foo
