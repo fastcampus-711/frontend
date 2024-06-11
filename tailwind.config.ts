@@ -40,10 +40,10 @@ const config: Config = {
         onSale: "#002E5F",
 
         point_1: "#FF5151",
-        primary: "#00A8FF",
+        primary: "#076567",
         primary_dark: "#00669B",
         prugio: "#084F51",
-        font_main: "#00A8FF",
+        font_main: "#076567",
         dark_blue: "#00669B",
         //graph
         graph_1: "#00A8FF",

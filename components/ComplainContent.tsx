@@ -239,10 +239,10 @@ export default function ComplainsContent({
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     if (keyword === "undefined" || keyword === undefined) {
-      router.push(`/boards/${category}?catid=${selectedCategory}&page=${page}`)
+      router.push(`/complains/${category}?catid=${selectedCategory}&page=${page}`)
     } else {
       router.push(
-        `/boards/${category}?catid=${selectedCategory}&keyword=${keyword}&page=${page}`
+        `/complains/${category}?catid=${selectedCategory}&keyword=${keyword}&page=${page}`
       )
     }
   }
