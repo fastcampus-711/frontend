@@ -73,7 +73,7 @@ export default function ShareMarketItem({
           </div>
           {category_name === "중고거래" && price ? (
             <p className="text-grey_900 text-xl font-semibold">
-              가격 :{price}원
+              가격 :{price.toLocaleString("ko-KR")}원
             </p>
           ) : (
             ""

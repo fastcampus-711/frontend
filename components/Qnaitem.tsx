@@ -184,7 +184,12 @@ export default function QnaItem({
     }
   }
 
-  const handleCommentDelete = async (comment_id: number) => {
+  const handleCommentDelete = async (comment_id: number, top: boolean) => {
+    if (top === true) {
+      alert("채택된 답변은 삭제할 수 없습니다.")
+      return
+    }
+
     try {
       const response = await fetch(
         `https://711.ha-ving.store/boards/${id}/comments/${comment_id}`,
@@ -200,7 +205,7 @@ export default function QnaItem({
 
       if (response.ok) {
         console.log("댓글 삭제 성공")
-        fetchData() // 삭제된 댓글을 다시 불러옵니다.
+        fetchData()
       } else {
         console.error("댓글 삭제를 실패했습니다.:", response.statusText)
       }
@@ -210,6 +215,11 @@ export default function QnaItem({
   }
 
   const handleDelete = async () => {
+    if (status === "RESPONSE_ACCEPTED") {
+      alert("답변을 채택한 글은 삭제할 수 없습니다.")
+      return
+    }
+
     if (confirm("게시글을 삭제하시겠습니까?")) {
       try {
         const response = await fetch(
@@ -237,6 +247,10 @@ export default function QnaItem({
   }
 
   const handleAnswer = async (comment_id: number) => {
+    if (status === "RESPONSE_ACCEPTED") {
+      alert("이미 답변이 채택되었습니다.")
+      return
+    }
     if (confirm("선택한 답변을 채택하시겠습니까?")) {
       const data = {
         post_id: id,
@@ -262,6 +276,7 @@ export default function QnaItem({
           console.log("답변 채택 성공:", responseData)
           setAnswerStatus(responseData.data.status)
           fetchData()
+          router.refresh()
         } else {
           console.error("답변 채택을 실패했습니다.:", response.statusText)
         }
@@ -272,6 +287,10 @@ export default function QnaItem({
   }
 
   const handleGoEdit = () => {
+    if (status === "RESPONSE_ACCEPTED") {
+      alert("답변을 채택한 글은 수정할 수 없습니다.")
+      return
+    }
     dispatch(setCurrentPost(item))
     router.push(`/edit`)
   }
@@ -439,7 +458,9 @@ export default function QnaItem({
                       </button>
                       <button
                         className="text-grey_600 font-medium"
-                        onClick={() => handleCommentDelete(item.comment_id)}>
+                        onClick={() =>
+                          handleCommentDelete(item.comment_id, item.top)
+                        }>
                         삭제
                       </button>
                       <button className="text-point_1 font-medium">신고</button>
