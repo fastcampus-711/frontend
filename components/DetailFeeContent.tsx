@@ -9,6 +9,8 @@ import Image from "next/image"
 
 import feeIncrease from "@/public/icon/fee_increase.svg"
 import feeDecrease from "@/public/icon/fee_decrease.svg"
+import FeeDropDown from "./dropdown/FeeDropDown"
+import DetailFeeItems from "./DetailFeeItems"
 
 type id = {
   house_id: number
@@ -110,6 +112,11 @@ type props = {
   lastYearDetails: any
 }
 
+type DetailItems = {
+  label: string
+  value1?: number
+  value2?: number
+}
 export default function DetailFeeContent({
   year,
   month,
@@ -138,10 +145,11 @@ export default function DetailFeeContent({
   const subFee : sub_maintenance_fee = detail && detail.sub_maintenance_fee
   const lastSubFee : sub_maintenance_fee = lastDetail && lastDetail.sub_maintenance_fee
 
+
   const [category, setCategory] = useState("전기")
   const unit : string[] = ["Kwh", "m³", "Mcal/h", "MJ"]
 
-  const detailItems = [
+  const detailItems : DetailItems[] = [
     {label: "일반 관리비", value1: subFee && subFee.general_maintenance_fee, value2:lastSubFee && lastSubFee.general_maintenance_fee},
     {label: "청소비", value1:subFee && subFee.cleaning_fee, value2:lastSubFee && lastSubFee.cleaning_fee},
     {label: "경비비", value1:subFee && subFee.security_fee, value2:lastSubFee && lastSubFee.security_fee},
@@ -151,6 +159,21 @@ export default function DetailFeeContent({
     {label: "대표회의운영비", value1:subFee && subFee.representative_meeting_fee, value2:lastSubFee && lastSubFee.representative_meeting_fee},
   ]
 
+  const dropdownOptions = [
+    {
+      value: "bill",
+      name: "고지서 순"
+    },
+    {
+      value: "high",
+      name: "높은 요금 순"
+    },
+    {
+      value: "low",
+      name: "낮은 요금 순"
+    },
+    
+  ]
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1; //왜 4월로 나오지...?
 
@@ -226,6 +249,22 @@ export default function DetailFeeContent({
     compareAverageUsage()
   },[energyIndex])
 
+
+
+
+  const sortByDifferenceDesc = (a: DetailItems, b: DetailItems) => {
+    const diff1 = (a.value1 ?? 0) - (a.value2 ?? 0)
+    const diff2 = (b.value1 ?? 0) - (b.value2 ?? 0)
+    return diff2 - diff1
+  }
+  const sortByDifferenceAsc = (a: DetailItems, b: DetailItems) => {
+    const diff1 = (a.value1 ?? 0) - (a.value2 ?? 0)
+    const diff2 = (b.value1 ?? 0) - (b.value2 ?? 0)
+    return diff1 - diff2
+  }
+  const sortedByDifferenceDesc = [...detailItems].sort(sortByDifferenceDesc)
+  const sortedByDifferenceAsc = [...detailItems].sort(sortByDifferenceAsc)
+
   const handleSelectYearChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
     const select = parseInt(event.target.value)
     setSelectedYear(select)
@@ -235,6 +274,18 @@ export default function DetailFeeContent({
       const select = parseInt(event.target.value)
       setSelectedMonth(select)
       router.push(`/fee/detail?year=${selectedYear}&month=${select}`)
+  }
+
+  const [sortedByDifferenceItem, setSortedByDifferenceItem] = useState(detailItems)
+
+  const handleDropdownChange = (e:any) => {
+    if(e === "high"){
+      setSortedByDifferenceItem(sortedByDifferenceDesc)
+    } else if(e === "low"){
+      setSortedByDifferenceItem(sortedByDifferenceAsc)
+    } else {
+      setSortedByDifferenceItem(detailItems)
+    }
   }
 
   return (
@@ -396,8 +447,9 @@ export default function DetailFeeContent({
             </div>
 
             <div className="flex flex-col bg-white rounded-2xl border border-grey_200">
-              <div className="border-b border-grey_200 px-10 py-6">
-                {selectedMonth}월 고지서 상세 내역
+              <div className="inline-flex justify-between border-b border-grey_200 px-10 py-6">
+                <p className="text-xl font-medium">{selectedMonth}월 고지서 상세내역</p>
+                <FeeDropDown label={"고지서 순"} options={dropdownOptions} event={handleDropdownChange} initialValue={"bill"}/>
               </div>
               <div className="border-b border-grey_100 px-10 py-6 flex justify-between text-grey_400 text-base font-medium">
                 <p className="text-left pr-5">항목</p>
@@ -408,34 +460,12 @@ export default function DetailFeeContent({
                 </span>
               </div>
               <div className="flex flex-col justify-start">
-                {detailItems && detailItems.map((item, index) => (
-                  <div key={index} className="px-10 py-6 flex justify-between">
-                    <p className="w-[750px] text-left text-lg font-medium">{item.label}</p>
-                    <span className="w-full flex gap-[130px]">
-                      <p className="w-full text-right text-lg font-semibold">{item.value1 === undefined ? "-" : item.value1.toLocaleString('ko-KR')}원</p>
-                      <p className="w-full text-right text-lg font-semibold">{item.value2 === undefined ? "-" : item.value2.toLocaleString('ko-KR')}원</p>
-                      <p className={`w-full text-right text-lg font-semibold 
-                                  ${item.value1 !== undefined && item.value2 !== undefined && (item.value1 - item.value2) > 0 ? "text-increase_color" 
-                                  : item.value1 !== undefined && item.value2 !== undefined && (item.value1 - item.value2) < 0 ? "text-decrease_color" : "text-grey_500"}`}>
-                        {item.value1 !== undefined && item.value2 !== undefined && 
-                          ((item.value1 - item.value2) > 0)
-                          ? `+${(item.value1 - item.value2).toLocaleString('ko-KR')}원`
-                          : ((item.value1 - item.value2) < 0 
-                            ? `${(item.value1 - item.value2).toLocaleString('ko-KR')}원`
-                            : "-")}
-                      </p>
-                    </span>
-                  </div>
-                ))}
+                <DetailFeeItems items={sortedByDifferenceItem} />   
               </div>
-              
             </div>
-
           </div>
-        </div>
-        
-      </div>
-      
+        </div>  
+      </div>  
     </>
   )
 }
