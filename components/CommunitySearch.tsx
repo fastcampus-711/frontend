@@ -39,7 +39,7 @@ export default function CommunitySearch({
 
     setErrorMessage("")
 
-    if (category === "markets" || category === "complains") {
+    if (category === "markets") {
       if (
         keyword !== undefined &&
         (status === undefined || status === "ALL" || status === "")
@@ -67,6 +67,32 @@ export default function CommunitySearch({
       } else {
         router.push(
           `/boards/${category}?catid=${catid}&keyword=${keyword}&status=${status}&page=1`
+        )
+      }
+    } else if (category === "all") {
+      if (
+        keyword !== undefined &&
+        (status === undefined || status === "ALL" || status === "")
+      ) {
+        router.push(
+          `/complains/${category}?catid=${catid}&keyword=${keyword}&page=1`
+        )
+      } else {
+        router.push(
+          `/complains/${category}?catid=${catid}&keyword=${keyword}&status=${status}&page=1`
+        )
+      }
+    } else if (category === "my") {
+      if (
+        keyword !== undefined &&
+        (status === undefined || status === "ALL" || status === "")
+      ) {
+        router.push(
+          `/complains/${category}?catid=${catid}&keyword=${keyword}&page=1`
+        )
+      } else {
+        router.push(
+          `/complains/${category}?catid=${catid}&keyword=${keyword}&status=${status}&page=1`
         )
       }
     }

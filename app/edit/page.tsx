@@ -58,7 +58,15 @@ export default function Edit() {
     <div className="max-w-[1200px] m-auto mb-40">
       <div className="flex flex-col gap-10">
         <div className="flex gap-4 items-center border-b border-grey_200 pt-8 pb-4">
-          <p className="text-grey_900 text-[32px] font-semibold">소통공간</p>
+          <p className="text-grey_900 text-[32px] font-semibold">
+            {category.value === "frees" ||
+            category.value === "markets" ||
+            category.value === "qna"
+              ? "소통공간"
+              : category.value === "all" || category.value === "my"
+                ? "민원게시판"
+                : null}
+          </p>
           <div className="w-[1px] h-8 border-r border-grey_250"></div>
           <p className="text-grey_700 text-2xl font-medium">
             게시글 작성 페이지
