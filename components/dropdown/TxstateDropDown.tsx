@@ -191,7 +191,7 @@ export default function TxstateDropDown({
           <li
             key={option.value}
             onClick={() => handleOptionClick(option.value)}
-            className={`w-[90px] text-sm self-stretch p-2 flex-col justify-center items-left gap-2 flex ${index === 0 ? "rounded-tl-lg rounded-tr-lg" : index === options.length - 1 ? "rounded-br-lg rounded-bl-lg" : ""} ${disabled ? "cursor-not-allowed" : "hover:cursor-pointer"} font-['Pretendard'] text-base ${option.value === selectedType ? "bg-grey_100 text-font_main font-medium" : "bg-white font-normal"}`}>
+            className={`w-[90px] text-sm self-stretch p-2 flex-col justify-center items-left gap-2 flex ${index === 0 ? "rounded-tl-lg rounded-tr-lg" : index === options.length - 1 ? "rounded-br-lg rounded-bl-lg" : ""} ${disabled ? "cursor-not-allowed" : "hover:cursor-pointer"} font-['Pretendard'] text-base ${option.value === selectedType ? "bg-grey_100 text-main_color font-medium" : "bg-white font-normal"}`}>
             {option.name}
           </li>
         ))}
