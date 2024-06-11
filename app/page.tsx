@@ -10,7 +10,7 @@ import logoKoreanImg from "@/public/img/logo_korean.png"
 import googlePlayImg from "@/public/img/google_play.png"
 import appStoreImg from "@/public/img/app_store.png"
 import familyImg from "@/public/img/family.png"
-import bannerMainImg from "@/public/img/banner_main.png"
+import bannerMainImg from "@/public/img/apt_main.png"
 import CommunitySection from "@/components/main/CommunitySection"
 import NoticesSection from "@/components/main/NoticesSection"
 import ScheduleSection from "@/components/main/ScheduleSection"
@@ -32,12 +32,17 @@ export default async function Home() {
     `https://711.ha-ving.store/boards/notices?catid=0&page=1`,
     { cache: "no-store" }
   )
-
+  const feeRes = await fetch(
+    `https://711.ha-ving.store/maintenance-bills/month-on-month?year=${new Date().getFullYear()}&month=${new Date().getMonth()}`,
+    { cache: "no-store" }
+  )
   const freesData = await freesRes.json()
   const marketsData = await marketsRes.json()
   const qnaData = await qnaRes.json()
   const noticesData = await noticesRes.json()
+  const feeData = await feeRes.json()
 
+{/* <p>{summaries === undefined ? "-" : summaries.before_deadline_fee.toLocaleString('ko-KR')}원</p> */}
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] m-auto mb-32">
       <div className="relative">
@@ -152,19 +157,19 @@ export default async function Home() {
             </div>
             <div>
               <p className="text-grey_800 text-2xl font-semibold mb-6">
-                2024년 4월 아파트 관리비
+              {`${new Date().getFullYear()}년 ${new Date().getMonth()}월 아파트 관리비`}
               </p>
               <p className="text-grey_800 text-lg font-medium">
                 납부하실 금액은
               </p>
               <p className="text-grey_900 text-[40px] font-semibold mb-1">
-                432,100원
+                {feeData.data.maintenance_fee_of_present.toLocaleString('ko-KR')}원
               </p>
               <span className="text-grey_600 text-xl font-medium">
                 전달에 비해{" "}
               </span>
               <span className="text-red-500 text-xl font-medium">
-                40,000원 올랐어요!
+                {(feeData.data.maintenance_fee_of_last_month-feeData.data.maintenance_fee_of_present).toLocaleString('ko-KR')}원 올랐어요!
               </span>
             </div>
           </div>
