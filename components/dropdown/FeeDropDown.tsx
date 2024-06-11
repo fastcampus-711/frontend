@@ -18,7 +18,7 @@ type Option = {
   name: string
 }
 
-export default function DropDown({
+export default function FeeDropDown({
   label,
   options,
   event,
@@ -57,17 +57,17 @@ export default function DropDown({
   return (
     <div className="relative">
       <div
-        className={`w-[200px] h-12 px-4 py-3 rounded-lg border border-neutral-300 justify-between items-center inline-flex cursor-pointer ${disabled ? "bg-gray-200 cursor-not-allowed" : "hover:bg-gray-50"}`}
+        className={`inline-flex w-30 h-6 px-4 py-3 rounded-lg items-center gap-1 cursor-pointer ${disabled ? "bg-gray-200 cursor-not-allowed" : ""}`}
         onClick={handleDropDownClick}>
         <p
-          className={`text-lg font-medium ${disabled ? "text-gray-500" : "text-gray-900"}`}>
+          className={`text-base font-normal ${disabled ? "text-gray-500" : "text-grey_400"}`}>
           {dropDownName}
         </p>
         <Image
           src={dropdownIcon.src}
           alt="드랍다운 아이콘"
-          width={24}
-          height={24}
+          width={16}
+          height={16}
         />
       </div>
       <ul
