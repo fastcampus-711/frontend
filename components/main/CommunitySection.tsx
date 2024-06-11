@@ -64,7 +64,7 @@ export default function CommunitySection({
   return (
     <div className="w-3/5 max-w-[calc(60%-32px)]">
       <Link href={"/boards/frees?catid=0&page=1"}>
-        <div className="h-14 flex justify-between items-center px-4 mb-6 border-b bg-grey_50 rounded-lg">
+        <div className="h-14 flex justify-between items-center px-4 mb-[32px] border-b bg-grey_50 rounded-lg">
           <div className="flex gap-4 items-center">
             <span className="text-grey_900 text-2xl font-semibold leading-6">
               소통공간

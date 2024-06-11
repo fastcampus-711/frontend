@@ -88,31 +88,6 @@ export default function ComplainsContent({
       name: "전체"
     },
     {
-      id: "1",
-      board_group: "COMPLAINT",
-      code: "01",
-      name: "접수"
-    },
-    {
-      id: "2",
-      board_group: "COMPLAINT",
-      code: "2",
-      name: "처리중"
-    },
-    {
-      id: "3",
-      board_group: "COMPLAINT",
-      code: "3",
-      name: "처리완료"
-    }
-  ]
-  const statusData = [
-    {
-      id: "0",
-      board_group: "COMPLAINT",
-      name: "전체"
-    },
-    {
       id: "27",
       board_group: "COMPLAINT",
       name: "엘리베이터"
@@ -169,6 +144,25 @@ export default function ComplainsContent({
     }
   ]
 
+  const statusData = [
+    {
+      id: "ALL",
+      name: "전체"
+    },
+    {
+      id: "RECEIVED",
+      name: "접수"
+    },
+    {
+      id: "IN_PROGRESS",
+      name: "처리중"
+    },
+    {
+      id: "COMPLETED",
+      name: "처리완료"
+    }
+  ]
+
   const categoryOptions = categoryData.map(category => ({
     value: category.id,
     name: category.name
@@ -186,7 +180,7 @@ export default function ComplainsContent({
       (keyword === undefined || keyword === "" || keyword.trim() === "") &&
       (status === undefined || status === "ALL" || status === "")
     ) {
-      router.push(`/boards/${category}?catid=${changedData}&page=1`)
+      router.push(`/complains/${category}?catid=${changedData}&page=1`)
     } else if (
       (keyword === undefined || keyword === "" || keyword.trim() === "") &&
       status !== undefined &&
@@ -194,18 +188,18 @@ export default function ComplainsContent({
       status !== ""
     ) {
       router.push(
-        `/boards/${category}?catid=${changedData}&status=${status}&page=1`
+        `/complains/${category}?catid=${changedData}&status=${status}&page=1`
       )
     } else if (
       keyword !== undefined &&
       (status === undefined || status === "ALL" || status === "")
     ) {
       router.push(
-        `/boards/${category}?catid=${changedData}&keyword=${keyword}&page=1`
+        `/complains/${category}?catid=${changedData}&keyword=${keyword}&page=1`
       )
     } else {
       router.push(
-        `/boards/${category}?catid=${changedData}&keyword=${keyword}&status=${status}&page=1`
+        `/complains/${category}?catid=${changedData}&keyword=${keyword}&status=${status}&page=1`
       )
     }
   }
@@ -218,20 +212,20 @@ export default function ComplainsContent({
       changedData === "ALL"
     ) {
       if (keyword === undefined) {
-        router.push(`/boards/${category}?catid=${catid}&page=1`)
+        router.push(`/complains/${category}?catid=${catid}&page=1`)
       } else {
         router.push(
-          `/boards/${category}?catid=${catid}&keyword=${keyword}&page=1`
+          `/complains/${category}?catid=${catid}&keyword=${keyword}&page=1`
         )
       }
     } else {
       if (keyword === undefined) {
         router.push(
-          `/boards/${category}?catid=${catid}&status=${changedData}&page=1`
+          `/complains/${category}?catid=${catid}&status=${changedData}&page=1`
         )
       } else {
         router.push(
-          `/boards/${category}?catid=${catid}&keyword=${keyword}&status=${changedData}&page=1`
+          `/complains/${category}?catid=${catid}&keyword=${keyword}&status=${changedData}&page=1`
         )
       }
     }
@@ -341,7 +335,7 @@ export default function ComplainsContent({
                 />
               )}
               {/* recentComplain 값이 "b"인 경우 */}
-              {recentComplain.status === "b" && (
+              {recentComplain.status === "IN_PROGRESS" && (
                 <Image
                   src={processComplainImg.src}
                   alt="진행"
@@ -350,7 +344,7 @@ export default function ComplainsContent({
                 />
               )}
               {/* recentComplain 값이 "c"인 경우 */}
-              {recentComplain.status === "c" && (
+              {recentComplain.status === "COMPLETED" && (
                 <Image
                   src={completeComplainImg.src}
                   alt="완료"

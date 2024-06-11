@@ -191,21 +191,34 @@ export default function QnaContent({
       ) : (
         <div>
           {keyword ? (
-            <div className="flex flex-col items-center text-lg font-medium text-grey_700 py-12 mt-8 mb-10">
-              <Image
-                src={warningImg.src}
-                alt="경고이미지"
-                width={128}
-                height={128}
-                className="mb-8"
-              />
-              <div>
-                <span className="text-main_color">&#39;{keyword}&#39; </span>
-                <span>에 대한 검색 결과가 </span>
-                <span className="text-main_color">0건 </span>
-                <span>입니다.</span>
+            <div>
+              <div className="h-12 justify-between items-start flex gap-4 flex-wrap mt-8 mb-10">
+                <DropDown
+                  label="답변상태"
+                  options={statusOptions}
+                  event={handleStatusChange}
+                />
+                <PrimaryButton
+                  label="글쓰기"
+                  onClick={handleGoEdit}
+                />
               </div>
-              <div className="text-grey_250">검색된 게시글이 없습니다.</div>
+              <div className="flex flex-col items-center text-lg font-medium text-grey_700 py-12 mt-8 mb-10">
+                <Image
+                  src={warningImg.src}
+                  alt="경고이미지"
+                  width={128}
+                  height={128}
+                  className="mb-8"
+                />
+                <div>
+                  <span className="text-main_color">&#39;{keyword}&#39; </span>
+                  <span>에 대한 검색 결과가 </span>
+                  <span className="text-main_color">0건 </span>
+                  <span>입니다.</span>
+                </div>
+                <div className="text-grey_250">검색된 게시글이 없습니다.</div>
+              </div>
             </div>
           ) : (
             <div>
