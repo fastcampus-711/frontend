@@ -53,7 +53,13 @@ export default function ComplainItem({
 
   return (
     <tr className="text-center border-b border-grey_200">
-      <td className="px-4 py-7 text-grey_300">{status}</td>
+      <td className="px-4 py-7 text-grey_300">
+        {status === "RECEIVED"
+          ? "접수"
+          : status === "IN_PROGRESS"
+            ? "처리중"
+            : "처리완료"}
+      </td>
       <td className="px-4 py-7 text-grey_300">{category_name}</td>
       <td className="text-left text-grey_900 font-medium">
         <div className="flex items-center">

@@ -253,8 +253,8 @@ export default function EditQna() {
               <td className="py-8">
                 <textarea
                   name="content"
-                  placeholder="내용을 입력해주세요 (최대 2000자)"
-                  maxLength={2000}
+                  placeholder="내용을 입력해주세요 (최대 150자)"
+                  maxLength={150}
                   value={content}
                   onChange={e => setContent(e.target.value)}
                   className="w-full h-40 bg-grey_50 p-4 rounded-xl"
