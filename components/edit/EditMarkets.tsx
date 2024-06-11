@@ -286,7 +286,7 @@ export default function EditMarkets() {
                 className="py-8">
                 <textarea
                   name="content"
-                  placeholder="내용을 입력해주세요 (최대 2000자)"
+                  placeholder="신뢰할 수 있는 거래를 위해 브랜드, 모델명, 구매시기, 하자 유무 등 상품 설명을 자세히 입력해주세요. (최대 2000자)"
                   maxLength={2000}
                   value={content}
                   onChange={e => setContent(e.target.value)}
