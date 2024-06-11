@@ -511,7 +511,7 @@ export default function MyFeeContent({
                                             </span>
                                             <span>
                                                 <p className="text-sm font-medium">평균</p>
-                                                <p className="text-base font-medium">{square && (square.min_maintenance_fee_of_same_squares + square.max_maintenance_fee_of_same_squares / 2).toLocaleString('ko-KR')}</p>
+                                                <p className="text-base font-medium">{square && Math.round((square.min_maintenance_fee_of_same_squares + square.max_maintenance_fee_of_same_squares) / 2).toLocaleString('ko-KR')}</p>
                                             </span>
                                             <span>
                                                 <p className="text-sm font-medium">최대</p>
