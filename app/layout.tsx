@@ -3,6 +3,7 @@ import Footer from "@/components/Footer"
 import "./globals.css"
 import Header from "@/components/Header"
 import ReduxProvider from "@/redux/provider"
+import Head from "./head"
 
 const pretendard = localFont({
   src: "../public/fonts/PretendardVariable.woff2",
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html
       lang="ko"
       className={`${pretendard.variable}`}>
+      <Head />
       <body className={pretendard.className}>
         <ReduxProvider>
           <Header />
