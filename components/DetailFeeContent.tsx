@@ -152,11 +152,17 @@ export default function DetailFeeContent({
   const detailItems : DetailItems[] = [
     {label: "일반 관리비", value1: subFee && subFee.general_maintenance_fee, value2:lastSubFee && lastSubFee.general_maintenance_fee},
     {label: "청소비", value1:subFee && subFee.cleaning_fee, value2:lastSubFee && lastSubFee.cleaning_fee},
-    {label: "경비비", value1:subFee && subFee.security_fee, value2:lastSubFee && lastSubFee.security_fee},
     {label: "소독비", value1:subFee && subFee.dis_intection_fee, value2:lastSubFee && lastSubFee.dis_intection_fee},
     {label: "승강기유지비", value1:subFee && subFee.lift_fee, value2:lastSubFee && lastSubFee.lift_fee},
+    {label: "수선유지비", value1:subFee && subFee.repairing_fee, value2:lastSubFee && lastSubFee.repairing_fee},
     {label: "장기수선충당금", value1:subFee && subFee.long_term_repairing_fee, value2:lastSubFee && lastSubFee.long_term_repairing_fee},
-    {label: "대표회의운영비", value1:subFee && subFee.representative_meeting_fee, value2:lastSubFee && lastSubFee.representative_meeting_fee},
+    {label: "경비비", value1:subFee && subFee.security_fee, value2:lastSubFee && lastSubFee.security_fee},
+    {label: "정화조청소", value1:subFee && subFee.septictank_fee, value2:lastSubFee && lastSubFee.septictank_fee},
+    {label: "보험료", value1:subFee && subFee.insurance_fee, value2:lastSubFee && lastSubFee.insurance_fee},
+    {label: "대표회의비", value1:subFee && subFee.representative_meeting_fee, value2:lastSubFee && lastSubFee.representative_meeting_fee}, 
+    {label: "위탁수수료", value1:subFee && subFee.brokerage_commission, value2:lastSubFee && lastSubFee.brokerage_commission},
+    {label: "주차비", value1:subFee && subFee.parking_fee, value2:lastSubFee && lastSubFee.parking_fee},
+    // {label: "대표회의운영비", value1:subFee && subFee.common_heating_fee, value2:lastSubFee && lastSubFee.common_heating_fee},
   ]
 
   const dropdownOptions = [
@@ -460,12 +466,17 @@ export default function DetailFeeContent({
                 </span>
               </div>
               <div className="flex flex-col justify-start">
-                <DetailFeeItems items={sortedByDifferenceItem} />   
+                <DetailFeeItems items={sortedByDifferenceItem} />
+                
               </div>
+              
             </div>
+
           </div>
-        </div>  
-      </div>  
+        </div>
+        
+      </div>
+      
     </>
   )
 }
