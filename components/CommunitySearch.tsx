@@ -39,7 +39,7 @@ export default function CommunitySearch({
 
     setErrorMessage("")
 
-    if (category === "markets") {
+    if (category === "markets" || category === "complains") {
       if (
         keyword !== undefined &&
         (status === undefined || status === "ALL" || status === "")

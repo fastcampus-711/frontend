@@ -38,6 +38,7 @@ import { useSelector, useDispatch } from "react-redux"
 import EditFrees from "@/components/edit/EditFrees"
 import EditMarkets from "@/components/edit/EditMarkets"
 import EditQna from "@/components/edit/EditQna"
+import EditComplain from "@/components/edit/EditComplain"
 
 export default function Edit() {
   const category = useSelector((state: any) => state.category)
@@ -49,6 +50,8 @@ export default function Edit() {
     contentComponent = <EditMarkets />
   } else if (category.value === "qna") {
     contentComponent = <EditQna />
+  } else if (category.value === "all" || category.value === "my") {
+    contentComponent = <EditComplain />
   }
 
   return (

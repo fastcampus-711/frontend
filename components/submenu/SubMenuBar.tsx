@@ -18,8 +18,8 @@ export default function BoardSubMenuBar({
     { value: "schedule", params: "", name: "일정표" }
   ]
   const complaintOptions = [
-    { value: "", params: "", name: "전체민원" },
-    { value: "", params: "", name: "나의민원" }
+    { value: "all", params: "?catid=0&page=1", name: "전체민원" },
+    { value: "my", params: "?catid=0&page=1", name: "나의민원" }
   ]
   const feeOptions = [
     { value: "my", params: "?year=2024&month=5", name: "우리집관리비" },
@@ -31,7 +31,7 @@ export default function BoardSubMenuBar({
       ? communitySubOptions
       : option == "notice"
         ? noticeSubOptions
-        : option == "complaint"
+        : option == "complains"
           ? complaintOptions
           : feeOptions
 
