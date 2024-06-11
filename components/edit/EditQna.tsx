@@ -253,7 +253,7 @@ export default function EditQna() {
               <td className="py-8">
                 <textarea
                   name="content"
-                  placeholder="내용을 입력해주세요 (최대 150자)"
+                  placeholder={`게시글 작성시, 욕설, 비방, 허위사실 유포 등의 내용이 포함되어 있을 경우, 명예훼손으로 법적 처벌이 이루어질 수 있습니다.\n서로의 의견을 경청하고 존중해주시기 바랍니다. (최대 150자)`}
                   maxLength={150}
                   value={content}
                   onChange={e => setContent(e.target.value)}
