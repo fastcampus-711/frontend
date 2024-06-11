@@ -12,7 +12,7 @@ export default function BlackButton({
 }: BlackButtonProps) {
   return (
     <button
-      className={`font-semibold rounded px-6 py-2.5 bg-grey_900 text-white ${className}`}
+      className={`font-semibold rounded-lg px-6 py-2.5 bg-grey_900 text-white ${className}`}
       onClick={onClick}
       {...props}>
       {label}
