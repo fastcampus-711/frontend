@@ -118,6 +118,7 @@ export default function MyFeeContent({
         //summary
         const summaries : summary = summary.data
         const values = summaries && Object.values(summaries.fare_collection_discount)
+        const discountInformation = summaries && summaries.fare_collection_discount
         const discountFee = summaries && values.reduce((acc, curr) => acc + curr, 0)
         //month-on-month
         const months: month_on_month = month_on_month.data
@@ -347,7 +348,7 @@ export default function MyFeeContent({
                                                     />
                                                     
                                                 </button>
-                                                <DiscountModal isOpen={isDiscountModalOpen} onClose={handleDiscountModal} />
+                                                <DiscountModal isOpen={isDiscountModalOpen} onClose={handleDiscountModal} data={discountInformation}/>
                                             </span>
                                             <div className="border-r-2 border-grey_200"></div>
                                         </span>
