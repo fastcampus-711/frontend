@@ -86,7 +86,7 @@ export default function Header() {
           </li>
           <li className="w-[140px] flex justify-center">
             <Link
-              href={"/complaints"}
+              href={"/complains/all?catid=0&page=1"}
               className="text-grey_900 text-lg font-semibold">
               민원게시판
             </Link>

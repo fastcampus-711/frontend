@@ -43,8 +43,8 @@ export default function GNB() {
     {
       title: "민원게시판",
       subItems: [
-        { title: "전체민원", href: "/complaints" },
-        { title: "나의민원", href: "/complaints" }
+        { title: "전체민원", href: "/complains/all?catid=0&page=1" },
+        { title: "나의민원", href: "/complains/my?catid=0&page=1" }
       ]
     },
     {
