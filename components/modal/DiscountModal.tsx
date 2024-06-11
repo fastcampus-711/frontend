@@ -57,7 +57,7 @@ export default function DiscountModal({isOpen, onClose, data} : {isOpen: boolean
                         </div>
                         {
                             label.map((item) => (
-                                <div className="inline-flex w-full justify-center items-center py-3  gap-4 border-t border-grey_200">
+                                <div key={item.label} className="inline-flex w-full justify-center items-center py-3  gap-4 border-t border-grey_200">
                                     <p className="w-1/2 text-center text-grey_500 font-medium">{item.label}</p>
                                     <p className="w-1/2 text-center text-grey_500 font-medium">{Math.abs(item.value).toLocaleString('ko-KR')}원</p>
                                 </div>
