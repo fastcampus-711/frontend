@@ -42,7 +42,6 @@ export default async function Home() {
   const noticesData = await noticesRes.json()
   const feeData = await feeRes.json()
 
-{/* <p>{summaries === undefined ? "-" : summaries.before_deadline_fee.toLocaleString('ko-KR')}원</p> */}
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] m-auto mb-32">
       <div className="flex h-96">
