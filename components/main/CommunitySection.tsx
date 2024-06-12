@@ -61,6 +61,12 @@ export default function CommunitySection({
     { key: "qna", label: "QnA", type: "qna", data: qnaData }
   ]
 
+  const statusOptions = [
+    { value: "ALL", name: "전체" },
+    { value: "AWAITING_RESPONSE", name: "답변대기" },
+    { value: "RESPONSE_ACCEPTED", name: "답변채택" }
+  ]
+
   return (
     <div className="w-3/5 max-w-[calc(60%-32px)]">
       <Link href={"/boards/frees?catid=0&page=1"}>
@@ -102,34 +108,34 @@ export default function CommunitySection({
                 <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
                   {item.category_name}
                 </div>
-                <Link
-                  href={`/boards/frees/${item.id}`}
-                  className="flex gap-2 px-2">
-                  {item.hot ? <PopularTag /> : ""}
-                  <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
-                    {item.title}
-                  </p>
-                </Link>
-                <div className="inline-flex">
-                  <span>
-                    {item.image_urls && item.image_urls.length > 0 ? (
-                      <Image
-                        src={imgIcon.src}
-                        alt="이미지아이콘"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        style={{ width: "24px", height: "auto" }}
-                      />
-                    ) : (
-                      ""
-                    )}
-                  </span>
-                  <span className="mx-[2px] text-[#FF5151]">
-                    [{item.count_of_comments}]
-                  </span>
-                  <span>{item.new ? <NewTag /> : ""}</span>
-                </div>
+                  <Link
+                    href={`/boards/frees/${item.id}`}
+                    className="flex gap-2 px-2">
+                    {item.hot ? <PopularTag /> : ""}
+                    <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
+                      {item.title}
+                    </p>
+                  </Link>
+                  <div className="inline-flex">
+                    <span>
+                      {item.image_urls && item.image_urls.length > 0 ? (
+                        <Image
+                          src={imgIcon.src}
+                          alt="이미지아이콘"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          style={{ width: "24px", height: "auto" }}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </span>
+                    <span className="mx-[2px] text-[#FF5151]">
+                      [{item.count_of_comments}]
+                    </span>
+                    <span>{item.new ? <NewTag /> : ""}</span>
+                  </div>
               </div>
             ))
           ) : (
@@ -193,7 +199,7 @@ export default function CommunitySection({
                 key={item.id}
                 className="flex px-2 py-4 border-b border-grey_200">
                 <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
-                  {item.category_name}
+                  {item.status === "RESPONSE_ACCEPTED" ? "답변채택" : "답변대기"}
                 </div>
                 <Link
                   href={`/boards/qna?catid=0&page=1`}

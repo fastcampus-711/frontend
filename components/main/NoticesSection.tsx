@@ -75,7 +75,7 @@ export default function NoticesSection({
         {noticesData.slice(0, 5).map(item => (
           <div
             key={item.id}
-            className="flex px-2 py-4 border-b border-grey_200">
+            className="flex py-4 border-b border-grey_200">
             <div className="flex items-center justify-center w-32 text-grey_300 text-center border-r border-grey_200 align-middle">
               {item.category_name}
             </div>
