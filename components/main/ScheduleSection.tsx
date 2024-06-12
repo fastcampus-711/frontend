@@ -28,9 +28,11 @@ export default function ScheduleSection({
   qnaData: PostData[]
 }) {
   const [activeTab, setActiveTab] = useState("frees")
+  const [activeData, setActiveData] = useState(0)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
+    setActiveData(tab === "today" ? 0 : 1)
   }
 
   const getFormattedDate = (daysToAdd: number) => {
@@ -41,9 +43,21 @@ export default function ScheduleSection({
     return `${month}월 ${day}일`
   }
 
+  const exampleData = [
+    {
+      data1: "주차장 청소", 
+      data2: "아파트 단지 놀이터 공사", 
+      data3: "맨홀 공사 및 점검일"
+    },
+    {
+      data1: "383동 엘리베이터 점검일", 
+      data2: "383동 선거관리 위원회 회의"
+    }
+  ];
+
   const tabsData = [
-    { key: "frees", label: getFormattedDate(0), type: "frees" },
-    { key: "markets", label: getFormattedDate(1), type: "markets" }
+    { key: "today", label: getFormattedDate(0), type: "today" },
+    { key: "tomorrow", label: getFormattedDate(1), type: "tomorrow" }
   ]
 
   return (
@@ -78,21 +92,13 @@ export default function ScheduleSection({
         handleTabChange={handleTabChange}
       />
       <div>
-        <div className="px-2 py-4 border-b border-grey_200">
+        {Object.values(exampleData[activeData]).map((item) => (
+          <div className={"px-2 py-4 border-t border-grey_200"}>
           <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
-            고3인데, 동네에 조용하게 공부할만한 스터디카페 추천해주세요
+            {item}
           </p>
         </div>
-        <div className="px-2 py-4 border-b border-grey_200">
-          <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
-            작은 도서관 진행해서 아이들 데리고 가봤습니다~^^
-          </p>
-        </div>
-        <div className="px-2 py-4 border-b border-grey_200">
-          <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
-            지하주차장 누수로 깜짝 놀랐네요.
-          </p>
-        </div>
+        ))}
       </div>
     </div>
   )
