@@ -18,7 +18,7 @@ return (
                 </div>
                 <div className="px-6 py-8">
                     <div className="text-center text-grey_500 text-xl font-semibold mb-3">
-                        우리 단지는 00개의 은행 계좌에 납부할 수 있습니다.
+                        우리 단지는 2개의 은행 계좌에 납부할 수 있습니다.
                     </div>
                     <div className="text-center text-grey_500 text-lg font-normal mb-6">
                         계좌이체 시 보내는 사람의<br />세대주명 또는 동호수를 입력해주세요.
