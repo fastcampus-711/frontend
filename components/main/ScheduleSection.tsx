@@ -51,7 +51,8 @@ export default function ScheduleSection({
     },
     {
       data1: "383동 엘리베이터 점검일", 
-      data2: "383동 선거관리 위원회 회의"
+      data2: "383동 선거관리 위원회 회의",
+      data3: ""
     }
   ];
 
@@ -61,7 +62,7 @@ export default function ScheduleSection({
   ]
 
   return (
-    <div className="w-2/5">
+    <div className="w-2/5 h-[350px]">
       <Link href={"#"}>
         <div className="h-14 flex justify-between items-center px-4 mb-6 border-b bg-grey_50 rounded-lg">
           <div className="flex gap-4 items-center">
@@ -92,12 +93,12 @@ export default function ScheduleSection({
         handleTabChange={handleTabChange}
       />
       <div>
-        {Object.values(exampleData[activeData]).map((item) => (
+        {Object.values(exampleData[activeData]).map((item, index) => (
           <div className={"px-2 py-4 border-t border-grey_200"}>
-          <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
-            {item}
-          </p>
-        </div>
+            <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
+              {item}
+            </p>
+          </div>
         ))}
       </div>
     </div>
