@@ -501,8 +501,8 @@ export default function MyFeeContent({
                                 
                                 <div className="flex flex-col justify-start px-6 py-6">
                                     <div className="flex flex-col h-[172px] gap-4 items-end">
-                                        <ProgressBar progress={Math.round((square && square.maintenance_fee_of_present
-                                        /square.max_maintenance_fee_of_same_squares
+                                        <ProgressBar progress={Math.round((square && (square.maintenance_fee_of_present - square.min_maintenance_fee_of_same_squares)
+                                        /(square.max_maintenance_fee_of_same_squares - square.min_maintenance_fee_of_same_squares)
                                         * 100))} myfee={square && square.maintenance_fee_of_present}/>
                                         <div className="w-full flex justify-between text-center">
                                             <span>
