@@ -8,10 +8,10 @@ export default function TxTypeTag({ className, ...props }: TxTypeTagProps) {
   let style, text
 
   if (subcategory === "중고거래") {
-    style = "bg-[#D7EAFF] text-[#002D5F] border-[#002D5F]"
+    style = "bg-[#FFE2E2] text-[#610234] border-[#610234]"
     text = "중고거래"
   } else if (subcategory === "무료나눔") {
-    style = "bg-[#FFE1C5] text-[#D96800] border-[#D96800]"
+    style = "bg-[#FFF3C5] text-[#5A5040] border-[#5A5040]"
     text = "무료나눔"
   }
 
