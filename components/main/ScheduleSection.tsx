@@ -94,7 +94,7 @@ export default function ScheduleSection({
       />
       <div>
         {Object.values(exampleData[activeData]).map((item, index) => (
-          <div className={"px-2 py-4 border-t border-grey_200"}>
+          <div key={`${item}_${index}`} className={"px-2 py-4 border-t border-grey_200"}>
             <p className="flex-1 text-grey_900 text-lg font-medium leading-[30px] truncate">
               {item}
             </p>
