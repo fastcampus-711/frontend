@@ -426,7 +426,7 @@ export default function DetailFeeContent({
                           </span>
                       </div>
                     </div>
-                    <div className="w-[528px] h-[175px]">
+                    <div className="w-[528px] h-[175px] flex items-center justify-center">
                       <HalfDoughnutGraph datas={energyDatas && [energyDatas[energyIndex].average_usage_of_same_square, energyDatas[energyIndex].present_usage]}
                                           unit={unit[energyIndex]}/>
                     </div>
