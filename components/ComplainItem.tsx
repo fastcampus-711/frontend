@@ -2,6 +2,7 @@ import Link from "next/link"
 import NewTag from "./tag/NewTag"
 import imgIcon from "@/public/icon/img.svg"
 import PopularTag from "./tag/PopularTag"
+import SecretIcon from "@/public/icon/secret.svg"
 import Image from "next/image"
 
 type FreeBoardItemProps = {
@@ -74,6 +75,20 @@ export default function ComplainItem({
             </div>
           ) : (
             ""
+          )}
+          {visible ? (
+            ""
+          ): (
+            <span className="pr-1">
+              <Image
+                  src={SecretIcon.src}
+                  alt="비밀글아이콘"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: "24px", height: "auto" }}
+                />
+            </span> 
           )}
           <Link
             className="mr-2"
