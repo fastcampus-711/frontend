@@ -27,7 +27,7 @@ export default function ScheduleSection({
   marketsData: PostData[]
   qnaData: PostData[]
 }) {
-  const [activeTab, setActiveTab] = useState("frees")
+  const [activeTab, setActiveTab] = useState("today")
   const [activeData, setActiveData] = useState(0)
 
   const handleTabChange = (tab: string) => {
